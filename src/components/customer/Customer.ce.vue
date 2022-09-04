@@ -1,10 +1,11 @@
 <template>
     <div>
-        <p v-if="loading" style="background-color: #2c3e50; color: white">Loading</p>
+
+        <spinner v-if="loading" size="12"/>
 
         <div v-else id="customerDetails" class="">
             <div>
-                <p class="text-3xl font-bold">{{ customer.name }}</p>
+                <p class="text-5xl font-bold">{{ customer.name }}</p>
                 <p><i class="fa fa-calendar" aria-hidden="true"></i> {{ customer.date2 }}</p>
                 <p>
                     <BIconCalendar/>
@@ -21,6 +22,8 @@
 </template>
 
 <script>
+
+    import {Spinner} from 'flowbite-vue'
     import {useQuery} from '@vue/apollo-composable';
     import {customerById} from '../../graphql/query/customer/customer.graphql';
     import {computed} from "vue";
@@ -42,7 +45,8 @@
             BIconPhone,
             BIconPhoneFill,
             BIconBookFill,
-            BIconCalendar
+            BIconCalendar,
+            Spinner
         },
         name: "Customer.ce.vue",
         props: ['customer_id']
