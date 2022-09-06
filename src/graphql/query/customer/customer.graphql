@@ -20,6 +20,7 @@ query customersQuery($agent:Boolean){
             node {
                 id
                 name
+                salesAmount
             }
         }
     }

@@ -3,7 +3,7 @@
     Customer treemap goes here...
     <p v-if="loading">loading</p>
     <ol>
-      <li v-for="customer in customers" :key="customer.id">{{customer.node.name}}</li>
+      <li v-for="customer in customers" :key="customer.id">{{customer.node.name}} - {{customer.node.salesAmount}}</li>
     </ol>
   </div>
 </template>
