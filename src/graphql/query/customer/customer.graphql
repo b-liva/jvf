@@ -13,3 +13,14 @@ query customerById($customer_id:ID!){
         email
     }
 }
+
+query customersQuery($agent:Boolean){
+    allCustomers(agent:$agent) {
+        edges {
+            node {
+                id
+                name
+            }
+        }
+    }
+}
