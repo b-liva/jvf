@@ -9,6 +9,7 @@ import HelloWorld from './components/HelloWorld.vue';
 import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client/core'
 import {DefaultApolloClient, provideApolloClient} from '@vue/apollo-composable'
 import CustomerTreeMap from "./components/customer/customerTreeMap.vue";
+import Cost from "./components/proforma/Cost.vue";
 // HTTP connection to the API
 const httpLink = createHttpLink({
   // You should use an absolute URL here
@@ -41,3 +42,11 @@ const customerTreeMapApp = createApp({
   render: () => h(CustomerTreeMap)
 })
 customerTreeMapApp.mount("#customerApp")
+
+const cc = document.querySelector("#pcCalc")
+
+const projectCost = createApp(Cost);
+// const projectCost = createApp(Cost, { ...cc.dataset });
+projectCost.mount("#pcCalc")
+
+window.pcCost = projectCost;
