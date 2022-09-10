@@ -1,0 +1,16 @@
+query InventoryOutNumberQuery($permitNumber:Int){
+    InventoryOutNumberQuery: allInvOutNumbers(permit_Number:$permitNumber) {
+        edges {
+            node {
+                id
+                owner{
+                    lastName
+                }
+                number
+                permit{
+                    number
+                }
+            }
+        }
+    }
+}

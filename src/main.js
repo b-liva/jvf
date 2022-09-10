@@ -10,6 +10,7 @@ import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client/core'
 import {DefaultApolloClient, provideApolloClient} from '@vue/apollo-composable'
 import CustomerTreeMap from "./components/customer/customerTreeMap.vue";
 import Cost from "./components/proforma/Cost.vue";
+import InventoryOutNumber from "./components/inventory/InventoryOutNumber.vue";
 // HTTP connection to the API
 const httpLink = createHttpLink({
   // You should use an absolute URL here
@@ -50,3 +51,14 @@ const projectCost = createApp(Cost);
 projectCost.mount("#pcCalc")
 
 window.pcCost = projectCost;
+
+
+const ioE = document.querySelector("#invOutNum")
+const invOutApp = createApp({
+  setup() {
+    provide(DefaultApolloClient, apolloClient)
+  },
+  render: () => h(InventoryOutNumber),
+  props: {...ioE.dataset}
+})
+invOutApp.mount("#invOutNum");
