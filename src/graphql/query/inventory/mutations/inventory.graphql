@@ -1,0 +1,17 @@
+mutation createInvOutNum(
+    $permitPk:ID!,
+    $owner:ID!,
+    $number:String!
+){
+    createInvOutNum: invOutNumMutation(input:{
+        permit:$permitPk,
+        owner:$owner,
+        number:$number
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
