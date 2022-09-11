@@ -1,8 +1,17 @@
 <template>
   <div>
     <div class="container mx-auto px-4">
+      <div v-if="showAlert" id="alert-1" class="flex p-4 mb-4 bg-blue-100 rounded-lg dark:bg-blue-200" role="alert">
+        <div class="ml-3 text-base font-medium text-blue-700 dark:text-blue-800">{{alertMsg}}</div>
+        <button type="button"
+                class="ml-auto -mx-1.5 -my-1.5 bg-blue-100 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex h-8 w-8 dark:bg-blue-200 dark:text-blue-600 dark:hover:bg-blue-300"
+                data-dismiss-target="#alert-1" aria-label="Close">
+          <span class="sr-only">Close</span>
+          <i class="fa fa-close" @click="showAlert = false"></i>
+        </button>
+      </div>
       <div class="columns-1">
-        <input v-model="number" class="border-b-2 border-green-400">
+        <input v-model="number" class="border-b-2 border-green-400" v-on:keyup.enter="cr">
         <spinner v-if="mutLoading"></spinner>
         <button v-else @click="cr" class="">
           <i class="fa fa-plus text-green-400 px-4"></i>
@@ -32,7 +41,9 @@ export default {
   name: "InventoryOutNumber",
   data() {
     return {
-      number: ''
+      number: '',
+      showAlert: false,
+      alertMsg: ''
     }
   },
   setup(props) {
@@ -82,6 +93,8 @@ export default {
       this.onDone(() => {
         this.getInvs();
         this.number = '';
+        this.alertMsg = 'شماره خروجی انبار اضافه شد.'
+        this.showAlert = true
       })
     },
     deleteInvOutFn(id) {
@@ -90,6 +103,8 @@ export default {
       })
       this.deleteInvOutOnDone(() => {
         this.getInvs();
+        this.alertMsg = 'شماره خروجی انبار با موفقیت حذف شد.'
+        this.showAlert = true
       })
     }
   }
