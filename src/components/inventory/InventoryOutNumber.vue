@@ -64,10 +64,12 @@ export default {
     })
     const invOuts = computed(() => invOutsRes.value?.InventoryOutNumberQuery.edges ?? {})
 
-    const {mutate: createInvOut, loading: mutLoading, onDone, onError} = useMutation(createInvOutNum)
-    onError(er => {
-      console.log("error: ", er)
-    })
+    const {
+      mutate: createInvOut,
+      loading: mutLoading,
+      onDone: createInvOutOnDone,
+      onError: createInvOutOnError
+    } = useMutation(createInvOutNum)
     const {
       mutate: deleteInvOut,
       loading: deleteLoading,
@@ -80,7 +82,8 @@ export default {
       getInvs,
       createInvOut,
       mutLoading,
-      onDone,
+      createInvOutOnDone,
+      createInvOutOnError,
       deleteInvOut,
       deleteLoading,
       deleteInvOutOnDone,
@@ -102,12 +105,17 @@ export default {
         owner: this.owner,
         number: this.number
       }))
-      this.onDone(() => {
+      this.createInvOutOnDone(() => {
         this.getInvs();
         this.number = '';
         this.alertMsg = 'شماره خروجی انبار اضافه شد.'
         this.showAlert = true
         this.alertClass = this.alertClassSuccess
+      })
+      this.createInvOutOnError(() => {
+        this.alertMsg = 'خطا'
+        this.showAlert = true
+        this.alertClass = this.alertClassError
       })
     },
     deleteInvOutFn(id) {
@@ -116,7 +124,7 @@ export default {
       })
       this.deleteInvOutOnDone(() => {
         this.getInvs();
-        this.alertMsg = 'شماره خروجی انبار با موفقیت حذف شد.'
+        this.alertMsg = 'شماره خروجی انبار حذف شد.'
         this.showAlert = true
         this.alertClass = this.alertClassSuccess
       })
