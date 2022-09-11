@@ -15,3 +15,17 @@ mutation createInvOutNum(
         }
     }
 }
+
+mutation deleteInvOutNumMut($invOutId:ID){
+    deleteInvOutNumMut:deleteInvOutNumMutation(
+        input:{id:$invOutId}){
+        deleted {
+            id
+            number
+            permit{
+                number
+            }
+        }
+    }
+}
+

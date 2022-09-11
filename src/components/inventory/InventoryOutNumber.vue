@@ -10,8 +10,12 @@
       </div>
       <div class="columns-1">
         <ul>
-          <li v-for="io in invOuts" :key="io.id">{{ io.node.number }}</li>
-          <li><Spinner v-if="loading" size="8"></Spinner></li>
+          <li v-for="io in invOuts" :key="io.id">{{ io.node.number }}
+            <i class="fa fa-trash text-red-400 px-4" @click="deleteInvOutFn(io.node.id)"></i>
+          </li>
+          <li>
+            <Spinner v-if="loading" size="8"></Spinner>
+          </li>
         </ul>
       </div>
     </div>
@@ -19,7 +23,7 @@
 </template>
 <script>
 import {InventoryOutNumberQuery} from '../../graphql/query/inventory/inventory.graphql';
-import {createInvOutNum} from '../../graphql/query/inventory/mutations/inventory.graphql';
+import {createInvOutNum, deleteInvOutNumMut} from '../../graphql/query/inventory/mutations/inventory.graphql';
 import {useQuery, useMutation} from "@vue/apollo-composable";
 import {computed} from "vue";
 import {Spinner} from 'flowbite-vue';
@@ -41,13 +45,23 @@ export default {
     onError(er => {
       console.log("error: ", er)
     })
+    const {
+      mutate: deleteInvOut,
+      loading: deleteLoading,
+      onDone: deleteInvOutOnDone,
+      onError: deleteInvOutOnError
+    } = useMutation(deleteInvOutNumMut)
     return {
       loading,
       invOuts,
       getInvs,
       createInvOut,
       mutLoading,
-      onDone
+      onDone,
+      deleteInvOut,
+      deleteLoading,
+      deleteInvOutOnDone,
+      deleteInvOutOnError
     }
   },
   components: {
@@ -68,6 +82,14 @@ export default {
       this.onDone(() => {
         this.getInvs();
         this.number = '';
+      })
+    },
+    deleteInvOutFn(id) {
+      this.deleteInvOut({
+        invOutId: id
+      })
+      this.deleteInvOutOnDone(() => {
+        this.getInvs();
       })
     }
   }
