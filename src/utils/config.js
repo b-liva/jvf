@@ -1,10 +1,11 @@
 // HTTP connection to the API
 import {ApolloClient, createHttpLink, InMemoryCache} from "@apollo/client/core";
 import {provideApolloClient} from "@vue/apollo-composable";
+import {baseUrl} from "./methods.js";
 
 const httpLink = createHttpLink({
   // You should use an absolute URL here
-  uri: 'http://localhost/ngql/',
+  uri: `${baseUrl()}/ngql/`,
 })
 
 // Cache implementation

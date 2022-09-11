@@ -33,25 +33,19 @@ export default defineConfig({
         extensions: ['.js', '.json']
     },
     build: {
-        outDir: "../static/src/jvf/dist/",
+        outDir: resolve("../app/frontend/dist"),
         assetsDir: '',
         manifest: true,
         emptyOutDir: true,
-        lib: {
-            entry: './src/components/web-comp.js',
-            formats: ['es', 'cjs'],
-            name: "vue-web-comp",
-            fileName: format => (format === "es" ? "index.js" : "index.cjs.js")
-        },
         sourcemap: true,
         target: 'es2015',
         minify: false,
         rollupOptions: {
-            output: {
-                chunkFileNames: undefined,
-            },
             input: {
                 main: resolve('./src/main.js')
+            },
+            output: {
+                chunkFileNames: undefined,
             }
         }
     },
