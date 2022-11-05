@@ -1,7 +1,7 @@
 import {createApp} from "vue";
-import Cost from "../components/proforma/Cost.vue";
+import ProjectCostCalculator from "../components/proforma/ProjectCostCalculator.vue";
 
-const projectCost = createApp(Cost);
+const projectCost = createApp(ProjectCostCalculator);
 projectCost.mount("#pcCalc")
 
 window.pcCost = projectCost;
