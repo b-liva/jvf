@@ -12,13 +12,36 @@ const items = reactive([
   {title: 'alu', name: 'آلومینیوم', unit: 0, value: 0},
   {title: 'insulation', name: 'مواد عایقی', unit: 0, value: 0},
   {title: 'castIron', name: 'چدن', unit: 0, value: 0},
+  {title: 'other', name: 'سایر', unit: 0, value: 0},
 ])
+
+const bearings = reactive({
+  title: 'bearing',
+  name: 'بیرینگ',
+  items: [{id: 1, value: 0, unit: 0}]
+})
+
+const certificates = reactive({
+  title: 'certificate',
+  name: 'گواهی',
+  items: [{id: 1, value: 0, unit: 0}]
+})
+
+const test = reactive({
+  title: 'test',
+  name: 'تست',
+  items: [{id: 1, value: 0, unit: 0}]
+})
 
 function getTotal() {
   let total = 0
   this.items.forEach(item => total += item.unit * item.value)
+  this.bearings.items.forEach(item => total += item.unit * item.value)
+  this.certificates.items.forEach(item => total += item.unit * item.value)
+  this.test.items.forEach(item => total += item.unit * item.value)
   return total
 }
+
 </script>
 <template>
   <div class=""><p class="text-yellow-900 text-3xl font-bold underline">inside pc calculator...</p>
@@ -39,6 +62,33 @@ function getTotal() {
             <tr>
               <td>{{ ++index }}</td>
               <td>{{ item.name }}</td>
+              <td><input type="number" v-model="item.value" :id="item.title"></td>
+              <td><input type="number" v-model="item.unit"></td>
+              <td>{{ item.value * item.unit }}</td>
+            </tr>
+          </template>
+          <template v-for="(item, index) in bearings.items">
+            <tr>
+              <td>{{ ++index }}</td>
+              <td>بیرینگ</td>
+              <td><input type="number" v-model="item.value" :id="item.title"></td>
+              <td><input type="number" v-model="item.unit"></td>
+              <td>{{ item.value * item.unit }}</td>
+            </tr>
+          </template>
+          <template v-for="(item, index) in test.items">
+            <tr>
+              <td>{{ ++index }}</td>
+              <td>تست</td>
+              <td><input type="number" v-model="item.value" :id="item.title"></td>
+              <td><input type="number" v-model="item.unit"></td>
+              <td>{{ item.value * item.unit }}</td>
+            </tr>
+          </template>
+          <template v-for="(item, index) in certificates.items">
+            <tr>
+              <td>{{ ++index }}</td>
+              <td>گواهی</td>
               <td><input type="number" v-model="item.value" :id="item.title"></td>
               <td><input type="number" v-model="item.unit"></td>
               <td>{{ item.value * item.unit }}</td>
