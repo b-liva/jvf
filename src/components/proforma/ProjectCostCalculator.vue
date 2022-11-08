@@ -1,5 +1,6 @@
 <script setup>
-import { reactive } from 'vue'
+import {reactive} from 'vue'
+
 const items = reactive([
   {title: 'pph', name: 'دستمزد', unit: 0, value: 0},
   {title: 'overhead', name: 'سربار', unit: 0, value: 0},
@@ -20,42 +21,39 @@ function getTotal() {
 }
 </script>
 <template>
-  <div class="text-3xl font-bold underline">inside pc calculator...
-    <div class="columns-6">
-      <form>
-        <template v-for="item in items">
-          <div class="">
-            <input type="number" v-model="item.value" :placeholder="item.name">
-            <input type="number" v-model="item.unit" placeholder="قیمت واحد">
-            <input type="number" disabled :value="item.value * item.unit">
-          </div>
-        </template>
-
+  <div class=""><p class="text-yellow-900 text-3xl font-bold underline">inside pc calculator...</p>
+    <div class="">
+      <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <table class="table-auto">
+          <thead>
+          <tr>
+            <th>ردیف</th>
+            <th>عنوان</th>
+            <th>مقدار</th>
+            <th>قیمت واحد</th>
+            <th>قیمت کل</th>
+          </tr>
+          </thead>
+          <tbody>
+          <template v-for="(item, index) in items">
+            <tr>
+              <td>{{ ++index }}</td>
+              <td>{{ item.name }}</td>
+              <td><input type="number" v-model="item.value" :id="item.title"></td>
+              <td><input type="number" v-model="item.unit"></td>
+              <td>{{ item.value * item.unit }}</td>
+            </tr>
+          </template>
+          </tbody>
+        </table>
         <button>click</button>
         {{ getTotal() }}
       </form>
     </div>
-    <div class="columns-4">
-      <table>
-        <thead>
-        <tr>ردیف</tr>
-        <tr>عنوان</tr>
-        <tr>واحد</tr>
-        <tr>مقدار</tr>
-        <tr>کل</tr>
-        </thead>
-        <tbody>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        <tr></tr>
-        </tbody>
-      </table>
-    </div>
-
   </div>
 </template>
 
 <style scoped>
+@import url("../../assets/index.css");
 
 </style>
