@@ -51,13 +51,13 @@ function Remove(itemList, index){
 }
 </script>
 <template>
-  <div class=""><p class="text-yellow-900 text-3xl font-bold underline">inside pc calculator...</p>
+  <div class="">
     <div class="">
       <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div class="inline-flex">
-          <button @click="AddNew(bearings.items)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-l">بیرینگ</button>
-          <button @click="AddNew(tests.items)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4">تست</button>
-          <button @click="AddNew(certificates.items)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-r">گواهی نامه</button>
+          <button @click="AddNew(bearings.items)" class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">بیرینگ</button>
+          <button @click="AddNew(tests.items)" class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست</button>
+          <button @click="AddNew(certificates.items)" class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه</button>
         </div>
         <table class="table-auto">
           <thead>
