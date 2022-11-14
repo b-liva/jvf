@@ -1,0 +1,14 @@
+query getOrdersByNumber($number:Int){
+    getOrdersByNumber: allRequests(number:$number) {
+        edges {
+            node {
+                id
+                number
+                dateFa
+                customer{
+                    name
+                }
+            }
+        }
+    }
+}
