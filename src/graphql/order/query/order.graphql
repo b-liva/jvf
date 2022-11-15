@@ -12,3 +12,19 @@ query getOrdersByNumber($number:Int){
         }
     }
 }
+
+query getSpecsById($orderId:ID){
+    getSpecsById: allReqSpecs(reqId:$orderId) {
+        edges {
+            node {
+                id
+                kw
+                rpmNew {
+                    rpm
+                }
+                voltage
+
+            }
+        }
+    }
+}
