@@ -9,3 +9,22 @@ query getProformasByOrderId($orderId:ID){
         }
     }
 }
+
+query getProforma($proformaId:ID!){
+    getProforma:proforma(id:$proformaId){
+        id
+        number
+        prefspecSet {
+            edges {
+                node {
+                    id
+                    qty
+                    kw
+                    rpm
+                    voltage
+                    price
+                }
+            }
+        }
+    }
+}
