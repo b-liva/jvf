@@ -1,0 +1,11 @@
+query getProformasByOrderId($orderId:ID){
+    getProformasByOrderId: allProformas(reqId:$orderId) {
+        edges {
+            node {
+                id
+                number
+                perm
+            }
+        }
+    }
+}
