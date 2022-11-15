@@ -18,18 +18,21 @@ function getProformaFn(){
 
 const {proformaRes, loading, errors} = getProformaFn();
 const proforma = computed(() => proformaRes.value?.getProforma ?? {})
+const specs = computed(() => proformaRes.value?.getProforma.prefspecSet.edges ?? {})
+console.log('pspec: ', proforma)
 watch(
     () => props.proformaId,
     () => {
       getProformaFn()
     }
 )
-
 </script>
 
 <template>
   <p>inside proforma details: {{proforma.number}}</p>
-
+  <ul>
+    <li v-for="spec in specs" :key="spec.node.id">{{spec.node.kw}} - {{spec.node.price}}</li>
+  </ul>
 </template>
 
 <style scoped>
