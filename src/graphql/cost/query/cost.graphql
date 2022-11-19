@@ -12,5 +12,89 @@ query getCostsBySpec($specId:ID){
             }
         }
     }
-
+}
+query getProjectCostDetails($costId:ID!){
+    getProjectCostDetails: projectCost(id:$costId){
+        id
+        chNumber
+        motorType
+        dateFa
+        altitude
+        frame
+        ambientTemp
+        tempRise
+        standardParts
+        generalCost
+        wagecost{
+            qty
+            price
+        }
+        steelrebar{
+            qty
+            price
+        }
+        overheadcost{
+            qty
+            price
+        }
+        steel{
+            qty
+            price
+        }
+        custator{
+            qty
+            price
+        }
+        curotor{
+            qty
+            price
+        }
+        aluingot{
+            qty
+            price
+        }
+        siliconsheet{
+            qty
+            price
+        }
+        castiron{
+            qty
+            price
+        }
+        insulation{
+            qty
+            price
+        }
+        other{
+            qty
+            price
+        }
+        bearingcostSet{
+            edges{
+                node {
+                    id
+                    qty
+                    price
+                }
+            }
+        }
+        testcostSet{
+            edges{
+                node {
+                    id
+                    qty
+                    price
+                }
+            }
+        }
+        certificatecostSet{
+            edges{
+                node {
+                    id
+                    qty
+                    price
+                }
+            }
+        }
+    }
 }
