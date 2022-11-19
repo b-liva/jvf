@@ -1,5 +1,6 @@
 <script setup>
 import {computed, watch} from "vue";
+const emit = defineEmits(['inFocus', 'submit'])
 
 const props = defineProps(['proformaId'])
 import {useQuery} from "@vue/apollo-composable";
@@ -19,7 +20,10 @@ function getProformaFn(){
 const {proformaRes, loading, errors} = getProformaFn();
 const proforma = computed(() => proformaRes.value?.getProforma ?? {})
 const specs = computed(() => proformaRes.value?.getProforma.prefspecSet.edges ?? {})
-console.log('pspec: ', proforma)
+
+function setSpecId(id){
+  emit('getSpecId', id)
+}
 watch(
     () => props.proformaId,
     () => {
@@ -31,7 +35,7 @@ watch(
 <template>
   <p>inside proforma details: {{proforma.number}}</p>
   <ul>
-    <li v-for="spec in specs" :key="spec.node.id">{{spec.node.kw}} - {{spec.node.price}}</li>
+    <li @click="setSpecId(spec.node.id)" v-for="spec in specs" :key="spec.node.id">{{spec.node.kw}} - {{spec.node.price}}</li>
   </ul>
 </template>
 
