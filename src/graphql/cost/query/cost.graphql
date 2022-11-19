@@ -1,0 +1,16 @@
+query getCostsBySpec($specId:ID){
+    getCostsBySpec:projectCosts(spec:$specId) {
+        edges {
+            node {
+                id
+                chNumber
+                wagecost {
+                    id
+                    qty
+                    price
+                }
+            }
+        }
+    }
+
+}
