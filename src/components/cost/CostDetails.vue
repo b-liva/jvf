@@ -3,6 +3,8 @@ import {ref, isRef} from "vue";
 const props = defineProps(['costId']);
 import {useQuery} from "@vue/apollo-composable";
 import {getProjectCostDetails} from "../../graphql/cost/query/cost.graphql";
+import ProjectCostTable from '../cost/ProjectCostTable.vue';
+
 
 let cost = ref({
   id: null,
@@ -127,6 +129,7 @@ function logCost() {
       <!--        </li>-->
       <!--      </ul>-->
       <!--    </div>-->
+      <ProjectCostTable/>
     </div>
   </div>
 </template>
