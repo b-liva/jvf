@@ -1,60 +1,134 @@
 <script setup>
-import {computed} from "vue";
+import {ref, isRef} from "vue";
 const props = defineProps(['costId']);
 import {useQuery} from "@vue/apollo-composable";
 import {getProjectCostDetails} from "../../graphql/cost/query/cost.graphql";
-const {result: costDetailsResult, loading, error} = useQuery(getProjectCostDetails,
+
+let cost = ref({
+  id: null,
+  chNumber: null,
+  motorType: null,
+  dateFa: null,
+  altitude: null,
+  frame: null,
+  ambientTemp: null,
+  tempRise: null,
+  standardPar: null,
+  generalCost: null,
+  somenew: {},
+  wagecost: {},
+  steelrebar: {},
+  overheadcost: {},
+  steel: {},
+  custator: {},
+  curotor: {},
+  aluingot: {},
+  siliconsheet: {},
+  castiron: {},
+  insulation: {},
+  other: {}
+});
+
+const {onResult, refetch: refetchCost} = useQuery(getProjectCostDetails,
     () => ({
       costId: props.costId
     }))
-const costDetails = computed(() => costDetailsResult.value?.getProjectCostDetails ?? {})
+onResult(qr => {
+  window.qr = qr;
+  cost.value = JSON.parse(JSON.stringify(qr.data.getProjectCostDetails));
+  window.cost = cost;
+})
 
-function getValue(cost){
-  return cost?cost:{qty:0, price:0}
+const costItems = [
+  "id",
+  "chNumber",
+  "motorType",
+  "dateFa",
+  "altitude",
+  "frame",
+  "ambientTemp",
+  "tempRise",
+  "standardPar",
+  "generalCost",
+]
+
+function checkRef() {
+  console.log(cost.value.wagecost, (isRef(cost.value)))
+}
+
+function logCost() {
+  console.log(cost.value)
 }
 </script>
 
 <template>
 
-  cost details:
-  <div>
-    <p>chNumber: {{costDetails.chNumber}}</p>
-    <p>motorType: {{costDetails.motorType}}</p>
-    <p>dateFa: {{costDetails.dateFa}}</p>
-    <p>altitude: {{costDetails.altitude}}</p>
-    <p>frame: {{costDetails.frame}}</p>
-    <p>ambientTemp: {{costDetails.ambientTemp}}</p>
-    <p>tempRise: {{costDetails.tempRise}}</p>
-    <p>standardParts: {{costDetails.standardParts}}</p>
-    <p>generalCost: {{costDetails.generalCost}}</p>
-    <p v-if="costDetails.wagecost">wagecost: {{costDetails.wagecost.qty}} - {{costDetails.wagecost.price}}</p>
-    <p v-if="costDetails.steelrebar">steelrebar: {{costDetails.steelrebar.qty}} - {{costDetails.steelrebar.price}}</p>
-    <p v-if="costDetails.overheadcost">overheadcost: {{costDetails.overheadcost.qty}} - {{costDetails.overheadcost.price}}</p>
-    <p v-if="costDetails.steel">steel: {{costDetails.steel.qty}} - {{costDetails.steel.price}}</p>
-    <p v-if="costDetails.custator">custator: {{costDetails.custator.qty}} - {{costDetails.custator.price}}</p>
-    <p v-if="costDetails.curotor">curotor: {{costDetails.curotor.qty}} - {{costDetails.curotor.price}}</p>
-    <p v-if="costDetails.aluingot">aluingot: {{costDetails.aluingot.qty}} - {{costDetails.aluingot.price}}</p>
-    <p v-if="costDetails.siliconsheet">siliconsheet: {{costDetails.siliconsheet.qty}} - {{costDetails.siliconsheet.price}}</p>
-    <p v-if="costDetails.castiron">castiron: {{costDetails.castiron.qty}} - {{costDetails.castiron.price}}</p>
-    <p v-if="costDetails.insulation">insulation: {{costDetails.insulation.qty}} - {{costDetails.insulation.price}}</p>
-    <p v-if="costDetails.other">other: {{costDetails.other.qty}} - {{costDetails.other.price}}</p>
-    <div v-if="costDetails.bearingcostSet.edges.length > 0">bearings:
-      <ul>
-        <li v-for="bearingCost in costDetails.bearingcostSet.edges" :key="bearingCost.node.id">{{bearingCost.node.qty}} - {{bearingCost.node.price}}</li>
-      </ul>
-    </div>
-    <div v-if="costDetails.testcostSet.edges.length > 0">tests:
-      <ul>
-        <li v-for="testCost in costDetails.testcostSet.edges" :key="testCost.node.id">{{testCost.node.qty}} - {{testCost.node.price}}</li>
-      </ul>
-    </div>
-    <div v-if="costDetails.certificatecostSet.edges.length > 0">certificates:
-      <ul>
-        <li v-for="certificateCost in costDetails.certificatecostSet.edges" :key="certificateCost.node.id">{{certificateCost.node.qty}} - {{certificateCost.node.price}}</li>
-      </ul>
+  <div v-if="cost">
+    cost details:
+    <p @click="checkRef">check ref</p>
+    <p>{{ cost }}</p>
+    <div>
+      <p @click="refetchCost">get cost</p>
+      <p @click="logCost">log cost</p>
+      <div><input v-model="cost.chNumber">
+        <p>{{ cost.chNumber }}</p></div>
+      <div><input v-model="cost.motorType"></div>
+      <div><input v-model="cost.dateFa"></div>
+      <div><input v-model="cost.altitude"></div>
+      <div><input v-model="cost.frame"></div>
+      <div><input v-model="cost.ambientTemp"></div>
+      <div><input v-model="cost.tempRise"></div>
+      <div><input v-model="cost.standardParts"></div>
+      <div><input v-model="cost.generalCost"></div>
+      <div>
+        <input v-model="cost.wagecost.qty">
+        <input v-model="cost.wagecost.price">
+        <input v-model="cost.wagecost.__typename">
+      </div>
+      <div>
+        <input v-model="cost.steelrebar.qty">
+        <input v-model="cost.steelrebar.price">
+      </div>
+      <!--    <p>somenew: {{ cost.somenew.qty }} - {{ cost.somenew.price }}</p>-->
+      <p v-if="cost.wagecost">wagecost: {{ cost.wagecost.qty }} - {{ cost.wagecost.price }}</p>
+      <p v-if="cost.steelrebar">steelrebar: {{ cost.steelrebar.qty }} -
+        {{ cost.steelrebar.price }}</p>
+      <p v-if="cost.overheadcost">overheadcost: {{ cost.overheadcost.qty }} -
+        {{ cost.overheadcost.price }}</p>
+      <p v-if="cost.steel">steel: {{ cost.steel.qty }} - {{ cost.steel.price }}</p>
+      <p v-if="cost.custator">custator: {{ cost.custator.qty }} - {{ cost.custator.price }}</p>
+      <p v-if="cost.curotor">curotor: {{ cost.curotor.qty }} - {{ cost.curotor.price }}</p>
+      <p v-if="cost.aluingot">aluingot: {{ cost.aluingot.qty }} - {{ cost.aluingot.price }}</p>
+      <p v-if="cost.siliconsheet">siliconsheet: {{ cost.siliconsheet.qty }} -
+        {{ cost.siliconsheet.price }}</p>
+      <p v-if="cost.castiron">castiron: {{ cost.castiron.qty }} - {{ cost.castiron.price }}</p>
+      <p v-if="cost.insulation">insulation: {{ cost.insulation.qty }} -
+        {{ cost.insulation.price }}</p>
+      <p v-if="cost.other">other: {{ cost.other.qty }} - {{ cost.other.price }}</p>
+
+      <!--    <div v-if="cost.bearingcostSet.edges.length > 0">bearings:-->
+      <!--      <ul>-->
+      <!--        <li v-for="bearingCost in cost.bearingcostSet.edges" :key="bearingCost.node.id">-->
+      <!--          {{ bearingCost.node.qty }} - {{ bearingCost.node.price }}-->
+      <!--        </li>-->
+      <!--      </ul>-->
+      <!--    </div>-->
+      <!--    <div v-if="cost.testcostSet.edges.length > 0">tests:-->
+      <!--      <ul>-->
+      <!--        <li v-for="testCost in cost.testcostSet.edges" :key="testCost.node.id">{{ testCost.node.qty }} - -->
+      <!--          {{ testCost.node.price }}-->
+      <!--        </li>-->
+      <!--      </ul>-->
+      <!--    </div>-->
+      <!--    <div v-if="cost.certificatecostSet.edges.length > 0">certificates:-->
+      <!--      <ul>-->
+      <!--        <li v-for="certificateCost in cost.certificatecostSet.edges" :key="certificateCost.node.id">-->
+      <!--          {{ certificateCost.node.qty }} - {{ certificateCost.node.price }}-->
+      <!--        </li>-->
+      <!--      </ul>-->
+      <!--    </div>-->
     </div>
   </div>
-
 </template>
 
 <style scoped>
