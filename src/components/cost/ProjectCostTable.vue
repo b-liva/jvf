@@ -1,7 +1,9 @@
 <script setup>
 import {ref} from 'vue'
 import {Button} from 'flowbite-vue'
-const props = defineProps(['cost'])
+const props = defineProps(['cost']);
+import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
+
 const costItems = ref([
   {title: 'chNumber', name: 'شماره چارگون', inputType: 'number'},
   {title: 'motorType', name: 'نوع موتور', inputType: 'text'},
