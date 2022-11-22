@@ -16,6 +16,9 @@ query getCostsBySpec($specId:ID){
 query getProjectCostDetails($costId:ID!){
     getProjectCostDetails: projectCost(id:$costId){
         id
+        spec{
+            id
+        }
         chNumber
         motorType
         dateFa

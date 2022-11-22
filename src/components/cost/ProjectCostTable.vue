@@ -1,9 +1,11 @@
 <script setup>
-import {ref} from 'vue'
+import {ref} from 'vue';
+import {useMutation} from '@vue/apollo-composable'
 import {Button} from 'flowbite-vue'
+
 const props = defineProps(['cost']);
 import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
-
+const status = '';
 const costItems = ref([
   {title: 'chNumber', name: 'شماره چارگون', inputType: 'number'},
   {title: 'motorType', name: 'نوع موتور', inputType: 'text'},
@@ -47,12 +49,35 @@ const tests = ref({
   name: 'تست',
   items: [{id: 1, value: 0, unit: 0}]
 })
-console.log(props.cost)
+console.log('cost: ', props.cost)
+
+const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation(mutateProjectCost,
+    () => ({
+      variables: {
+        id: cost.value.id,
+        spec: cost.value.spec.id,
+        chNumber: cost.value.chNumber,
+        motorType: cost.value.motorType,
+        standardParts: cost.value.standardParts,
+        generalCost: cost.value.generalCost,
+        dateFa: cost.value.dateFa,
+        frame: cost.value.frame,
+        ambientTemp: cost.value.ambientTemp,
+        tempRise: cost.value.tempRise,
+        altitude: cost.value.altitude,
+      }
+    })
+)
 </script>
 
 <template>
   <div class="">
+    <p @click="createProjectCost">send</p>
+    <p>{{ status }}</p>
+    <p v-if="loading">loading</p>
+    <div>{{error}}</div>
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      {{cost.id}}
       <table class="table-auto">
         <thead>
         <tr>
@@ -63,7 +88,7 @@ console.log(props.cost)
         <tbody>
         <template v-for="item in costItems" :key="item.id">
           <tr>
-            <td>{{item.name}}</td>
+            <td>{{ item.name }}</td>
             <td><input v-model="cost[item.title]" type="text"></td>
           </tr>
         </template>
@@ -71,7 +96,7 @@ console.log(props.cost)
       </table>
       <button>click</button>
       <p>{{ cost }}</p>
-<!--      {{ getTotal() }}-->
+      <!--      {{ getTotal() }}-->
     </div>
   </div>
 </template>

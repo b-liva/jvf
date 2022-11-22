@@ -25,5 +25,9 @@ mutation mutateProjectCost(
         altitude:$altitude,
     }){
         clientMutationId
+        errors{
+            field
+            messages
+        }
     }
 }
