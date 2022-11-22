@@ -17,7 +17,6 @@ let cost = ref({
   tempRise: null,
   standardPar: null,
   generalCost: null,
-  somenew: {},
   wagecost: {},
   steelrebar: {},
   overheadcost: {},
@@ -68,7 +67,6 @@ function logCost() {
   <div v-if="cost">
     cost details:
     <p @click="checkRef">check ref</p>
-    <p>{{ cost }}</p>
     <div>
       <p @click="refetchCost">get cost</p>
       <p @click="logCost">log cost</p>
@@ -129,7 +127,7 @@ function logCost() {
       <!--        </li>-->
       <!--      </ul>-->
       <!--    </div>-->
-      <ProjectCostTable/>
+      <ProjectCostTable :cost="cost"/>
     </div>
   </div>
 </template>

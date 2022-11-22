@@ -1,9 +1,20 @@
 <script setup>
-import {reactive} from 'vue'
+import {ref} from 'vue'
 import {Button} from 'flowbite-vue'
 const props = defineProps(['cost'])
-
-const items = reactive([
+const costItems = ref([
+  {title: 'chNumber', name: 'شماره چارگون', inputType: 'number'},
+  {title: 'motorType', name: 'نوع موتور', inputType: 'text'},
+  {title: 'dateFa', name: 'تاریخ', inputType: 'text'},
+  {title: 'altitude', name: 'ارتفاع', inputType: 'number'},
+  {title: 'frame', name: 'فریم سایز', inputType: 'number'},
+  {title: 'ambientTemp', name: 'دمای محیط', inputType: 'number'},
+  {title: 'tempRise', name: 'افزایش دما', inputType: 'number'},
+  {title: 'standardParts', name: 'قطعات استاندارد', inputType: 'number'},
+  {title: 'generalCost', name: 'هزینه های عمومی', inputType: 'number'},
+])
+Window.costItem = costItems;
+const rowItems = ref([
   {title: 'pph', name: 'دستمزد', unit: 0, value: 0},
   {title: 'overhead', name: 'سربار', unit: 0, value: 0},
   {title: 'steel', name: 'فولاد', unit: 0, value: 0},
@@ -17,110 +28,48 @@ const items = reactive([
   {title: 'other', name: 'سایر', unit: 0, value: 0},
 ])
 
-const bearings = reactive({
+const bearings = ref({
   title: 'bearing',
   name: 'بیرینگ',
   items: [{id: 1, value: 0, unit: 0}]
 })
 
-const certificates = reactive({
+const certificates = ref({
   title: 'certificate',
   name: 'گواهی',
   items: [{id: 1, value: 0, unit: 0}]
 })
 
-const tests = reactive({
+const tests = ref({
   title: 'test',
   name: 'تست',
   items: [{id: 1, value: 0, unit: 0}]
 })
-
-function getTotal() {
-  let total = 0
-  this.items.forEach(item => total += item.unit * item.value)
-  this.bearings.items.forEach(item => total += item.unit * item.value)
-  this.certificates.items.forEach(item => total += item.unit * item.value)
-  this.tests.items.forEach(item => total += item.unit * item.value)
-  return total
-}
-
-function AddNew(obj) {
-  obj.push({id: 1, value: 0, unit: 0})
-}
-
-function Remove(itemList, index) {
-  itemList.splice(index - 1, 1)
-}
+console.log(props.cost)
 </script>
 
 <template>
   <div class="">
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      <div class="inline-flex">
-        <button @click="AddNew(bearings.items)"
-                class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
-          بیرینگ
-        </button>
-        <button @click="AddNew(tests.items)" class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست</button>
-        <button @click="AddNew(certificates.items)"
-                class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه
-        </button>
-      </div>
       <table class="table-auto">
         <thead>
         <tr>
           <th>عنوان</th>
           <th>مقدار</th>
-          <th>قیمت واحد</th>
-          <th>قیمت کل</th>
         </tr>
         </thead>
         <tbody>
-        <template v-for="(item, index) in items">
+        <template v-for="item in costItems" :key="item.id">
           <tr>
-            <td>{{ item.name }}</td>
-            <td><input type="number" v-model="item.value" :id="item.title"></td>
-            <td><input type="number" v-model="item.unit"></td>
-            <td>{{ item.value * item.unit }}</td>
-          </tr>
-        </template>
-        <template v-for="(item, index) in bearings.items">
-          <tr>
-            <td>بیرینگ</td>
-            <td><input type="number" v-model="item.value" :id="item.title"></td>
-            <td><input type="number" v-model="item.unit"></td>
-            <td>{{ item.value * item.unit }}</td>
-            <td @click="Remove(bearings.items, index)">
-              <span class="red p-3 text-lg">-</span>
-            </td>
-          </tr>
-        </template>
-        <template v-for="(item, index) in tests.items">
-          <tr>
-            <td>تست</td>
-            <td><input type="number" v-model="item.value" :id="item.title"></td>
-            <td><input type="number" v-model="item.unit"></td>
-            <td>{{ item.value * item.unit }}</td>
-            <td @click="Remove(tests.items, index)">
-              <span class="red p-3 text-lg">-</span>
-            </td>
-          </tr>
-        </template>
-        <template v-for="(item, index) in certificates.items">
-          <tr>
-            <td>گواهی</td>
-            <td><input type="number" v-model="item.value" :id="item.title"></td>
-            <td><input type="number" v-model="item.unit"></td>
-            <td>{{ item.value * item.unit }}</td>
-            <td @click="Remove(certificates.items, index)">
-              <span class="red p-3 text-lg">-</span>
-            </td>
+            <td>{{item.name}}</td>
+            <td><input v-model="cost[item.title]" type="text"></td>
           </tr>
         </template>
         </tbody>
       </table>
       <button>click</button>
-      {{ getTotal() }}
+      <p>{{ cost }}</p>
+<!--      {{ getTotal() }}-->
     </div>
   </div>
 </template>
