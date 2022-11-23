@@ -1,16 +1,15 @@
 <script setup>
+import {useStore} from "../../store/store.js";
 import {computed, watch} from "vue";
-const emit = defineEmits(['inFocus', 'submit'])
-
-const props = defineProps(['proformaId'])
 import {useQuery} from "@vue/apollo-composable";
 import {getProforma} from "../../graphql/proforma/query/proforma.graphql";
 
+const store = useStore();
 
 function getProformaFn(){
   const {result: proformaRes, loading, errors} = useQuery(getProforma,
       () => ({
-        proformaId: props.proformaId,
+        proformaId: store.proformaId,
       }), {
         prefetch: false
       })
@@ -21,11 +20,8 @@ const {proformaRes, loading, errors} = getProformaFn();
 const proforma = computed(() => proformaRes.value?.getProforma ?? {})
 const specs = computed(() => proformaRes.value?.getProforma.prefspecSet.edges ?? {})
 
-function setSpecId(id){
-  emit('getSpecId', id)
-}
 watch(
-    () => props.proformaId,
+    () => store.proformaId,
     () => {
       getProformaFn()
     }
@@ -35,7 +31,7 @@ watch(
 <template>
   <p>inside proforma details: {{proforma.number}}</p>
   <ul>
-    <li @click="setSpecId(spec.node.id)" v-for="spec in specs" :key="spec.node.id">{{spec.node.kw}} - {{spec.node.price}}</li>
+    <li @click="store.proformaSpecId = spec.node.id" v-for="spec in specs" :key="spec.node.id">{{spec.node.kw}} - {{spec.node.price}}</li>
   </ul>
 </template>
 
