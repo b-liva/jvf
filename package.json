@@ -16,6 +16,7 @@
     "flowbite-vue": "^0.0.5",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
+    "pinia": "^2.0.25",
     "vue": "^3.2.37"
   },
   "devDependencies": {
