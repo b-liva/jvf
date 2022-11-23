@@ -15,7 +15,7 @@ const proformaSpecId = ref("")
   <OrderDetails/>
   <ProformasByOrder/>
   <ProformaDetails/>
-  <ProjectCosts :spec-id="proformaSpecId"/>
+  <ProjectCosts/>
 </template>
 
 <style scoped>

@@ -1,20 +1,23 @@
 <script setup>
+import {useStore} from "../../store/store.js";
 import {ref} from "vue";
 const props = defineProps(['specId'])
 import {useQuery} from "@vue/apollo-composable";
 import {computed, watch} from "vue";
 import {getCostsBySpec} from "../../graphql/cost/query/cost.graphql";
 import CostDetails from "./CostDetails.vue";
+
+const store = useStore();
 const {result: costList, loading, error} = useQuery(getCostsBySpec,
     () => ({
-      specId: props.specId
+      specId: store.proformaSpecId
     }))
 const costs = computed(() => costList.value?.getCostsBySpec.edges ?? [])
 const selectedCostId = ref('');
 </script>
 
 <template>
-  <div>project cost list: {{ specId }}</div>
+  <div>project cost list: {{ store.proformaSpecId }}</div>
   <ul>
     <li v-for="cost in costs" :key="cost.node.id" @click="selectedCostId = cost.node.id">{{ cost.node.id }} - {{ cost.node.chNumber }}</li>
   </ul>
