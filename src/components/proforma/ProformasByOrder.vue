@@ -1,14 +1,16 @@
 <script setup>
-const props = defineProps(['orderId'])
+import {useStore} from "../../store/store.js";
 import {useQuery} from "@vue/apollo-composable";
 import {getProformasByOrderId} from "../../graphql/proforma/query/proforma.graphql";
 import {computed, watch} from "vue";
-const emit = defineEmits(['inFocus', 'submit'])
+
+const store = useStore();
+
 
 function getProformas(){
   const {result: proformasByOrder, loading, errors} = useQuery(getProformasByOrderId,
       () => ({
-        orderId: props.orderId,
+        orderId: store.orderId,
       }), {
         prefetch: false
       })
@@ -17,21 +19,19 @@ function getProformas(){
 const {proformasByOrder, loading, errors} = getProformas();
 const proformas = computed(() => proformasByOrder.value?.getProformasByOrderId.edges ?? [])
 watch(
-    () => props.orderId,
+    () => store.orderId,
     () => {
       getProformas()
     }
 )
 
-function setId(id){
-emit('getProformaId', id)
-}
 </script>
 
 <template>
-
   <ul>
-    <li @click="setId(proforma.node.id)" v-for="proforma in proformas" :key="proforma.node.id">{{proforma.node.id}} - {{proforma.node.number}} - {{proforma.node.perm}}</li>
+    <li @click="store.proformaId = proforma.node.id" v-for="proforma in proformas" :key="proforma.node.id">
+      {{proforma.node.id}} - {{proforma.node.number}} - {{proforma.node.perm}}
+    </li>
   </ul>
 </template>
 

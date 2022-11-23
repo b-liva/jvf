@@ -6,13 +6,9 @@ import ProformasByOrder from '../proforma/ProformasByOrder.vue';
 import ProformaDetails from '../proforma/ProformaDetails.vue';
 import ProjectCosts from '../cost/ProjectCosts.vue';
 import {ref} from "vue";
-const orderId = ref("")
 const proformaId = ref("")
 const proformaSpecId = ref("")
 
-function getProformaId(id){
-  proformaId.value = id;
-}
 function getProformaSpecIdBack(id){
   proformaSpecId.value = id
 }
@@ -21,7 +17,7 @@ function getProformaSpecIdBack(id){
 <template>
   <OrdersByNumber/>
   <OrderDetails/>
-  <ProformasByOrder @getProformaId="getProformaId" :order-id="orderId"/>
+  <ProformasByOrder/>
   <ProformaDetails @getSpecId="getProformaSpecIdBack" :proforma-id="proformaId"/>
   <ProjectCosts :spec-id="proformaSpecId"/>
 </template>
