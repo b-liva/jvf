@@ -19,10 +19,10 @@ const selectedCostId = ref('');
 <template>
   <div>project cost list: {{ store.proformaSpecId }}</div>
   <ul>
-    <li v-for="cost in costs" :key="cost.node.id" @click="selectedCostId = cost.node.id">{{ cost.node.id }} - {{ cost.node.chNumber }}</li>
+    <li v-for="cost in costs" :key="cost.node.id" @click="store.costId = cost.node.id">{{ cost.node.id }} - {{ cost.node.chNumber }}</li>
   </ul>
   <div>
-    <CostDetails v-if="selectedCostId" :cost-id="selectedCostId"/>
+    <CostDetails v-if="store.costId"/>
   </div>
 </template>
 

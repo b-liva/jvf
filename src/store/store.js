@@ -8,7 +8,7 @@ export const useStore = defineStore("main", {
       proformaId: 0,
       specId: 0,
       proformaSpecId: 0,
-      costId: 0
+      costId: null,
     }
   }
 })

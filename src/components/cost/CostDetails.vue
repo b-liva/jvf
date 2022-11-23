@@ -1,11 +1,11 @@
 <script setup>
+import {useStore} from "../../store/store.js";
 import {ref, isRef} from "vue";
-const props = defineProps(['costId']);
 import {useQuery} from "@vue/apollo-composable";
 import {getProjectCostDetails} from "../../graphql/cost/query/cost.graphql";
 import ProjectCostTable from '../cost/ProjectCostTable.vue';
 
-
+const store = useStore();
 let cost = ref({
   id: null,
   chNumber: null,
@@ -32,7 +32,7 @@ let cost = ref({
 
 const {onResult, refetch: refetchCost} = useQuery(getProjectCostDetails,
     () => ({
-      costId: props.costId
+      costId: store.costId
     }))
 onResult(qr => {
   window.qr = qr;
@@ -40,18 +40,6 @@ onResult(qr => {
   window.cost = cost;
 })
 
-const costItems = [
-  "id",
-  "chNumber",
-  "motorType",
-  "dateFa",
-  "altitude",
-  "frame",
-  "ambientTemp",
-  "tempRise",
-  "standardPar",
-  "generalCost",
-]
 
 function checkRef() {
   console.log(cost.value.wagecost, (isRef(cost.value)))
