@@ -1,10 +1,11 @@
 <script setup>
+import {useStore} from "../../store/store.js";
 import {ref} from 'vue';
 import {useMutation} from '@vue/apollo-composable'
 import {Button} from 'flowbite-vue'
 
-const props = defineProps(['cost']);
 import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
+const store = useStore();
 const status = '';
 const costItems = ref([
   {title: 'chNumber', name: 'شماره چارگون', inputType: 'number'},
@@ -49,22 +50,21 @@ const tests = ref({
   name: 'تست',
   items: [{id: 1, value: 0, unit: 0}]
 })
-console.log('cost: ', props.cost)
 
 const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation(mutateProjectCost,
     () => ({
       variables: {
-        id: cost.value.id,
-        spec: cost.value.spec.id,
-        chNumber: cost.value.chNumber,
-        motorType: cost.value.motorType,
-        standardParts: cost.value.standardParts,
-        generalCost: cost.value.generalCost,
-        dateFa: cost.value.dateFa,
-        frame: cost.value.frame,
-        ambientTemp: cost.value.ambientTemp,
-        tempRise: cost.value.tempRise,
-        altitude: cost.value.altitude,
+        id: store.cost.value.id,
+        spec: store.cost.value.spec.id,
+        chNumber: store.cost.value.chNumber,
+        motorType: store.cost.value.motorType,
+        standardParts: store.cost.value.standardParts,
+        generalCost: store.cost.value.generalCost,
+        dateFa: store.cost.value.dateFa,
+        frame: store.cost.value.frame,
+        ambientTemp: store.cost.value.ambientTemp,
+        tempRise: store.cost.value.tempRise,
+        altitude: store.cost.value.altitude,
       }
     })
 )
@@ -77,7 +77,7 @@ const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation
     <p v-if="loading">loading</p>
     <div>{{error}}</div>
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      {{cost.id}}
+      {{store.cost.id}}
       <table class="table-auto">
         <thead>
         <tr>
@@ -89,13 +89,13 @@ const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation
         <template v-for="item in costItems" :key="item.id">
           <tr>
             <td>{{ item.name }}</td>
-            <td><input v-model="cost[item.title]" type="text"></td>
+            <td><input v-model="store.cost[item.title]" type="text"></td>
           </tr>
         </template>
         </tbody>
       </table>
       <button>click</button>
-      <p>{{ cost }}</p>
+      <p>{{ store.cost }}</p>
       <!--      {{ getTotal() }}-->
     </div>
   </div>

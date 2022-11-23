@@ -6,7 +6,7 @@ import {getProjectCostDetails} from "../../graphql/cost/query/cost.graphql";
 import ProjectCostTable from '../cost/ProjectCostTable.vue';
 
 const store = useStore();
-let cost = ref({
+store.cost = ref({
   id: null,
   chNumber: null,
   motorType: null,
@@ -36,63 +36,54 @@ const {onResult, refetch: refetchCost} = useQuery(getProjectCostDetails,
     }))
 onResult(qr => {
   window.qr = qr;
-  cost.value = JSON.parse(JSON.stringify(qr.data.getProjectCostDetails));
-  window.cost = cost;
+  store.cost = JSON.parse(JSON.stringify(qr.data.getProjectCostDetails));
 })
 
-
-function checkRef() {
-  console.log(cost.value.wagecost, (isRef(cost.value)))
-}
-
-function logCost() {
-  console.log(cost.value)
-}
 </script>
 
 <template>
 
-  <div v-if="cost">
+  <div v-if="store.cost">
     cost details:
     <p @click="checkRef">check ref</p>
     <div>
       <p @click="refetchCost">get cost</p>
       <p @click="logCost">log cost</p>
-      <div><input v-model="cost.chNumber">
-        <p>{{ cost.chNumber }}</p></div>
-      <div><input v-model="cost.motorType"></div>
-      <div><input v-model="cost.dateFa"></div>
-      <div><input v-model="cost.altitude"></div>
-      <div><input v-model="cost.frame"></div>
-      <div><input v-model="cost.ambientTemp"></div>
-      <div><input v-model="cost.tempRise"></div>
-      <div><input v-model="cost.standardParts"></div>
-      <div><input v-model="cost.generalCost"></div>
+      <div><input v-model="store.cost.chNumber">
+        <p>{{ store.cost.chNumber }}</p></div>
+      <div><input v-model="store.cost.motorType"></div>
+      <div><input v-model="store.cost.dateFa"></div>
+      <div><input v-model="store.cost.altitude"></div>
+      <div><input v-model="store.cost.frame"></div>
+      <div><input v-model="store.cost.ambientTemp"></div>
+      <div><input v-model="store.cost.tempRise"></div>
+      <div><input v-model="store.cost.standardParts"></div>
+      <div><input v-model="store.cost.generalCost"></div>
       <div>
-        <input v-model="cost.wagecost.qty">
-        <input v-model="cost.wagecost.price">
-        <input v-model="cost.wagecost.__typename">
+        <input v-model="store.cost.wagecost.qty">
+        <input v-model="store.cost.wagecost.price">
+        <input v-model="store.cost.wagecost.__typename">
       </div>
       <div>
-        <input v-model="cost.steelrebar.qty">
-        <input v-model="cost.steelrebar.price">
+        <input v-model="store.cost.steelrebar.qty">
+        <input v-model="store.cost.steelrebar.price">
       </div>
       <!--    <p>somenew: {{ cost.somenew.qty }} - {{ cost.somenew.price }}</p>-->
-      <p v-if="cost.wagecost">wagecost: {{ cost.wagecost.qty }} - {{ cost.wagecost.price }}</p>
-      <p v-if="cost.steelrebar">steelrebar: {{ cost.steelrebar.qty }} -
-        {{ cost.steelrebar.price }}</p>
-      <p v-if="cost.overheadcost">overheadcost: {{ cost.overheadcost.qty }} -
-        {{ cost.overheadcost.price }}</p>
-      <p v-if="cost.steel">steel: {{ cost.steel.qty }} - {{ cost.steel.price }}</p>
-      <p v-if="cost.custator">custator: {{ cost.custator.qty }} - {{ cost.custator.price }}</p>
-      <p v-if="cost.curotor">curotor: {{ cost.curotor.qty }} - {{ cost.curotor.price }}</p>
-      <p v-if="cost.aluingot">aluingot: {{ cost.aluingot.qty }} - {{ cost.aluingot.price }}</p>
-      <p v-if="cost.siliconsheet">siliconsheet: {{ cost.siliconsheet.qty }} -
-        {{ cost.siliconsheet.price }}</p>
-      <p v-if="cost.castiron">castiron: {{ cost.castiron.qty }} - {{ cost.castiron.price }}</p>
-      <p v-if="cost.insulation">insulation: {{ cost.insulation.qty }} -
-        {{ cost.insulation.price }}</p>
-      <p v-if="cost.other">other: {{ cost.other.qty }} - {{ cost.other.price }}</p>
+      <p v-if="store.cost.wagecost">wagecost: {{ store.cost.wagecost.qty }} - {{ store.cost.wagecost.price }}</p>
+      <p v-if="store.cost.steelrebar">steelrebar: {{ store.cost.steelrebar.qty }} -
+        {{ store.cost.steelrebar.price }}</p>
+      <p v-if="store.cost.overheadcost">overheadcost: {{ store.cost.overheadcost.qty }} -
+        {{ store.cost.overheadcost.price }}</p>
+      <p v-if="store.cost.steel">steel: {{ store.cost.steel.qty }} - {{ store.cost.steel.price }}</p>
+      <p v-if="store.cost.custator">custator: {{ store.cost.custator.qty }} - {{ store.cost.custator.price }}</p>
+      <p v-if="store.cost.curotor">curotor: {{ store.cost.curotor.qty }} - {{ store.cost.curotor.price }}</p>
+      <p v-if="store.cost.aluingot">aluingot: {{ store.cost.aluingot.qty }} - {{ store.cost.aluingot.price }}</p>
+      <p v-if="store.cost.siliconsheet">siliconsheet: {{ store.cost.siliconsheet.qty }} -
+        {{ store.cost.siliconsheet.price }}</p>
+      <p v-if="store.cost.castiron">castiron: {{ store.cost.castiron.qty }} - {{ store.cost.castiron.price }}</p>
+      <p v-if="store.cost.insulation">insulation: {{ store.cost.insulation.qty }} -
+        {{ store.cost.insulation.price }}</p>
+      <p v-if="store.cost.other">other: {{ store.cost.other.qty }} - {{ store.cost.other.price }}</p>
 
       <!--    <div v-if="cost.bearingcostSet.edges.length > 0">bearings:-->
       <!--      <ul>-->
@@ -115,7 +106,7 @@ function logCost() {
       <!--        </li>-->
       <!--      </ul>-->
       <!--    </div>-->
-      <ProjectCostTable :cost="cost"/>
+      <ProjectCostTable/>
     </div>
   </div>
 </template>
