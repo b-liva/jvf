@@ -13,16 +13,13 @@ const {result: orders, loading, error, refetch: refetchOrders} = useQuery(getOrd
     }
 )
 const ordersModified = computed(() => orders.value?.getOrdersByNumber.edges ?? {})
-
 </script>
 
 <template>
-  {{store}}
-  {{store.id}} - {{store.orderNumber}}
   <input type="number" v-model="store.orderNumber" v-on:keyup.enter="refetchOrders">
   <p v-if="loading">loading...</p>
-  <p v-for="r in ordersModified" :key="r.node.id">{{ r.node.number }} -
-    {{ r.node.customer.name }} - {{ r.node.dateFa }}</p>
+  <p v-for="order in ordersModified" :key="order.node.id" @click="store.orderId = order.node.id">{{ order.node.number }} -
+    {{ order.node.customer.name }} - {{ order.node.dateFa }}</p>
 
 </template>
 

@@ -1,25 +1,24 @@
 <script setup>
-import {computed, ref, watch} from "vue";
-const props = defineProps(['orderId'])
+import {computed, watch} from "vue";
 import {useQuery} from "@vue/apollo-composable";
 import {getSpecsById} from '../../graphql/order/query/order.graphql';
+import {useStore} from "../../store/store.js";
+const store = useStore();
 
 function getSpecs(){
   const {result: specsByOrder, loading, errors} = useQuery(getSpecsById,
       () => ({
-        orderId: props.orderId,
+        orderId: store.orderId,
       }), {
         prefetch: false
       })
-  console.log('specs: ', specsByOrder)
   return{specsByOrder, loading, errors}
 }
 const {specsByOrder, loading, errors} = getSpecs();
 const specs = computed(() => specsByOrder.value?.getSpecsById.edges ?? [])
 watch(
-    () => props.orderId,
+    () => store.orderId,
     () => {
-      console.log("order id prop change")
       getSpecs()
     }
 )
