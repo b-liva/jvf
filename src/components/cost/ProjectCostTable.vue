@@ -54,17 +54,17 @@ const tests = ref({
 const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation(mutateProjectCost,
     () => ({
       variables: {
-        id: store.cost.value.id,
-        spec: store.cost.value.spec.id,
-        chNumber: store.cost.value.chNumber,
-        motorType: store.cost.value.motorType,
-        standardParts: store.cost.value.standardParts,
-        generalCost: store.cost.value.generalCost,
-        dateFa: store.cost.value.dateFa,
-        frame: store.cost.value.frame,
-        ambientTemp: store.cost.value.ambientTemp,
-        tempRise: store.cost.value.tempRise,
-        altitude: store.cost.value.altitude,
+        id: store.cost.id,
+        spec: store.cost.id,
+        chNumber: store.cost.chNumber,
+        motorType: store.cost.motorType,
+        standardParts: store.cost.standardParts,
+        generalCost: store.cost.generalCost,
+        dateFa: store.cost.dateFa,
+        frame: store.cost.frame,
+        ambientTemp: store.cost.ambientTemp,
+        tempRise: store.cost.tempRise,
+        altitude: store.cost.altitude,
       }
     })
 )
