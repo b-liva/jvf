@@ -4,7 +4,59 @@ query getCostsBySpec($specId:ID){
             node {
                 id
                 chNumber
-                wagecost {
+
+                wagecost{
+                    id
+                    qty
+                    price
+                }
+                overheadcost{
+                    id
+                    qty
+                    price
+                }
+                steelrebar{
+                    id
+                    qty
+                    price
+                }
+
+                steel{
+                    id
+                    qty
+                    price
+                }
+                custator{
+                    id
+                    qty
+                    price
+                }
+                curotor{
+                    id
+                    qty
+                    price
+                }
+                siliconsheet{
+                    id
+                    qty
+                    price
+                }
+                aluingot{
+                    id
+                    qty
+                    price
+                }
+                insulation{
+                    id
+                    qty
+                    price
+                }
+                castiron{
+                    id
+                    qty
+                    price
+                }
+                other{
                     id
                     qty
                     price
