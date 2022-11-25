@@ -68,11 +68,14 @@ const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation
       }
     })
 )
+function sendProjectCost(){
+  createProjectCost()
+}
 </script>
 
 <template>
   <div class="">
-    <p @click="createProjectCost">send</p>
+    <p @click="sendProjectCost">send</p>
     <p>{{ status }}</p>
     <p v-if="loading">loading</p>
     <div>{{error}}</div>
