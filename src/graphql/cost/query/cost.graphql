@@ -128,6 +128,10 @@ query getProjectCostDetails($costId:ID!){
             edges{
                 node {
                     id
+                    bearing{
+                        id
+                        name
+                    }
                     qty
                     price
                 }
@@ -137,6 +141,10 @@ query getProjectCostDetails($costId:ID!){
             edges{
                 node {
                     id
+                    test{
+                        id
+                        name
+                    }
                     qty
                     price
                 }
@@ -146,6 +154,10 @@ query getProjectCostDetails($costId:ID!){
             edges{
                 node {
                     id
+                    certificate {
+                        id
+                        name
+                    }
                     qty
                     price
                 }

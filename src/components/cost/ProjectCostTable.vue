@@ -128,7 +128,7 @@ function logStore() {
         </template>
         <template v-for="(bearing, index) in store.cost.bearingcostSet.edges" :key="bearing.node.id">
           <tr>
-            <td>برینگ</td>
+            <td>برینگ ({{bearing.node.bearing.name}})</td>
             <td><input type="number" v-model="bearing.node.qty"></td>
             <td><input type="number" v-model="bearing.node.price"></td>
             <td>{{ bearing.node.qty * bearing.node.price }}</td>
@@ -136,7 +136,7 @@ function logStore() {
         </template>
         <template v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
           <tr>
-            <td>تست</td>
+            <td>تست ({{test.node.test.name}})</td>
             <td><input type="number" v-model="test.node.qty"></td>
             <td><input type="number" v-model="test.node.price"></td>
             <td>{{ test.node.qty * test.node.price }}</td>
@@ -144,7 +144,7 @@ function logStore() {
         </template>
         <template v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
           <tr>
-            <td>گواهی</td>
+            <td>گواهی ({{certificate.node.certificate.name}})</td>
             <td><input type="number" v-model="certificate.node.qty"></td>
             <td><input type="number" v-model="certificate.node.price"></td>
             <td>{{ certificate.node.qty * certificate.node.price }}</td>
