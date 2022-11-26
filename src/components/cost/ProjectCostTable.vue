@@ -133,7 +133,7 @@ function Remove(itemList, index) {
                 class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
           بیرینگ
         </button>
-        <button @click="AddNew(tests.items)" class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست</button>
+        <button @click="AddNew(store.cost.testcostSet.edges, 'test')" class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست</button>
         <button @click="AddNew(certificates.items)"
                 class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه
         </button>
@@ -185,6 +185,9 @@ function Remove(itemList, index) {
             <td><input type="number" v-model="test.node.qty"></td>
             <td><input type="number" v-model="test.node.price"></td>
             <td>{{ test.node.qty * test.node.price }}</td>
+            <td @click="Remove(store.cost.testcostSet.edges, index)">
+              <span class="red p-3 text-lg">-</span>
+            </td>
           </tr>
         </template>
         <template v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
