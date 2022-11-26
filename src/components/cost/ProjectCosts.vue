@@ -12,7 +12,6 @@ const {result: costList, loading, error} = useQuery(getCostsBySpec,
       specId: store.proformaSpecId
     }))
 const costs = computed(() => costList.value?.getCostsBySpec.edges ?? [])
-console.log('costs:', costs)
 </script>
 
 <template>

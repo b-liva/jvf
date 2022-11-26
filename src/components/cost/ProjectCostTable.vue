@@ -20,16 +20,16 @@ const costItems = ref([
 ])
 Window.costItem = costItems;
 const rowItems = ref([
-  {title: 'pph', name: 'دستمزد', unit: 0, value: 0},
-  {title: 'overhead', name: 'سربار', unit: 0, value: 0},
+  {title: 'wagecost', name: 'دستمزد', unit: 0, value: 0},
+  {title: 'overheadcost', name: 'سربار', unit: 0, value: 0},
   {title: 'steel', name: 'فولاد', unit: 0, value: 0},
-  {title: 'steelRebar', name: 'میلگرد فولادی', unit: 0, value: 0},
-  {title: 'statorCu', name: 'مس استاتور', unit: 0, value: 0},
-  {title: 'steel', name: 'مس روتور', unit: 0, value: 0},
-  {title: 'rotorCu', name: 'ورق سیلیکون', unit: 0, value: 0},
-  {title: 'alu', name: 'آلومینیوم', unit: 0, value: 0},
+  {title: 'steelrebar', name: 'میلگرد فولادی', unit: 0, value: 0},
+  {title: 'custator', name: 'مس استاتور', unit: 0, value: 0},
+  {title: 'curotor', name: 'مس روتور', unit: 0, value: 0},
+  {title: 'siliconsheet', name: 'ورق سیلیکون', unit: 0, value: 0},
+  {title: 'aluingot', name: 'آلومینیوم', unit: 0, value: 0},
   {title: 'insulation', name: 'مواد عایقی', unit: 0, value: 0},
-  {title: 'castIron', name: 'چدن', unit: 0, value: 0},
+  {title: 'castiron', name: 'چدن', unit: 0, value: 0},
   {title: 'other', name: 'سایر', unit: 0, value: 0},
 ])
 
@@ -55,7 +55,7 @@ const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation
     () => ({
       variables: {
         id: store.cost.id,
-        spec: store.cost.id,
+        spec: store.proformaSpecId,
         chNumber: store.cost.chNumber,
         motorType: store.cost.motorType,
         standardParts: store.cost.standardParts,
@@ -71,16 +71,20 @@ const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation
 function sendProjectCost(){
   createProjectCost()
 }
+function logStore(){
+  console.log("spec id: ", store)
+}
+
 </script>
 
 <template>
   <div class="">
+    <p @click="logStore">log</p>
     <p @click="sendProjectCost">send</p>
     <p>{{ status }}</p>
     <p v-if="loading">loading</p>
     <div>{{error}}</div>
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      {{store.cost.id}}
       <table class="table-auto">
         <thead>
         <tr>
@@ -97,8 +101,30 @@ function sendProjectCost(){
         </template>
         </tbody>
       </table>
-      <button>click</button>
-      <p>{{ store.cost }}</p>
+      <table class="table-auto">
+        <thead>
+        <tr>
+          <th>عنوان</th>
+          <th>مقدار</th>
+          <th>قیمت واحد</th>
+          <th>قیمت کل</th>
+        </tr>
+        </thead>
+        <tbody>
+        <template v-for="(item, index) in rowItems">
+          <tr>
+            <td>{{ item.title }}</td>
+            <td>
+              <input type="number" v-model="store.cost[item.title]['qty']" :id="item.title">
+            </td>
+            <td>
+              <input type="number" v-model="store.cost[item.title]['price']">
+            </td>
+            <td>{{ store.cost[item.title]['qty'] * store.cost[item.title]['price'] }}</td>
+          </tr>
+        </template>
+        </tbody>
+      </table>
       <!--      {{ getTotal() }}-->
     </div>
   </div>
