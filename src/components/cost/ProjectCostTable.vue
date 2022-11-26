@@ -12,15 +12,15 @@ import getCertificates from "../../graphql/cost/query/certificate.graphql";
 const store = useStore();
 const status = '';
 const costItems = ref([
-  {title: 'chNumber', name: 'شماره چارگون', inputType: 'number'},
-  {title: 'motorType', name: 'نوع موتور', inputType: 'text'},
-  {title: 'dateFa', name: 'تاریخ', inputType: 'text'},
-  {title: 'altitude', name: 'ارتفاع', inputType: 'number'},
-  {title: 'frame', name: 'فریم سایز', inputType: 'number'},
-  {title: 'ambientTemp', name: 'دمای محیط', inputType: 'number'},
-  {title: 'tempRise', name: 'افزایش دما', inputType: 'number'},
-  {title: 'standardParts', name: 'قطعات استاندارد', inputType: 'number'},
-  {title: 'generalCost', name: 'هزینه های عمومی', inputType: 'number'},
+  {title: 'chNumber', name: 'شماره چارگون', inputType: 'number', title2: 'ch_number'},
+  {title: 'motorType', name: 'نوع موتور', inputType: 'text', title2: 'motor_type'},
+  {title: 'dateFa', name: 'تاریخ', inputType: 'text', title2: 'date_fa'},
+  {title: 'altitude', name: 'ارتفاع', inputType: 'number', title2: 'altitude'},
+  {title: 'frame', name: 'فریم سایز', inputType: 'number', title2: 'frame'},
+  {title: 'ambientTemp', name: 'دمای محیط', inputType: 'number', title2: 'ambient_temp'},
+  {title: 'tempRise', name: 'افزایش دما', inputType: 'number', title2: 'temp_rise'},
+  {title: 'standardParts', name: 'قطعات استاندارد', inputType: 'number', title2: 'standard_parts'},
+  {title: 'generalCost', name: 'هزینه های عمومی', inputType: 'number', title2: 'general_cost'},
 ])
 Window.costItem = costItems;
 const rowItems = ref([
@@ -36,24 +36,6 @@ const rowItems = ref([
   {title: 'castiron', name: 'چدن', unit: 0, value: 0},
   {title: 'other', name: 'سایر', unit: 0, value: 0},
 ])
-
-const bearings = ref({
-  title: 'bearing',
-  name: 'بیرینگ',
-  items: [{id: 1, value: 0, unit: 0}]
-})
-
-const certificates = ref({
-  title: 'certificate',
-  name: 'گواهی',
-  items: [{id: 1, value: 0, unit: 0}]
-})
-
-const tests = ref({
-  title: 'test',
-  name: 'تست',
-  items: [{id: 1, value: 0, unit: 0}]
-})
 
 const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation(mutateProjectCost,
     () => ({
@@ -72,7 +54,13 @@ const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation
       }
     })
 )
-
+let formError = ref([])
+onDone(result => {
+  formError.value = result.data.mutateProjectCost.errors;
+})
+onError(error => {
+  console.log("err rror: ", error)
+})
 const {result: bearingList, loading: bearingLoading, error: bearingError} = useQuery(getBearings)
 const {result: testList, loading: testLoading, error: testError} = useQuery(getTests)
 const {result: certificateList, loading: certificateLoading, error: certificateError} = useQuery(getCertificates)
@@ -102,15 +90,26 @@ function AddNew(obj, rowType) {
 function Remove(itemList, index) {
   itemList.splice(index, 1)
 }
+function getErrorFieldName(fName){
+  return costItems.value.filter(item => item.title2 === fName)[0].name
+}
 </script>
 
 <template>
   <div class="">
-    <p @click="logStore">log</p>
+    <p @click="logStore">log store</p>
     <p @click="sendProjectCost">send</p>
     <p>{{ status }}</p>
     <p v-if="loading">loading</p>
-    <div>{{ error }}</div>
+    <div v-if="formError.length > 0">بروز خطا:
+      <ul>
+        <li v-for="er in formError">{{getErrorFieldName(er.field)}}
+          <ul>
+            <li v-for="msg in er.messages">{{msg}}</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <table class="table-auto">
         <thead>
