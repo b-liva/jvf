@@ -122,7 +122,7 @@ function logStore() {
         <tbody>
         <template v-for="(item, index) in rowItems">
           <tr>
-            <td>{{ item.title }}</td>
+            <td>{{ item.name }}</td>
             <td>
               <input type="number" v-model="store.cost[item.title]['qty']" :id="item.title">
             </td>
