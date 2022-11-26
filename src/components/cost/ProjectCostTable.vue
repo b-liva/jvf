@@ -123,6 +123,12 @@ function logStore(){
             <td>{{ store.cost[item.title]['qty'] * store.cost[item.title]['price'] }}</td>
           </tr>
         </template>
+        <template v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
+          <td>تست</td>
+          <td><input type="number" v-model="test.node.qty"></td>
+          <td><input type="number" v-model="test.node.price"></td>
+          <td>{{test.node.qty * test.node.price}}</td>
+        </template>
         </tbody>
       </table>
       <!--      {{ getTotal() }}-->
