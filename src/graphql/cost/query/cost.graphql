@@ -81,46 +81,57 @@ query getProjectCostDetails($costId:ID!){
         standardParts
         generalCost
         wagecost{
+            id
             qty
             price
         }
         steelrebar{
+            id
             qty
             price
         }
         overheadcost{
+            id
             qty
             price
         }
         steel{
+            id
             qty
             price
         }
         custator{
+            id
             qty
             price
         }
         curotor{
+            id
             qty
             price
         }
         aluingot{
+            id
             qty
             price
         }
         siliconsheet{
+            id
             qty
             price
         }
         castiron{
+            id
             qty
             price
         }
         insulation{
+            id
             qty
             price
         }
         other{
+            id
             qty
             price
         }
@@ -132,6 +143,7 @@ query getProjectCostDetails($costId:ID!){
                         id
                         name
                     }
+                    id
                     qty
                     price
                 }
@@ -145,6 +157,7 @@ query getProjectCostDetails($costId:ID!){
                         id
                         name
                     }
+                    id
                     qty
                     price
                 }
@@ -158,6 +171,7 @@ query getProjectCostDetails($costId:ID!){
                         id
                         name
                     }
+                    id
                     qty
                     price
                 }

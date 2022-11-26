@@ -5,6 +5,7 @@ import {useMutation, useQuery} from '@vue/apollo-composable'
 import {Button} from 'flowbite-vue'
 
 import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
+import mutateWageCost from "../../graphql/cost/mutation/wage.graphql";
 import getBearings from "../../graphql/cost/query/bearing.graphql";
 import getTests from "../../graphql/cost/query/test.graphql";
 import getCertificates from "../../graphql/cost/query/certificate.graphql";
@@ -37,7 +38,7 @@ const rowItems = ref([
   {title: 'other', name: 'سایر', unit: 0, value: 0},
 ])
 
-const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation(mutateProjectCost,
+const {mutate: createProjectCost, loading, error, onDone} = useMutation(mutateProjectCost,
     () => ({
       variables: {
         id: store.cost.id,
@@ -54,18 +55,31 @@ const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation
       }
     })
 )
+
+const {mutate: createWageCost, loading: wageCostLoading, onDone: wageCostOnDone} = useMutation(mutateWageCost,
+    () => ({
+      variables: {
+        id: store.cost.wagecost.id,
+        projectCost: store.cost.id,
+        qty: store.cost.wagecost.qty,
+        price: store.cost.wagecost.price
+      }
+    })
+)
 let formError = ref([])
 onDone(result => {
-  formError.value = result.data.mutateProjectCost.errors;
+  formError.value.push(result.data.mutateProjectCost.errors);
 })
-onError(error => {
-  console.log("err rror: ", error)
+wageCostOnDone(result => {
+  formError.value.push(result.data.mutateWageCost.errors);
 })
+
 const {result: bearingList, loading: bearingLoading, error: bearingError} = useQuery(getBearings)
 const {result: testList, loading: testLoading, error: testError} = useQuery(getTests)
 const {result: certificateList, loading: certificateLoading, error: certificateError} = useQuery(getCertificates)
 function sendProjectCost() {
-  createProjectCost()
+  createProjectCost();
+  createWageCost();
 }
 
 function logStore() {
