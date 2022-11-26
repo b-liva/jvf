@@ -76,7 +76,7 @@ function AddNew(obj, rowType) {
   let newObj = {
     "node": {
       "id": null,
-      "qty": 0,
+      "qty": 1,
       "price": 0
     }
   }
