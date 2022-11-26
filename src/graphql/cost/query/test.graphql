@@ -1,0 +1,10 @@
+query getTests{
+    getTests:tests {
+        edges {
+            node {
+                id
+                name
+            }
+        }
+    }
+}

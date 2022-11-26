@@ -6,6 +6,7 @@ import {Button} from 'flowbite-vue'
 
 import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
 import getBearings from "../../graphql/cost/query/bearing.graphql";
+import getTests from "../../graphql/cost/query/test.graphql";
 
 const store = useStore();
 const status = '';
@@ -72,6 +73,7 @@ const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation
 )
 
 const {result: bearingList, loading: bearingLoading, error: bearingError} = useQuery(getBearings)
+const {result: testList, loading: testLoading, error: testError} = useQuery(getTests)
 function sendProjectCost() {
   createProjectCost()
 }
@@ -142,7 +144,11 @@ function logStore() {
         </template>
         <template v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
           <tr>
-            <td>تست ({{ test.node.test.name }})</td>
+            <td>
+              <select v-model="test.node.test">
+                <option v-for="tst in testList.getTests.edges" :value="tst.node" :key="tst.node">{{tst.node.name}}</option>
+              </select>
+            </td>
             <td><input type="number" v-model="test.node.qty"></td>
             <td><input type="number" v-model="test.node.price"></td>
             <td>{{ test.node.qty * test.node.price }}</td>
