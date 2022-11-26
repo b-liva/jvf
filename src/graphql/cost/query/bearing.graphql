@@ -1,0 +1,10 @@
+query getBearings{
+    getBearings:bearings {
+        edges {
+            node {
+                id
+                name
+            }
+        }
+    }
+}

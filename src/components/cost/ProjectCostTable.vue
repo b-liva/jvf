@@ -1,10 +1,11 @@
 <script setup>
 import {useStore} from "../../store/store.js";
 import {ref} from 'vue';
-import {useMutation} from '@vue/apollo-composable'
+import {useMutation, useQuery} from '@vue/apollo-composable'
 import {Button} from 'flowbite-vue'
 
 import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
+import getBearings from "../../graphql/cost/query/bearing.graphql";
 
 const store = useStore();
 const status = '';
@@ -70,6 +71,7 @@ const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation
     })
 )
 
+const {result: bearingList, loading: bearingLoading, error: bearingError} = useQuery(getBearings)
 function sendProjectCost() {
   createProjectCost()
 }
@@ -128,7 +130,11 @@ function logStore() {
         </template>
         <template v-for="(bearing, index) in store.cost.bearingcostSet.edges" :key="bearing.node.id">
           <tr>
-            <td>برینگ ({{bearing.node.bearing.name}})</td>
+            <td>
+              <select v-model="bearing.node.bearing">
+                <option v-for="br in bearingList.getBearings.edges" :value="br.node" :key="br.node">{{br.node.name}}</option>
+              </select>
+            </td>
             <td><input type="number" v-model="bearing.node.qty"></td>
             <td><input type="number" v-model="bearing.node.price"></td>
             <td>{{ bearing.node.qty * bearing.node.price }}</td>
@@ -136,7 +142,7 @@ function logStore() {
         </template>
         <template v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
           <tr>
-            <td>تست ({{test.node.test.name}})</td>
+            <td>تست ({{ test.node.test.name }})</td>
             <td><input type="number" v-model="test.node.qty"></td>
             <td><input type="number" v-model="test.node.price"></td>
             <td>{{ test.node.qty * test.node.price }}</td>
@@ -144,7 +150,7 @@ function logStore() {
         </template>
         <template v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
           <tr>
-            <td>گواهی ({{certificate.node.certificate.name}})</td>
+            <td>گواهی ({{ certificate.node.certificate.name }})</td>
             <td><input type="number" v-model="certificate.node.qty"></td>
             <td><input type="number" v-model="certificate.node.price"></td>
             <td>{{ certificate.node.qty * certificate.node.price }}</td>
