@@ -134,7 +134,7 @@ function Remove(itemList, index) {
           بیرینگ
         </button>
         <button @click="AddNew(store.cost.testcostSet.edges, 'test')" class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست</button>
-        <button @click="AddNew(certificates.items)"
+        <button @click="AddNew(store.cost.certificatecostSet.edges, 'certificate')"
                 class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه
         </button>
       </div>
@@ -200,6 +200,9 @@ function Remove(itemList, index) {
             <td><input type="number" v-model="certificate.node.qty"></td>
             <td><input type="number" v-model="certificate.node.price"></td>
             <td>{{ certificate.node.qty * certificate.node.price }}</td>
+            <td @click="Remove(store.cost.certificatecostSet.edges, index)">
+              <span class="red p-3 text-lg">-</span>
+            </td>
           </tr>
         </template>
         </tbody>
