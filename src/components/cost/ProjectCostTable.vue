@@ -84,6 +84,24 @@ function logStore() {
   console.log("spec id: ", store)
 }
 
+function AddNew(obj, rowType) {
+  let newObj = {
+    "node": {
+      "id": null,
+      "qty": 0,
+      "price": 0
+    }
+  }
+  newObj[rowType] = {
+    "id": null,
+    "name": ''
+  }
+  obj.push(newObj)
+}
+
+function Remove(itemList, index) {
+  itemList.splice(index, 1)
+}
 </script>
 
 <template>
@@ -110,6 +128,16 @@ function logStore() {
         </template>
         </tbody>
       </table>
+      <div class="inline-flex">
+        <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
+                class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
+          بیرینگ
+        </button>
+        <button @click="AddNew(tests.items)" class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست</button>
+        <button @click="AddNew(certificates.items)"
+                class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه
+        </button>
+      </div>
       <table class="table-auto">
         <thead>
         <tr>
@@ -142,6 +170,9 @@ function logStore() {
             <td><input type="number" v-model="bearing.node.qty"></td>
             <td><input type="number" v-model="bearing.node.price"></td>
             <td>{{ bearing.node.qty * bearing.node.price }}</td>
+            <td @click="Remove(store.cost.bearingcostSet.edges, index)">
+              <span class="red p-3 text-lg">-</span>
+            </td>
           </tr>
         </template>
         <template v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
