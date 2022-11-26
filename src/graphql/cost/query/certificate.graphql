@@ -1,0 +1,10 @@
+query getCertificates{
+    getCertificates:certificates {
+        edges {
+            node {
+                id
+                name
+            }
+        }
+    }
+}

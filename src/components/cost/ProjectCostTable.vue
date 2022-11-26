@@ -7,6 +7,7 @@ import {Button} from 'flowbite-vue'
 import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
 import getBearings from "../../graphql/cost/query/bearing.graphql";
 import getTests from "../../graphql/cost/query/test.graphql";
+import getCertificates from "../../graphql/cost/query/certificate.graphql";
 
 const store = useStore();
 const status = '';
@@ -74,6 +75,7 @@ const {mutate: createProjectCost, loading, error, onError, onDone} = useMutation
 
 const {result: bearingList, loading: bearingLoading, error: bearingError} = useQuery(getBearings)
 const {result: testList, loading: testLoading, error: testError} = useQuery(getTests)
+const {result: certificateList, loading: certificateLoading, error: certificateError} = useQuery(getCertificates)
 function sendProjectCost() {
   createProjectCost()
 }
@@ -156,7 +158,11 @@ function logStore() {
         </template>
         <template v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
           <tr>
-            <td>گواهی ({{ certificate.node.certificate.name }})</td>
+            <td>
+              <select v-model="certificate.node.certificate">
+                <option v-for="crt in certificateList.getCertificates.edges" :value="crt.node" :key="crt.node">{{crt.node.name}}</option>
+              </select>
+            </td>
             <td><input type="number" v-model="certificate.node.qty"></td>
             <td><input type="number" v-model="certificate.node.price"></td>
             <td>{{ certificate.node.qty * certificate.node.price }}</td>
