@@ -31,3 +31,220 @@ mutation mutateProjectCost(
         }
     }
 }
+
+mutation mutateWageCost(
+    $id:ID,
+    $projectCost:ID!,
+    $qty:Float!,
+    $price:Float!,
+){
+    mutateWageCost:wageCostMutation(input:{
+        id:$id,
+        projectCost:$projectCost,
+        qty:$qty,
+        price:$price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
+mutation mutateOverheadCost(
+    $id:ID,
+    $projectCost:ID!,
+    $qty:Float!,
+    $price:Float!,
+){
+    mutateOverheadCost:overheadCostMutation(input:{
+        id:$id,
+        projectCost:$projectCost,
+        qty:$qty,
+        price:$price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
+mutation mutateSteelRebarCost(
+    $id:ID,
+    $projectCost:ID!,
+    $qty:Float!,
+    $price:Float!,
+){
+    mutateSteelRebarCost:steelRebarCostMutation(input:{
+        id:$id,
+        projectCost:$projectCost,
+        qty:$qty,
+        price:$price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
+mutation mutateSteelCost(
+    $id:ID,
+    $projectCost:ID!,
+    $qty:Float!,
+    $price:Float!,
+){
+    mutateSteelCost:steelCostMutation(input:{
+        id:$id,
+        projectCost:$projectCost,
+        qty:$qty,
+        price:$price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
+mutation mutateCuStatorCost(
+    $id:ID,
+    $projectCost:ID!,
+    $qty:Float!,
+    $price:Float!,
+){
+    mutateCuStatorCost:cuStatorCostMutation(input:{
+        id:$id,
+        projectCost:$projectCost,
+        qty:$qty,
+        price:$price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
+mutation mutateCuRotorCost(
+    $id:ID,
+    $projectCost:ID!,
+    $qty:Float!,
+    $price:Float!,
+){
+    mutateCuRotorCost:cuRotorCostMutation(input:{
+        id:$id,
+        projectCost:$projectCost,
+        qty:$qty,
+        price:$price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
+mutation mutateAluIngotCost(
+    $id:ID,
+    $projectCost:ID!,
+    $qty:Float!,
+    $price:Float!,
+){
+    mutateAluIngotCost:aluIngotCostMutation(input:{
+        id:$id,
+        projectCost:$projectCost,
+        qty:$qty,
+        price:$price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
+mutation mutateSiliconSheetCost(
+    $id:ID,
+    $projectCost:ID!,
+    $qty:Float!,
+    $price:Float!,
+){
+    mutateSiliconSheetCost:siliconSheetCostMutation(input:{
+        id:$id,
+        projectCost:$projectCost,
+        qty:$qty,
+        price:$price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
+mutation mutateCastIronCost(
+    $id:ID,
+    $projectCost:ID!,
+    $qty:Float!,
+    $price:Float!,
+){
+    mutateCastIronCost:castIronCostMutation(input:{
+        id:$id,
+        projectCost:$projectCost,
+        qty:$qty,
+        price:$price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
+mutation mutateInsultionCost(
+    $id:ID,
+    $projectCost:ID!,
+    $qty:Float!,
+    $price:Float!,
+){
+    mutateInsultionCost:insulationCostMutation(input:{
+        id:$id,
+        projectCost:$projectCost,
+        qty:$qty,
+        price:$price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
+mutation mutateOtherCost(
+    $id:ID,
+    $projectCost:ID!,
+    $qty:Float!,
+    $price:Float!,
+){
+    mutateOtherCost:otherCostMutation(input:{
+        id:$id,
+        projectCost:$projectCost,
+        qty:$qty,
+        price:$price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
+
+
+
+
+
+
+
