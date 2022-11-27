@@ -61,8 +61,8 @@ const {mutate: createWageCost, loading: wageCostLoading, onDone: wageCostOnDone}
       variables: {
         id: store.cost.wagecost.id,
         projectCost: store.cost.id,
-        qty: store.cost.wagecost.qty,
-        price: store.cost.wagecost.price
+        qty: store.cost.wagecost.qty ? store.cost.wagecost.qty : 0,
+        price: store.cost.wagecost.price ? store.cost.wagecost.price: 0
       }
     })
 )
