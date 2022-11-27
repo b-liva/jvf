@@ -5,7 +5,7 @@ import {useMutation, useQuery} from '@vue/apollo-composable'
 import {Button} from 'flowbite-vue'
 
 import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
-import mutateWageCost from "../../graphql/cost/mutation/wage.graphql";
+import mutateRowCost from "../../graphql/cost/mutation/row.graphql";
 import getBearings from "../../graphql/cost/query/bearing.graphql";
 import getTests from "../../graphql/cost/query/test.graphql";
 import getCertificates from "../../graphql/cost/query/certificate.graphql";
@@ -56,21 +56,26 @@ const {mutate: createProjectCost, loading, error, onDone} = useMutation(mutatePr
     })
 )
 
-const {mutate: createWageCost, loading: wageCostLoading, onDone: wageCostOnDone} = useMutation(mutateWageCost,
+const {mutate: createRowCost, loading: rowCostLoading, onDone: rowCostOnDone} = useMutation(mutateRowCost,
     () => ({
       variables: {
-        id: store.cost.wagecost.id,
         projectCost: store.cost.id,
-        qty: getOrSetToNew(store.cost.wagecost.qty, 0),
-        price: getOrSetToNew(store.cost.wagecost.price, 0)
+        wage_id: store.cost.wagecost.id,
+        wage_qty: getOrSetToNew(store.cost.wagecost.qty, 0),
+        wage_price: getOrSetToNew(store.cost.wagecost.price, 0),
+        overhead_id: store.cost.overheadcost.id,
+        overhead_qty: getOrSetToNew(store.cost.overheadcost.qty, 0),
+        overhead_price: getOrSetToNew(store.cost.overheadcost.price, 0)
       }
     })
 )
+
 let formError = ref([])
 onDone(result => {
   formError.value = formError.value.concat(result.data.mutateProjectCost.errors);
 })
-wageCostOnDone(result => {
+rowCostOnDone(result => {
+  formError.value = formError.value.concat(result.data.mutateOverheadCost.errors);
   formError.value = formError.value.concat(result.data.mutateWageCost.errors);
 })
 
@@ -80,7 +85,7 @@ const {result: certificateList, loading: certificateLoading, error: certificateE
 function sendProjectCost() {
   formError.value = []
   createProjectCost();
-  createWageCost();
+  createRowCost();
 }
 
 function logStore() {

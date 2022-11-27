@@ -1,0 +1,35 @@
+mutation mutateRowCost(
+    $projectCost:ID!,
+    $wage_id:ID,
+    $wage_qty:Float!,
+    $wage_price:Float!,
+    $overhead_id:ID,
+    $overhead_qty:Float!,
+    $overhead_price:Float!,
+){
+    mutateWageCost:wageCostMutation(input:{
+        projectCost:$projectCost,
+        id:$wage_id,
+        qty:$wage_qty,
+        price:$wage_price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+    mutateOverheadCost:overheadCostMutation(input:{
+        projectCost:$projectCost,
+        id:$overhead_id,
+        qty:$overhead_qty,
+        price:$overhead_price
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
+
