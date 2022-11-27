@@ -25,17 +25,17 @@ const costItems = ref([
 ])
 Window.costItem = costItems;
 const rowItems = ref([
-  {title: 'wagecost', name: 'دستمزد', unit: 0, value: 0},
-  {title: 'overheadcost', name: 'سربار', unit: 0, value: 0},
-  {title: 'steel', name: 'فولاد', unit: 0, value: 0},
-  {title: 'steelrebar', name: 'میلگرد فولادی', unit: 0, value: 0},
-  {title: 'custator', name: 'مس استاتور', unit: 0, value: 0},
-  {title: 'curotor', name: 'مس روتور', unit: 0, value: 0},
-  {title: 'siliconsheet', name: 'ورق سیلیکون', unit: 0, value: 0},
-  {title: 'aluingot', name: 'آلومینیوم', unit: 0, value: 0},
-  {title: 'insulation', name: 'مواد عایقی', unit: 0, value: 0},
-  {title: 'castiron', name: 'چدن', unit: 0, value: 0},
-  {title: 'other', name: 'سایر', unit: 0, value: 0},
+  {title: 'wagecost', name: 'دستمزد', unit: 0, value: 0, title2: 'wage_cost'},
+  {title: 'overheadcost', name: 'سربار', unit: 0, value: 0, title2: 'overhead_cost'},
+  {title: 'steel', name: 'فولاد', unit: 0, value: 0, title2: 'steel'},
+  {title: 'steelrebar', name: 'میلگرد فولادی', unit: 0, value: 0, title2: 'steel_rebar'},
+  {title: 'custator', name: 'مس استاتور', unit: 0, value: 0, title2: 'cu_stator'},
+  {title: 'curotor', name: 'مس روتور', unit: 0, value: 0, title2: 'cu_rotor'},
+  {title: 'siliconsheet', name: 'ورق سیلیکون', unit: 0, value: 0, title2: 'silicon_sheet'},
+  {title: 'aluingot', name: 'آلومینیوم', unit: 0, value: 0, title2: 'alu_ingot'},
+  {title: 'insulation', name: 'مواد عایقی', unit: 0, value: 0, title2: 'insulation'},
+  {title: 'castiron', name: 'چدن', unit: 0, value: 0, title2: 'cast_iron'},
+  {title: 'other', name: 'سایر', unit: 0, value: 0, title2: 'ch_number'},
 ])
 
 const {mutate: createProjectCost, loading, error, onDone} = useMutation(mutateProjectCost,
@@ -68,16 +68,17 @@ const {mutate: createWageCost, loading: wageCostLoading, onDone: wageCostOnDone}
 )
 let formError = ref([])
 onDone(result => {
-  formError.value.push(result.data.mutateProjectCost.errors);
+  formError.value = formError.value.concat(result.data.mutateProjectCost.errors);
 })
 wageCostOnDone(result => {
-  formError.value.push(result.data.mutateWageCost.errors);
+  formError.value = formError.value.concat(result.data.mutateWageCost.errors);
 })
 
 const {result: bearingList, loading: bearingLoading, error: bearingError} = useQuery(getBearings)
 const {result: testList, loading: testLoading, error: testError} = useQuery(getTests)
 const {result: certificateList, loading: certificateLoading, error: certificateError} = useQuery(getCertificates)
 function sendProjectCost() {
+  formError.value = []
   createProjectCost();
   createWageCost();
 }
@@ -105,7 +106,8 @@ function Remove(itemList, index) {
   itemList.splice(index, 1)
 }
 function getErrorFieldName(fName){
-  return costItems.value.filter(item => item.title2 === fName)[0].name
+  const items = costItems.value.concat(rowItems.value)
+  return items.filter(item => item.title2 === fName)[0].name
 }
 </script>
 
