@@ -1,0 +1,8 @@
+mutation mutateBearingCostSet($bearingCost: [BearingCostInputList]) {
+    mutateBearingCostSet: BearingCostSet(input: {
+        bearingCostInputs:$bearingCost
+    }) {
+        clientMutationId
+        isValid
+    }
+}

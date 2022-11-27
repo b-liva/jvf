@@ -6,6 +6,7 @@ import {Button} from 'flowbite-vue'
 
 import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
 import mutateRowCost from "../../graphql/cost/mutation/row.graphql";
+import mutateBearingCostSet from "../../graphql/cost/mutation/bearinc_cost.graphql";
 import getBearings from "../../graphql/cost/query/bearing.graphql";
 import getTests from "../../graphql/cost/query/test.graphql";
 import getCertificates from "../../graphql/cost/query/certificate.graphql";
@@ -52,6 +53,25 @@ const {mutate: createProjectCost, loading, error, onDone} = useMutation(mutatePr
         ambientTemp: store.cost.ambientTemp,
         tempRise: store.cost.tempRise,
         altitude: store.cost.altitude,
+      }
+    })
+)
+
+const {mutate: mutateBearingCostSetResult, loading: brcLoading, onDone: brcOnDone} = useMutation(mutateBearingCostSet,
+    () => ({
+      variables: {
+        bearingCost: store.cost.bearingcostSet.edges.map(brc => {
+          console.log('brc', brc)
+          const rvalue = {
+            id: brc.node.id,
+            qty: brc.node.qty,
+            price: brc.node.price,
+            projectCost: store.costId,
+            bearing: brc.node.bearing.id
+          }
+          console.log('rvalue: ', rvalue)
+          return rvalue
+        })
       }
     })
 )
@@ -118,10 +138,12 @@ rowCostOnDone(result => {
 const {result: bearingList, loading: bearingLoading, error: bearingError} = useQuery(getBearings)
 const {result: testList, loading: testLoading, error: testError} = useQuery(getTests)
 const {result: certificateList, loading: certificateLoading, error: certificateError} = useQuery(getCertificates)
+
 function sendProjectCost() {
   formError.value = []
-  createProjectCost();
-  createRowCost();
+  // createProjectCost();
+  // createRowCost();
+  mutateBearingCostSetResult();
 }
 
 function logStore() {
@@ -146,11 +168,13 @@ function AddNew(obj, rowType) {
 function Remove(itemList, index) {
   itemList.splice(index, 1)
 }
-function getErrorFieldName(fName){
+
+function getErrorFieldName(fName) {
   const items = costItems.value.concat(rowItems.value)
   return items.filter(item => item.title2 === fName)[0].name
 }
-function getOrSetToNew(value, newValue){
+
+function getOrSetToNew(value, newValue) {
   return value ? value : newValue
 }
 </script>
@@ -163,9 +187,9 @@ function getOrSetToNew(value, newValue){
     <p v-if="loading">loading</p>
     <div v-if="formError.length > 0">بروز خطا:
       <ul>
-        <li v-for="er in formError">{{getErrorFieldName(er.field)}}
+        <li v-for="er in formError">{{ getErrorFieldName(er.field) }}
           <ul>
-            <li v-for="msg in er.messages">{{msg}}</li>
+            <li v-for="msg in er.messages">{{ msg }}</li>
           </ul>
         </li>
       </ul>
@@ -192,7 +216,9 @@ function getOrSetToNew(value, newValue){
                 class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
           بیرینگ
         </button>
-        <button @click="AddNew(store.cost.testcostSet.edges, 'test')" class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست</button>
+        <button @click="AddNew(store.cost.testcostSet.edges, 'test')"
+                class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست
+        </button>
         <button @click="AddNew(store.cost.certificatecostSet.edges, 'certificate')"
                 class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه
         </button>
@@ -223,7 +249,8 @@ function getOrSetToNew(value, newValue){
           <tr>
             <td>
               <select v-model="bearing.node.bearing">
-                <option v-for="br in bearingList.getBearings.edges" :value="br.node" :key="br.node">{{br.node.name}}</option>
+                <option v-for="br in bearingList.getBearings.edges" :value="br.node" :key="br.node">{{ br.node.name }}
+                </option>
               </select>
             </td>
             <td><input type="number" v-model="bearing.node.qty"></td>
@@ -238,7 +265,8 @@ function getOrSetToNew(value, newValue){
           <tr>
             <td>
               <select v-model="test.node.test">
-                <option v-for="tst in testList.getTests.edges" :value="tst.node" :key="tst.node">{{tst.node.name}}</option>
+                <option v-for="tst in testList.getTests.edges" :value="tst.node" :key="tst.node">{{ tst.node.name }}
+                </option>
               </select>
             </td>
             <td><input type="number" v-model="test.node.qty"></td>
@@ -253,7 +281,9 @@ function getOrSetToNew(value, newValue){
           <tr>
             <td>
               <select v-model="certificate.node.certificate">
-                <option v-for="crt in certificateList.getCertificates.edges" :value="crt.node" :key="crt.node">{{crt.node.name}}</option>
+                <option v-for="crt in certificateList.getCertificates.edges" :value="crt.node" :key="crt.node">
+                  {{ crt.node.name }}
+                </option>
               </select>
             </td>
             <td><input type="number" v-model="certificate.node.qty"></td>
