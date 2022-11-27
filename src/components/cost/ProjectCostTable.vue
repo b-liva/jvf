@@ -61,8 +61,8 @@ const {mutate: createWageCost, loading: wageCostLoading, onDone: wageCostOnDone}
       variables: {
         id: store.cost.wagecost.id,
         projectCost: store.cost.id,
-        qty: store.cost.wagecost.qty ? store.cost.wagecost.qty : 0,
-        price: store.cost.wagecost.price ? store.cost.wagecost.price: 0
+        qty: getOrSetToNew(store.cost.wagecost.qty, 0),
+        price: getOrSetToNew(store.cost.wagecost.price, 0)
       }
     })
 )
@@ -108,6 +108,9 @@ function Remove(itemList, index) {
 function getErrorFieldName(fName){
   const items = costItems.value.concat(rowItems.value)
   return items.filter(item => item.title2 === fName)[0].name
+}
+function getOrSetToNew(value, newValue){
+  return value ? value : newValue
 }
 </script>
 
