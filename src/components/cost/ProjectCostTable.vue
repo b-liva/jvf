@@ -65,7 +65,34 @@ const {mutate: createRowCost, loading: rowCostLoading, onDone: rowCostOnDone} = 
         wage_price: getOrSetToNew(store.cost.wagecost.price, 0),
         overhead_id: store.cost.overheadcost.id,
         overhead_qty: getOrSetToNew(store.cost.overheadcost.qty, 0),
-        overhead_price: getOrSetToNew(store.cost.overheadcost.price, 0)
+        overhead_price: getOrSetToNew(store.cost.overheadcost.price, 0),
+        steel_rebar_id: store.cost.steelrebar.id,
+        steel_rebar_qty: getOrSetToNew(store.cost.steelrebar.qty, 0),
+        steel_rebar_price: getOrSetToNew(store.cost.steelrebar.price, 0),
+        steel_id: store.cost.steel.id,
+        steel_qty: getOrSetToNew(store.cost.steel.qty, 0),
+        steel_price: getOrSetToNew(store.cost.steel.price, 0),
+        cu_stator_id: store.cost.custator.id,
+        cu_stator_qty: getOrSetToNew(store.cost.custator.qty, 0),
+        cu_stator_price: getOrSetToNew(store.cost.custator.price, 0),
+        cu_rotor_id: store.cost.curotor.id,
+        cu_rotor_qty: getOrSetToNew(store.cost.curotor.qty, 0),
+        cu_rotor_price: getOrSetToNew(store.cost.curotor.price, 0),
+        alu_id: store.cost.aluingot.id,
+        alu_qty: getOrSetToNew(store.cost.aluingot.qty, 0),
+        alu_price: getOrSetToNew(store.cost.aluingot.price, 0),
+        silicon_id: store.cost.siliconsheet.id,
+        silicon_qty: getOrSetToNew(store.cost.siliconsheet.qty, 0),
+        silicon_price: getOrSetToNew(store.cost.siliconsheet.price, 0),
+        cast_id: store.cost.castiron.id,
+        cast_qty: getOrSetToNew(store.cost.castiron.qty, 0),
+        cast_price: getOrSetToNew(store.cost.castiron.price, 0),
+        insulation_id: store.cost.insulation.id,
+        insulation_qty: getOrSetToNew(store.cost.insulation.qty, 0),
+        insulation_price: getOrSetToNew(store.cost.insulation.price, 0),
+        other_id: store.cost.other.id,
+        other_qty: getOrSetToNew(store.cost.other.qty, 0),
+        other_price: getOrSetToNew(store.cost.other.price, 0),
       }
     })
 )
@@ -77,6 +104,15 @@ onDone(result => {
 rowCostOnDone(result => {
   formError.value = formError.value.concat(result.data.mutateOverheadCost.errors);
   formError.value = formError.value.concat(result.data.mutateWageCost.errors);
+  formError.value = formError.value.concat(result.data.mutateSteelRebarCost.errors);
+  formError.value = formError.value.concat(result.data.mutateSteelCost.errors);
+  formError.value = formError.value.concat(result.data.mutateCuStatorCost.errors);
+  formError.value = formError.value.concat(result.data.mutateCuRotorCost.errors);
+  formError.value = formError.value.concat(result.data.mutateAluIngotCost.errors);
+  formError.value = formError.value.concat(result.data.mutateSiliconSheetCost.errors);
+  formError.value = formError.value.concat(result.data.mutateCastIronCost.errors);
+  formError.value = formError.value.concat(result.data.mutateInsulationCost.errors);
+  formError.value = formError.value.concat(result.data.mutateOtherCost.errors);
 })
 
 const {result: bearingList, loading: bearingLoading, error: bearingError} = useQuery(getBearings)
