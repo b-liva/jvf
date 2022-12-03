@@ -6,7 +6,7 @@ import {Button} from 'flowbite-vue'
 
 import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
 import mutateRowCost from "../../graphql/cost/mutation/row.graphql";
-import mutateBearingCostSet from "../../graphql/cost/mutation/bearinc_cost.graphql";
+import mutateRowCostSet from "../../graphql/cost/mutation/cost_set.graphql";
 import getBearings from "../../graphql/cost/query/bearing.graphql";
 import getTests from "../../graphql/cost/query/test.graphql";
 import getCertificates from "../../graphql/cost/query/certificate.graphql";
@@ -57,7 +57,7 @@ const {mutate: createProjectCost, loading, error, onDone} = useMutation(mutatePr
     })
 )
 
-const {mutate: mutateBearingCostSetResult, loading: brcLoading, onDone: brcOnDone} = useMutation(mutateBearingCostSet,
+const {mutate: createRowCostSet, loading: brcLoading, onDone: brcOnDone} = useMutation(mutateRowCostSet,
     () => ({
       variables: {
         bearingCost: store.cost.bearingcostSet.edges.map(brc => {
@@ -69,9 +69,28 @@ const {mutate: mutateBearingCostSetResult, loading: brcLoading, onDone: brcOnDon
             projectCost: store.costId,
             bearing: brc.node.bearing.id
           }
-          console.log('rvalue: ', rvalue)
           return rvalue
-        })
+        }),
+        testCost: store.cost.testcostSet.edges.map(tst => {
+          const rvalue = {
+            id: tst.node.id,
+            qty: tst.node.qty,
+            price: tst.node.price,
+            projectCost: store.costId,
+            test: tst.node.test.id
+          }
+          return rvalue
+        }),
+        certificateCost: store.cost.certificatecostSet.edges.map(crt => {
+          const rvalue = {
+            id: crt.node.id,
+            qty: crt.node.qty,
+            price: crt.node.price,
+            projectCost: store.costId,
+            certificate: crt.node.certificate.id
+          }
+          return rvalue
+        }),
       }
     })
 )
@@ -143,7 +162,7 @@ function sendProjectCost() {
   formError.value = []
   // createProjectCost();
   // createRowCost();
-  mutateBearingCostSetResult();
+  createRowCostSet();
 }
 
 function logStore() {

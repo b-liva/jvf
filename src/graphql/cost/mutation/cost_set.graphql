@@ -1,0 +1,24 @@
+mutation mutateRowCostSet(
+    $bearingCost: [BearingCostInputList],
+    $testCost: [TestCostInputList],
+    $certificateCost: [CertificateCostInputList],
+) {
+    mutateBearingCostSet: BearingCostSet(input: {
+        bearingCostInputs:$bearingCost
+    }) {
+        clientMutationId
+        isValid
+    },
+    mutateTestCostSet:testCostSet(input:{
+        testCostInputs:$testCost
+    }){
+        clientMutationId
+        isValid
+    },
+    mutateCertificateCostSet:certificateCostSet(input:{
+        certificateCostInputs:$certificateCost
+    }){
+        clientMutationId
+        isValid
+    }
+}
