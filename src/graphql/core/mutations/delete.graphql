@@ -1,0 +1,8 @@
+mutation deleteGqlObject($objectId:ID){
+    deleteGqlObject: deleteMutation(input:{
+        id:$objectId
+    }){
+        clientMutationId
+        status
+    }
+}

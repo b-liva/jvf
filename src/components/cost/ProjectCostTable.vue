@@ -7,12 +7,14 @@ import {Button} from 'flowbite-vue'
 import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
 import mutateRowCost from "../../graphql/cost/mutation/row.graphql";
 import mutateRowCostSet from "../../graphql/cost/mutation/cost_set.graphql";
+import deleteGqlObject from "../../graphql/core/mutations/delete.graphql";
 import getBearings from "../../graphql/cost/query/bearing.graphql";
 import getTests from "../../graphql/cost/query/test.graphql";
 import getCertificates from "../../graphql/cost/query/certificate.graphql";
 
 const store = useStore();
 const status = '';
+const editMode = ref(false);
 const costItems = ref([
   {title: 'chNumber', name: 'شماره چارگون', inputType: 'number', title2: 'ch_number'},
   {title: 'motorType', name: 'نوع موتور', inputType: 'text', title2: 'motor_type'},
@@ -56,6 +58,8 @@ const {mutate: createProjectCost, loading, error, onDone} = useMutation(mutatePr
       }
     })
 )
+
+const {mutate: deleteObject, loading: deleteLoading, error: deleteError, onDone: deleteOnDone} = useMutation(deleteGqlObject)
 
 const {mutate: createRowCostSet, loading: brcLoading, onDone: brcOnDone} = useMutation(mutateRowCostSet,
     () => ({
@@ -184,7 +188,10 @@ function AddNew(obj, rowType) {
   obj.push(newObj)
 }
 
-function Remove(itemList, index) {
+function Remove(itemList, index, objId) {
+  deleteObject({
+    objectId: objId
+  })
   itemList.splice(index, 1)
 }
 
@@ -214,6 +221,11 @@ function getOrSetToNew(value, newValue) {
       </ul>
     </div>
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+
+      <div>
+        <label for="editMode">ویرایش</label>
+        <input id="editMode" type="checkbox" v-model="editMode">
+      </div>
       <table class="table-auto">
         <thead>
         <tr>
@@ -225,7 +237,7 @@ function getOrSetToNew(value, newValue) {
         <template v-for="item in costItems" :key="item.id">
           <tr>
             <td>{{ item.name }}</td>
-            <td><input v-model="store.cost[item.title]" type="text"></td>
+            <td><input :disabled="!editMode" v-model="store.cost[item.title]" type="text"></td>
           </tr>
         </template>
         </tbody>
@@ -256,10 +268,10 @@ function getOrSetToNew(value, newValue) {
           <tr>
             <td>{{ item.name }}</td>
             <td>
-              <input type="number" v-model="store.cost[item.title]['qty']" :id="item.title">
+              <input type="number" :disabled="!editMode" v-model="store.cost[item.title]['qty']" :id="item.title">
             </td>
             <td>
-              <input type="number" v-model="store.cost[item.title]['price']">
+              <input type="number" :disabled="!editMode" v-model="store.cost[item.title]['price']">
             </td>
             <td>{{ store.cost[item.title]['qty'] * store.cost[item.title]['price'] }}</td>
           </tr>
@@ -267,15 +279,15 @@ function getOrSetToNew(value, newValue) {
         <template v-for="(bearing, index) in store.cost.bearingcostSet.edges" :key="bearing.node.id">
           <tr>
             <td>
-              <select v-model="bearing.node.bearing">
+              <select :disabled="!editMode" v-model="bearing.node.bearing">
                 <option v-for="br in bearingList.getBearings.edges" :value="br.node" :key="br.node">{{ br.node.name }}
                 </option>
               </select>
             </td>
-            <td><input type="number" v-model="bearing.node.qty"></td>
-            <td><input type="number" v-model="bearing.node.price"></td>
+            <td><input type="number" :disabled="!editMode" v-model="bearing.node.qty"></td>
+            <td><input type="number" :disabled="!editMode" v-model="bearing.node.price"></td>
             <td>{{ bearing.node.qty * bearing.node.price }}</td>
-            <td @click="Remove(store.cost.bearingcostSet.edges, index)">
+            <td @click="Remove(store.cost.bearingcostSet.edges, index, bearing.node.id)">
               <span class="red p-3 text-lg">-</span>
             </td>
           </tr>
@@ -283,15 +295,15 @@ function getOrSetToNew(value, newValue) {
         <template v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
           <tr>
             <td>
-              <select v-model="test.node.test">
+              <select :disabled="!editMode" v-model="test.node.test">
                 <option v-for="tst in testList.getTests.edges" :value="tst.node" :key="tst.node">{{ tst.node.name }}
                 </option>
               </select>
             </td>
-            <td><input type="number" v-model="test.node.qty"></td>
-            <td><input type="number" v-model="test.node.price"></td>
+            <td><input type="number" :disabled="!editMode" v-model="test.node.qty"></td>
+            <td><input type="number" :disabled="!editMode" v-model="test.node.price"></td>
             <td>{{ test.node.qty * test.node.price }}</td>
-            <td @click="Remove(store.cost.testcostSet.edges, index)">
+            <td @click="Remove(store.cost.testcostSet.edges, index, test.node.id)">
               <span class="red p-3 text-lg">-</span>
             </td>
           </tr>
@@ -299,16 +311,16 @@ function getOrSetToNew(value, newValue) {
         <template v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
           <tr>
             <td>
-              <select v-model="certificate.node.certificate">
+              <select :disabled="!editMode" v-model="certificate.node.certificate">
                 <option v-for="crt in certificateList.getCertificates.edges" :value="crt.node" :key="crt.node">
                   {{ crt.node.name }}
                 </option>
               </select>
             </td>
-            <td><input type="number" v-model="certificate.node.qty"></td>
-            <td><input type="number" v-model="certificate.node.price"></td>
+            <td><input type="number" :disabled="!editMode" v-model="certificate.node.qty"></td>
+            <td><input type="number" :disabled="!editMode" v-model="certificate.node.price"></td>
             <td>{{ certificate.node.qty * certificate.node.price }}</td>
-            <td @click="Remove(store.cost.certificatecostSet.edges, index)">
+            <td @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)">
               <span class="red p-3 text-lg">-</span>
             </td>
           </tr>
