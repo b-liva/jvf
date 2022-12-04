@@ -23,10 +23,12 @@ const costItems = ref([
   {title: 'frame', name: 'فریم سایز', inputType: 'number', title2: 'frame'},
   {title: 'ambientTemp', name: 'دمای محیط', inputType: 'number', title2: 'ambient_temp'},
   {title: 'tempRise', name: 'افزایش دما', inputType: 'number', title2: 'temp_rise'},
-  {title: 'standardParts', name: 'قطعات استاندارد', inputType: 'number', title2: 'standard_parts'},
-  {title: 'generalCost', name: 'هزینه های عمومی', inputType: 'number', title2: 'general_cost'},
 ])
 Window.costItem = costItems;
+const dependentCosts = ref([
+  {title: 'standardparts', name: 'قطعات استاندارد', unit: 0, value: 0, title2: 'standard_parts'},
+  {title: 'generalcost', name: 'هزینه های عمومی', unit: 0, value: 0, title2: 'general_cost'},
+])
 const rowItems = ref([
   {title: 'wagecost', name: 'دستمزد', unit: 0, value: 0, title2: 'wage_cost'},
   {title: 'overheadcost', name: 'سربار', unit: 0, value: 0, title2: 'overhead_cost'},
@@ -323,6 +325,13 @@ function getOrSetToNew(value, newValue) {
             <td @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)">
               <span class="red p-3 text-lg">-</span>
             </td>
+          </tr>
+        </template>
+        <template v-for="item in dependentCosts" :key="item.id">
+          <tr>
+            <td>{{ item.name }}</td>
+            <td><input :disabled="!editMode" v-model="store.cost[item.title]['percent']" type="text"></td>
+            <td><input :disabled="!editMode" v-model="store.cost[item.title]['amount']" type="text"></td>
           </tr>
         </template>
         </tbody>

@@ -4,7 +4,16 @@ query getCostsBySpec($specId:ID){
             node {
                 id
                 chNumber
-
+                standardparts {
+                    id
+                    percent
+                    amount
+                }
+                generalcost {
+                    id
+                    percent
+                    amount
+                }
                 wagecost{
                     id
                     qty
@@ -78,8 +87,16 @@ query getProjectCostDetails($costId:ID!){
         frame
         ambientTemp
         tempRise
-        standardParts
-        generalCost
+        standardparts {
+            id
+            percent
+            amount
+        }
+        generalcost {
+            id
+            percent
+            amount
+        }
         wagecost{
             id
             qty
