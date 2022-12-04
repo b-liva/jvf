@@ -1,29 +1,25 @@
 <script setup>
 import {useStore} from "../../store/store.js";
 import {computed, watch} from "vue";
-import {useQuery} from "@vue/apollo-composable";
+import {useLazyQuery} from "@vue/apollo-composable";
 import {getProforma} from "../../graphql/proforma/query/proforma.graphql";
 
 const store = useStore();
 
-function getProformaFn(){
-  const {result: proformaRes, loading, errors} = useQuery(getProforma,
-      () => ({
-        proformaId: store.proformaId,
-      }), {
-        prefetch: false
-      })
-  return{proformaRes, loading, errors}
-}
+const {result: proformaRes, loading, errors, load: getProformaDetails} = useLazyQuery(getProforma,
+    () => ({
+      proformaId: store.proformaId,
+    }), {
+      prefetch: false
+    })
 
-const {proformaRes, loading, errors} = getProformaFn();
 const proforma = computed(() => proformaRes.value?.getProforma ?? {})
 const specs = computed(() => proformaRes.value?.getProforma.prefspecSet.edges ?? {})
 
 watch(
     () => store.proformaId,
     () => {
-      getProformaFn()
+      getProformaDetails()
     }
 )
 </script>
