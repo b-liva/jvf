@@ -29,18 +29,19 @@ const dependentCosts = ref([
   {title: 'standardparts', name: 'قطعات استاندارد', unit: 0, value: 0, title2: 'standard_parts', fn: getMaterialCost},
   {title: 'generalcost', name: 'هزینه های عمومی', unit: 0, value: 0, title2: 'general_cost', fn: getWageOverheadCost},
 ])
+
 const rowItems = ref([
-  {title: 'wagecost', name: 'دستمزد', unit: 0, value: 0, title2: 'wage_cost'},
-  {title: 'overheadcost', name: 'سربار', unit: 0, value: 0, title2: 'overhead_cost'},
-  {title: 'steel', name: 'فولاد', unit: 0, value: 0, title2: 'steel'},
-  {title: 'steelrebar', name: 'میلگرد فولادی', unit: 0, value: 0, title2: 'steel_rebar'},
-  {title: 'custator', name: 'مس استاتور', unit: 0, value: 0, title2: 'cu_stator'},
-  {title: 'curotor', name: 'مس روتور', unit: 0, value: 0, title2: 'cu_rotor'},
-  {title: 'siliconsheet', name: 'ورق سیلیکون', unit: 0, value: 0, title2: 'silicon_sheet'},
-  {title: 'aluingot', name: 'آلومینیوم', unit: 0, value: 0, title2: 'alu_ingot'},
-  {title: 'insulation', name: 'مواد عایقی', unit: 0, value: 0, title2: 'insulation'},
-  {title: 'castiron', name: 'چدن', unit: 0, value: 0, title2: 'cast_iron'},
-  {title: 'other', name: 'سایر', unit: 0, value: 0, title2: 'ch_number'},
+  {title: 'wagecost', name: 'دستمزد', unit: 0, value: 0, title2: 'wage_cost', fn: getWageOverheadCost, type: 'wage_overhead'},
+  {title: 'overheadcost', name: 'سربار', unit: 0, value: 0, title2: 'overhead_cost', fn: getWageOverheadCost, type: 'wage_overhead'},
+  {title: 'steel', name: 'فولاد', unit: 0, value: 0, title2: 'steel', fn: getMaterialCost, type: 'material'},
+  {title: 'steelrebar', name: 'میلگرد فولادی', unit: 0, value: 0, title2: 'steel_rebar', fn: getMaterialCost, type: 'material'},
+  {title: 'custator', name: 'مس استاتور', unit: 0, value: 0, title2: 'cu_stator', fn: getMaterialCost, type: 'material'},
+  {title: 'curotor', name: 'مس روتور', unit: 0, value: 0, title2: 'cu_rotor', fn: getMaterialCost, type: 'material'},
+  {title: 'siliconsheet', name: 'ورق سیلیکون', unit: 0, value: 0, title2: 'silicon_sheet', fn: getMaterialCost, type: 'material'},
+  {title: 'aluingot', name: 'آلومینیوم', unit: 0, value: 0, title2: 'alu_ingot', fn: getMaterialCost, type: 'material'},
+  {title: 'insulation', name: 'مواد عایقی', unit: 0, value: 0, title2: 'insulation', fn: getMaterialCost, type: 'material'},
+  {title: 'castiron', name: 'چدن', unit: 0, value: 0, title2: 'cast_iron', fn: getMaterialCost, type: 'material'},
+  {title: 'other', name: 'سایر', unit: 0, value: 0, title2: 'ch_number', fn: getMaterialCost, type: 'material'},
 ])
 
 const {mutate: createProjectCost, loading, error, onDone} = useMutation(mutateProjectCost,
@@ -207,22 +208,19 @@ function getOrSetToNew(value, newValue) {
 }
 function getMaterialCost(){
   let materialCost = 0;
-  rowItems.value.forEach(item => {
+  rowItems.value.filter(i => i.type === 'material').forEach(item => {
     const ccost = store.cost[item.title]
     materialCost += ccost.qty * ccost.price
   })
-  console.log(materialCost)
-  return materialCost
+  store.cost['standardparts']['amount'] = store.cost['standardparts']['percent'] * materialCost / 100;
 }
 function getWageOverheadCost(){
   let value = 0;
-  const wo = ['wagecost', 'overheadcost'];
-  wo.forEach(item => {
-    const cost = store.cost[item]
+  rowItems.value.filter(i => i.type === 'wage_overhead').forEach(item => {
+    const cost = store.cost[item.title]
     value += cost.qty * cost.price;
   })
-  console.log(value)
-  return value
+  store.cost['generalcost']['amount'] = store.cost['generalcost']['percent'] * value / 100;
 }
 </script>
 
@@ -258,7 +256,11 @@ function getWageOverheadCost(){
         <template v-for="item in costItems" :key="item.id">
           <tr>
             <td>{{ item.name }}</td>
-            <td><input :disabled="!editMode" v-model="store.cost[item.title]" type="text"></td>
+            <td><input
+                :disabled="!editMode"
+                v-model="store.cost[item.title]"
+                v-on:keyup=""
+                type="text"></td>
           </tr>
         </template>
         </tbody>
@@ -289,10 +291,21 @@ function getWageOverheadCost(){
           <tr>
             <td>{{ item.name }}</td>
             <td>
-              <input type="number" :disabled="!editMode" v-model="store.cost[item.title]['qty']" :id="item.title">
+              <input
+                  type="number"
+                  :disabled="!editMode"
+                  v-model="store.cost[item.title]['qty']"
+                  :id="item.title"
+                  v-on:keyup="item.fn"
+              >
             </td>
             <td>
-              <input type="number" :disabled="!editMode" v-model="store.cost[item.title]['price']">
+              <input
+                  type="number"
+                  :disabled="!editMode"
+                  v-model="store.cost[item.title]['price']"
+                  v-on:keyup="item.fn"
+              >
             </td>
             <td>{{ store.cost[item.title]['qty'] * store.cost[item.title]['price'] }}</td>
           </tr>
@@ -349,8 +362,16 @@ function getWageOverheadCost(){
         <template v-for="item in dependentCosts" :key="item.id">
           <tr>
             <td>{{ item.name }}</td>
-            <td><input :disabled="!editMode" v-model="store.cost[item.title]['percent']" type="text"></td>
-            <td><input :disabled="!editMode" v-model="store.cost[item.title]['amount']" type="text"></td>
+            <td><input
+                :disabled="!editMode"
+                v-model="store.cost[item.title]['percent']"
+                v-on:keyup="item.fn"
+                type="text"></td>
+            <td><input
+                :disabled="!editMode"
+                v-model="store.cost[item.title]['amount']"
+                type="text"
+            ></td>
           </tr>
         </template>
         </tbody>
