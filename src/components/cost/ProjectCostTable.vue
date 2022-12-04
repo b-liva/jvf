@@ -26,8 +26,8 @@ const costItems = ref([
 ])
 Window.costItem = costItems;
 const dependentCosts = ref([
-  {title: 'standardparts', name: 'قطعات استاندارد', unit: 0, value: 0, title2: 'standard_parts'},
-  {title: 'generalcost', name: 'هزینه های عمومی', unit: 0, value: 0, title2: 'general_cost'},
+  {title: 'standardparts', name: 'قطعات استاندارد', unit: 0, value: 0, title2: 'standard_parts', fn: getMaterialCost},
+  {title: 'generalcost', name: 'هزینه های عمومی', unit: 0, value: 0, title2: 'general_cost', fn: getWageOverheadCost},
 ])
 const rowItems = ref([
   {title: 'wagecost', name: 'دستمزد', unit: 0, value: 0, title2: 'wage_cost'},
@@ -205,6 +205,25 @@ function getErrorFieldName(fName) {
 function getOrSetToNew(value, newValue) {
   return value ? value : newValue
 }
+function getMaterialCost(){
+  let materialCost = 0;
+  rowItems.value.forEach(item => {
+    const ccost = store.cost[item.title]
+    materialCost += ccost.qty * ccost.price
+  })
+  console.log(materialCost)
+  return materialCost
+}
+function getWageOverheadCost(){
+  let value = 0;
+  const wo = ['wagecost', 'overheadcost'];
+  wo.forEach(item => {
+    const cost = store.cost[item]
+    value += cost.qty * cost.price;
+  })
+  console.log(value)
+  return value
+}
 </script>
 
 <template>
@@ -337,6 +356,8 @@ function getOrSetToNew(value, newValue) {
         </tbody>
       </table>
       <!--      {{ getTotal() }}-->
+      <p @click="getMaterialCost">get material cost</p>
+      <p @click="getWageOverheadCost">get wo cost</p>
     </div>
   </div>
 </template>
