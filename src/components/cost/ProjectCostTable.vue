@@ -224,20 +224,50 @@ function getMaterialCost(){
   materialCost = getBaseMaterialCost(materialCost, 'material');
   store.cost['standardparts']['amount'] = store.cost['standardparts']['percent'] * materialCost / 100;
 }
+
+function getStandardPartsCost(){
+  return store.cost['standardparts']['amount']
+}
+
+
 function getWageOverheadCost(){
   let value = 0;
   value = getBaseMaterialCost(value, 'wage_overhead')
   store.cost['generalcost']['amount'] = store.cost['generalcost']['percent'] * value / 100;
 }
-function getBearingCosts(){
+
+function getGeneralCost(){
+  return store.cost['generalcost']['amount']
+}
+
+function getRowItemsCost(rowItemList) {
   let bearingCostValue = 0;
-  store.cost.bearingcostSet.edges.forEach(item => {
+  rowItemList.forEach(item => {
     bearingCostValue += item.node.qty * item.node.price;
   })
   return bearingCostValue
 }
+
+function getBearingCosts(){
+  return getRowItemsCost(store.cost.bearingcostSet.edges);
+}
+
+function getTestCosts(){
+  return getRowItemsCost(store.cost.testcostSet.edges);
+}
+
+function getCertificateCosts(){
+  return getRowItemsCost(store.cost.certificatecostSet.edges);
+}
 function getTotalCost(){
-  getMaterialCost()
+  let value = 0;
+  value = getBaseMaterialCost(value, null);
+  value += getBearingCosts();
+  value += getTestCosts();
+  value += getCertificateCosts();
+  value += getStandardPartsCost();
+  value += getGeneralCost();
+  return value
 }
 </script>
 
@@ -402,6 +432,10 @@ function getTotalCost(){
             <td>{{store.cost[item.title]['amount']}}</td>
           </tr>
         </template>
+        <tr>
+          <td colspan="3">جمع</td>
+          <td>{{getTotalCost()}}</td>
+        </tr>
         </tbody>
       </table>
       <!--      {{ getTotal() }}-->
