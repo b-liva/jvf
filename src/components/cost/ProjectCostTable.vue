@@ -238,9 +238,9 @@ const {result: certificateList, loading: certificateLoading, error: certificateE
 
 function sendProjectCost() {
   formError.value = []
-  // createProjectCost();
+  createProjectCost();
   createDependentCosts()
-  // createRowCost();
+  createRowCost();
   createRowCostSet();
 }
 
