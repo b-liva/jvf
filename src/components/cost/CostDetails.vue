@@ -45,7 +45,6 @@ onResult(qr => {
 
   <div v-if="store.cost">
     <div>
-      <p @click="refetchCost">get cost</p>
       <ProjectCostTable/>
       <p @click="refetchCost">get cost</p>
     </div>

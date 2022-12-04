@@ -346,8 +346,6 @@ function getTotalCost() {
 
 <template>
   <div class="">
-    <p @click="logStore">log store</p>
-    <p @click="sendProjectCost">send</p>
     <p>{{ status }}</p>
     <p v-if="loading">loading</p>
     <div v-if="formError.length > 0">بروز خطا:
@@ -524,8 +522,7 @@ function getTotalCost() {
         </tbody>
       </table>
       <!--      {{ getTotal() }}-->
-      <p @click="getMaterialCost">get material cost</p>
-      <p @click="getWageOverheadCost">get wo cost</p>
+      <button @click="sendProjectCost">ثبت</button>
     </div>
   </div>
 </template>
