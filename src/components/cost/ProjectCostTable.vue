@@ -41,7 +41,7 @@ const rowItems = ref([
   {title: 'aluingot', name: 'آلومینیوم', unit: 0, value: 0, title2: 'alu_ingot', fn: getMaterialCost, type: 'material'},
   {title: 'insulation', name: 'مواد عایقی', unit: 0, value: 0, title2: 'insulation', fn: getMaterialCost, type: 'material'},
   {title: 'castiron', name: 'چدن', unit: 0, value: 0, title2: 'cast_iron', fn: getMaterialCost, type: 'material'},
-  {title: 'other', name: 'سایر', unit: 0, value: 0, title2: 'ch_number', fn: getMaterialCost, type: 'material'},
+  {title: 'other', name: 'سایر', unit: 0, value: 0, title2: 'ch_number', fn: getMaterialCost, type: 'excluded'},
 ])
 
 const {mutate: createProjectCost, loading, error, onDone} = useMutation(mutateProjectCost,
@@ -207,7 +207,7 @@ function getOrSetToNew(value, newValue) {
   return value ? value : newValue
 }
 function getMaterialCost(){
-  let materialCost = 0;
+  let materialCost = getBearingCosts();
   rowItems.value.filter(i => i.type === 'material').forEach(item => {
     const ccost = store.cost[item.title]
     materialCost += ccost.qty * ccost.price
@@ -221,6 +221,13 @@ function getWageOverheadCost(){
     value += cost.qty * cost.price;
   })
   store.cost['generalcost']['amount'] = store.cost['generalcost']['percent'] * value / 100;
+}
+function getBearingCosts(){
+  let bearingCostValue = 0;
+  store.cost.bearingcostSet.edges.forEach(item => {
+    bearingCostValue += item.node.qty * item.node.price;
+  })
+  return bearingCostValue
 }
 </script>
 
@@ -318,8 +325,18 @@ function getWageOverheadCost(){
                 </option>
               </select>
             </td>
-            <td><input type="number" :disabled="!editMode" v-model="bearing.node.qty"></td>
-            <td><input type="number" :disabled="!editMode" v-model="bearing.node.price"></td>
+            <td><input
+                type="number"
+                :disabled="!editMode"
+                v-model="bearing.node.qty"
+                v-on:keyup="getMaterialCost"
+            ></td>
+            <td><input
+                type="number"
+                :disabled="!editMode"
+                v-model="bearing.node.price"
+                v-on:keyup="getMaterialCost"
+            ></td>
             <td>{{ bearing.node.qty * bearing.node.price }}</td>
             <td @click="Remove(store.cost.bearingcostSet.edges, index, bearing.node.id)">
               <span class="red p-3 text-lg">-</span>
@@ -372,6 +389,7 @@ function getWageOverheadCost(){
                 v-model="store.cost[item.title]['amount']"
                 type="text"
             ></td>
+            <td>{{store.cost[item.title]['amount']}}</td>
           </tr>
         </template>
         </tbody>
