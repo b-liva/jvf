@@ -1,0 +1,34 @@
+mutation mutateDependentCosts(
+    $projectCost:ID!,
+    $spId:ID,
+    $spPercent:Float!,
+    $spAmount:Float!,
+    $gcId:ID,
+    $gcPercent:Float!,
+    $gcAmount:Float!,
+){
+    mutateDependentCosts: standardPartsMutation(input:{
+        id:$spId,
+        projectCost:$projectCost,
+        percent:$spPercent,
+        amount:$spAmount
+    }) {
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    },
+    generalCostMutation(input:{
+        id:$gcId,
+        projectCost:$projectCost,
+        percent:$gcPercent,
+        amount:$gcAmount
+    }){
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}

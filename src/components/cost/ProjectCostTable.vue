@@ -7,6 +7,7 @@ import {Button} from 'flowbite-vue'
 import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
 import mutateRowCost from "../../graphql/cost/mutation/row.graphql";
 import mutateRowCostSet from "../../graphql/cost/mutation/cost_set.graphql";
+import mutateDependentCosts from "../../graphql/cost/mutation/dependent_cost.graphql";
 import deleteGqlObject from "../../graphql/core/mutations/delete.graphql";
 import getBearings from "../../graphql/cost/query/bearing.graphql";
 import getTests from "../../graphql/cost/query/test.graphql";
@@ -31,15 +32,63 @@ const dependentCosts = ref([
 ])
 
 const rowItems = ref([
-  {title: 'wagecost', name: 'دستمزد', unit: 0, value: 0, title2: 'wage_cost', fn: getWageOverheadCost, type: 'wage_overhead'},
-  {title: 'overheadcost', name: 'سربار', unit: 0, value: 0, title2: 'overhead_cost', fn: getWageOverheadCost, type: 'wage_overhead'},
+  {
+    title: 'wagecost',
+    name: 'دستمزد',
+    unit: 0,
+    value: 0,
+    title2: 'wage_cost',
+    fn: getWageOverheadCost,
+    type: 'wage_overhead'
+  },
+  {
+    title: 'overheadcost',
+    name: 'سربار',
+    unit: 0,
+    value: 0,
+    title2: 'overhead_cost',
+    fn: getWageOverheadCost,
+    type: 'wage_overhead'
+  },
   {title: 'steel', name: 'فولاد', unit: 0, value: 0, title2: 'steel', fn: getMaterialCost, type: 'material'},
-  {title: 'steelrebar', name: 'میلگرد فولادی', unit: 0, value: 0, title2: 'steel_rebar', fn: getMaterialCost, type: 'material'},
-  {title: 'custator', name: 'مس استاتور', unit: 0, value: 0, title2: 'cu_stator', fn: getMaterialCost, type: 'material'},
+  {
+    title: 'steelrebar',
+    name: 'میلگرد فولادی',
+    unit: 0,
+    value: 0,
+    title2: 'steel_rebar',
+    fn: getMaterialCost,
+    type: 'material'
+  },
+  {
+    title: 'custator',
+    name: 'مس استاتور',
+    unit: 0,
+    value: 0,
+    title2: 'cu_stator',
+    fn: getMaterialCost,
+    type: 'material'
+  },
   {title: 'curotor', name: 'مس روتور', unit: 0, value: 0, title2: 'cu_rotor', fn: getMaterialCost, type: 'material'},
-  {title: 'siliconsheet', name: 'ورق سیلیکون', unit: 0, value: 0, title2: 'silicon_sheet', fn: getMaterialCost, type: 'material'},
+  {
+    title: 'siliconsheet',
+    name: 'ورق سیلیکون',
+    unit: 0,
+    value: 0,
+    title2: 'silicon_sheet',
+    fn: getMaterialCost,
+    type: 'material'
+  },
   {title: 'aluingot', name: 'آلومینیوم', unit: 0, value: 0, title2: 'alu_ingot', fn: getMaterialCost, type: 'material'},
-  {title: 'insulation', name: 'مواد عایقی', unit: 0, value: 0, title2: 'insulation', fn: getMaterialCost, type: 'material'},
+  {
+    title: 'insulation',
+    name: 'مواد عایقی',
+    unit: 0,
+    value: 0,
+    title2: 'insulation',
+    fn: getMaterialCost,
+    type: 'material'
+  },
   {title: 'castiron', name: 'چدن', unit: 0, value: 0, title2: 'cast_iron', fn: getMaterialCost, type: 'material'},
   {title: 'other', name: 'سایر', unit: 0, value: 0, title2: 'ch_number', fn: getMaterialCost, type: 'excluded'},
 ])
@@ -62,7 +111,29 @@ const {mutate: createProjectCost, loading, error, onDone} = useMutation(mutatePr
     })
 )
 
-const {mutate: deleteObject, loading: deleteLoading, error: deleteError, onDone: deleteOnDone} = useMutation(deleteGqlObject)
+const {
+  mutate: deleteObject,
+  loading: deleteLoading,
+  error: deleteError,
+  onDone: deleteOnDone
+} = useMutation(deleteGqlObject)
+const {
+  mutate: createDependentCosts,
+  loading: dependentCostLoading,
+  error: dependentCostError,
+  onDone: dependentCostOnDone
+} = useMutation(
+    mutateDependentCosts, () => ({
+      variables: {
+        projectCost: store.cost.id,
+        spId: store.cost.standardparts.id,
+        spPercent: store.cost.standardparts.percent,
+        spAmount: store.cost.standardparts.amount,
+        gcId: store.cost.generalcost.id,
+        gcPercent: store.cost.generalcost.percent,
+        gcAmount: store.cost.generalcost.amount
+      }
+    }))
 
 const {mutate: createRowCostSet, loading: brcLoading, onDone: brcOnDone} = useMutation(mutateRowCostSet,
     () => ({
@@ -168,6 +239,7 @@ const {result: certificateList, loading: certificateLoading, error: certificateE
 function sendProjectCost() {
   formError.value = []
   // createProjectCost();
+  createDependentCosts()
   // createRowCost();
   createRowCostSet();
 }
@@ -209,7 +281,7 @@ function getOrSetToNew(value, newValue) {
 
 function getBaseMaterialCost(materialCost, type) {
   let baseList = rowItems.value;
-  if (type !== null){
+  if (type !== null) {
     baseList = baseList.filter(i => i.type === type);
   }
   baseList.forEach(item => {
@@ -219,24 +291,24 @@ function getBaseMaterialCost(materialCost, type) {
   return materialCost;
 }
 
-function getMaterialCost(){
+function getMaterialCost() {
   let materialCost = getBearingCosts();
   materialCost = getBaseMaterialCost(materialCost, 'material');
   store.cost['standardparts']['amount'] = store.cost['standardparts']['percent'] * materialCost / 100;
 }
 
-function getStandardPartsCost(){
+function getStandardPartsCost() {
   return store.cost['standardparts']['amount']
 }
 
 
-function getWageOverheadCost(){
+function getWageOverheadCost() {
   let value = 0;
   value = getBaseMaterialCost(value, 'wage_overhead')
   store.cost['generalcost']['amount'] = store.cost['generalcost']['percent'] * value / 100;
 }
 
-function getGeneralCost(){
+function getGeneralCost() {
   return store.cost['generalcost']['amount']
 }
 
@@ -248,18 +320,19 @@ function getRowItemsCost(rowItemList) {
   return bearingCostValue
 }
 
-function getBearingCosts(){
+function getBearingCosts() {
   return getRowItemsCost(store.cost.bearingcostSet.edges);
 }
 
-function getTestCosts(){
+function getTestCosts() {
   return getRowItemsCost(store.cost.testcostSet.edges);
 }
 
-function getCertificateCosts(){
+function getCertificateCosts() {
   return getRowItemsCost(store.cost.certificatecostSet.edges);
 }
-function getTotalCost(){
+
+function getTotalCost() {
   let value = 0;
   value = getBaseMaterialCost(value, null);
   value += getBearingCosts();
@@ -429,12 +502,12 @@ function getTotalCost(){
                 v-model="store.cost[item.title]['amount']"
                 type="text"
             ></td>
-            <td>{{store.cost[item.title]['amount']}}</td>
+            <td>{{ store.cost[item.title]['amount'] }}</td>
           </tr>
         </template>
         <tr>
           <td colspan="3">جمع</td>
-          <td>{{getTotalCost()}}</td>
+          <td>{{ getTotalCost() }}</td>
         </tr>
         </tbody>
       </table>
