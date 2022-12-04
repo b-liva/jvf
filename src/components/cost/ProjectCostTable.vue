@@ -206,20 +206,27 @@ function getErrorFieldName(fName) {
 function getOrSetToNew(value, newValue) {
   return value ? value : newValue
 }
+
+function getBaseMaterialCost(materialCost, type) {
+  let baseList = rowItems.value;
+  if (type !== null){
+    baseList = baseList.filter(i => i.type === type);
+  }
+  baseList.forEach(item => {
+    const costItem = store.cost[item.title]
+    materialCost += costItem.qty * costItem.price
+  })
+  return materialCost;
+}
+
 function getMaterialCost(){
   let materialCost = getBearingCosts();
-  rowItems.value.filter(i => i.type === 'material').forEach(item => {
-    const ccost = store.cost[item.title]
-    materialCost += ccost.qty * ccost.price
-  })
+  materialCost = getBaseMaterialCost(materialCost, 'material');
   store.cost['standardparts']['amount'] = store.cost['standardparts']['percent'] * materialCost / 100;
 }
 function getWageOverheadCost(){
   let value = 0;
-  rowItems.value.filter(i => i.type === 'wage_overhead').forEach(item => {
-    const cost = store.cost[item.title]
-    value += cost.qty * cost.price;
-  })
+  value = getBaseMaterialCost(value, 'wage_overhead')
   store.cost['generalcost']['amount'] = store.cost['generalcost']['percent'] * value / 100;
 }
 function getBearingCosts(){
@@ -228,6 +235,9 @@ function getBearingCosts(){
     bearingCostValue += item.node.qty * item.node.price;
   })
   return bearingCostValue
+}
+function getTotalCost(){
+  getMaterialCost()
 }
 </script>
 
