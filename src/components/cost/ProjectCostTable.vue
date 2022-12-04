@@ -385,7 +385,7 @@ function getTotalCost() {
         </template>
         </tbody>
       </table>
-      <div class="inline-flex">
+      <div v-if="editMode" class="inline-flex">
         <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
                 class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
           بیرینگ
@@ -451,8 +451,12 @@ function getTotalCost() {
                 v-on:keyup="getMaterialCost"
             ></td>
             <td>{{ bearing.node.qty * bearing.node.price }}</td>
-            <td @click="Remove(store.cost.bearingcostSet.edges, index, bearing.node.id)">
-              <span class="red p-3 text-lg">-</span>
+            <td>
+              <span
+                  @click="Remove(store.cost.bearingcostSet.edges, index, bearing.node.id)"
+                  class="red p-3 text-lg"
+                  v-if="editMode"
+              >-</span>
             </td>
           </tr>
         </template>
@@ -467,8 +471,12 @@ function getTotalCost() {
             <td><input type="number" :disabled="!editMode" v-model="test.node.qty"></td>
             <td><input type="number" :disabled="!editMode" v-model="test.node.price"></td>
             <td>{{ test.node.qty * test.node.price }}</td>
-            <td @click="Remove(store.cost.testcostSet.edges, index, test.node.id)">
-              <span class="red p-3 text-lg">-</span>
+            <td>
+              <span
+                  @click="Remove(store.cost.testcostSet.edges, index, test.node.id)"
+                  class="red p-3 text-lg"
+                  v-if="editMode"
+              >-</span>
             </td>
           </tr>
         </template>
@@ -484,8 +492,12 @@ function getTotalCost() {
             <td><input type="number" :disabled="!editMode" v-model="certificate.node.qty"></td>
             <td><input type="number" :disabled="!editMode" v-model="certificate.node.price"></td>
             <td>{{ certificate.node.qty * certificate.node.price }}</td>
-            <td @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)">
-              <span class="red p-3 text-lg">-</span>
+            <td>
+              <span
+                  @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)"
+                  class="red p-3 text-lg"
+                  v-if="editMode"
+              >-</span>
             </td>
           </tr>
         </template>
