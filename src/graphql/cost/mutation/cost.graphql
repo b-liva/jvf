@@ -2,27 +2,13 @@ mutation mutateProjectCost(
     $id:ID,
     $spec:ID!,
     $chNumber:String!,
-    $motorType: String!,
-    $standardParts:Float!,
-    $generalCost:Float!,
     $dateFa:String!,
-    $frame:String,
-    $ambientTemp:Int,
-    $tempRise:Int,
-    $altitude:Int,
 ){
     mutateProjectCost:projectCostMutation(input:{
         id:$id,
         spec:$spec,
         chNumber:$chNumber,
-        motorType:$motorType,
-        standardParts:$standardParts,
-        generalCost:$generalCost,
         dateFa:$dateFa,
-        frame:$frame,
-        ambientTemp:$ambientTemp,
-        tempRise:$tempRise,
-        altitude:$altitude,
     }){
         clientMutationId
         errors{

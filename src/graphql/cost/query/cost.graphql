@@ -81,12 +81,7 @@ query getProjectCostDetails($costId:ID!){
             id
         }
         chNumber
-        motorType
         dateFa
-        altitude
-        frame
-        ambientTemp
-        tempRise
         standardparts {
             id
             percent

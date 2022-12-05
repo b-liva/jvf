@@ -18,12 +18,7 @@ const status = '';
 const editMode = ref(false);
 const costItems = ref([
   {title: 'chNumber', name: 'شماره چارگون', inputType: 'number', title2: 'ch_number'},
-  {title: 'motorType', name: 'نوع موتور', inputType: 'text', title2: 'motor_type'},
   {title: 'dateFa', name: 'تاریخ', inputType: 'text', title2: 'date_fa'},
-  {title: 'altitude', name: 'ارتفاع', inputType: 'number', title2: 'altitude'},
-  {title: 'frame', name: 'فریم سایز', inputType: 'number', title2: 'frame'},
-  {title: 'ambientTemp', name: 'دمای محیط', inputType: 'number', title2: 'ambient_temp'},
-  {title: 'tempRise', name: 'افزایش دما', inputType: 'number', title2: 'temp_rise'},
 ])
 Window.costItem = costItems;
 const dependentCosts = ref([
