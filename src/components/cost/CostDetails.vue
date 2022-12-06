@@ -1,6 +1,8 @@
 <script setup>
 import {useStore} from "../../store/store.js";
-import {ref, isRef} from "vue";
+import {ref} from "vue";
+import Cost from "../../utils/cost.js";
+
 import {useQuery} from "@vue/apollo-composable";
 import {getProjectCostDetails} from "../../graphql/cost/query/cost.graphql";
 import ProjectCostTable from '../cost/ProjectCostTable.vue';
@@ -36,7 +38,10 @@ const {onResult, refetch: refetchCost} = useQuery(getProjectCostDetails,
     }))
 onResult(qr => {
   window.qr = qr;
-  store.cost = JSON.parse(JSON.stringify(qr.data.getProjectCostDetails));
+  const costRaw = qr.data.getProjectCostDetails;
+  const costObj = new Cost(costRaw.id, costRaw);
+  window.costObj = costObj;
+  store.cost = JSON.parse(JSON.stringify(costRaw));
 })
 
 </script>
