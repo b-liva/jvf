@@ -9,6 +9,9 @@ export default class Cost{
     this.costRows.forEach(item => {
       this[item] = new CostRow(cost[item]);
     })
+    this.dependents.forEach(item => {
+      this[item] = new DependentCost(cost[item]);
+    })
   }
 
   costRows = [
