@@ -12,6 +12,9 @@ export default class Cost{
     this.dependents.forEach(item => {
       this[item] = new DependentCost(cost[item]);
     })
+    this.bearingcostSet = new BearingCostSet(cost['bearingcostSet']);
+    this.testcostSet = new BearingCostSet(cost['testcostSet']);
+    this.certificatecostSet = new BearingCostSet(cost['certificatecostSet']);
   }
 
   costRows = [
