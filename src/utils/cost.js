@@ -46,6 +46,9 @@ export default class Cost {
     static copy(obj){
         return JSON.parse(JSON.stringify(obj))
     }
+    static reset(){
+        return new Cost('', Cost.copy(emptyCost))
+    }
 }
 
 class CostRow {
@@ -119,4 +122,27 @@ class DependentCost extends CostRow {
             this.replaceWith(pr.percent, 0);
         })
     }
+}
+
+const emptyCost = {
+    id: '',
+    chNumber: '',
+    dateFa: '',
+    spec: {id:''},
+    aluingot: {id: '', qty: 0, price: 0},
+    castiron: {id: '', qty: 0, price: 0},
+    curotor: {id: '', qty: 0, price: 0},
+    custator: {id: '', qty: 0, price: 0},
+    insulation: {id: '', qty: 0, price: 0},
+    other: {id: '', qty: 0, price: 0},
+    overheadcost: {id: '', qty: 0, price: 0},
+    siliconsheet: {id: '', qty: 0, price: 0},
+    steel: {id: '', qty: 0, price: 0},
+    steelrebar: {id: '', qty: 0, price: 0},
+    wagecost: {id: '', qty: 0, price: 0},
+    standardparts: {id: '', percent: 12, amount: 0},
+    generalcost: {id: '', percent: 15, amount: 0},
+    bearingcostSet: {edges: [{node: {id: '', qty: 0, price: 0, bearing: {id: '', name: ''}}}]},
+    testcostSet: {edges: [{node: {id: '', qty: 0, price: 0, test: {id: '', name: ''}}}]},
+    certificatecostSet: {edges: [{node: {id: '', qty: 0, price: 0, certificate: {id: '', name: ''}}}]}
 }

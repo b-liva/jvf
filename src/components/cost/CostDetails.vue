@@ -42,6 +42,7 @@ onResult(qr => {
   const costObj = new Cost(costRaw.id, costRaw);
   window.costObj = costObj;
   store.cost = Cost.copy(costObj);
+  window.emptyCost = Cost.reset();
 })
 
 </script>
