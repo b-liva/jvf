@@ -64,11 +64,18 @@ class CostRow{
 }
 
 class CostRowSet extends CostRow{
+  // .edges => []
   checkValues() {
     this.getProps().forEach(pr => {
-      this.replaceWith(pr.id, '');
-      this.replaceWith(pr.qty, 0);
-      this.replaceWith(pr.price, 0);
+      this.replaceWith(pr.node.id, '');
+      this.replaceWith(pr.node.qty, 0);
+      this.replaceWith(pr.node.price, 0);
+      this.checkMore(pr);
     })
   }
+  checkMore(pr){
+
+  }
+}
+
 }
