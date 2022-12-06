@@ -98,3 +98,13 @@ class CertificateCostSet extends CostRowSet{
     this.replaceWith(crt.node.certificate.name, '');
   }
 }
+
+class DependentCost extends CostRow{
+  checkValues(){
+    this.getProps().forEach(pr => {
+      this.replaceWith(pr.id, '');
+      this.replaceWith(pr.amount, 0);
+      this.replaceWith(pr.percent, 0);
+    })
+  }
+}
