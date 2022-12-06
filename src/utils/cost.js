@@ -4,30 +4,35 @@ export default class Cost{
     this.chNumber = cost.chNumber;
     this.dateFa = cost.dateFa;
     this.spec = cost.spec;
-    this.costRows = [
-      'aluingot',
-      'castiron',
-      'curotor',
-      'custator',
-      'insulation',
-      'other',
-      'overheadcost',
-      'siliconsheet',
-      'steel',
-      'steelrebar',
-      'wagecost',
-    ]
-    this.costRowSets = [
-      'bearingcostSet',
-      'testcostSet',
-      'certificatecostSet',
-    ]
-    this.dependents = [
-      'standardparts',
-      'generalcost',
-    ]
     this.checkValues();
+
+    this.costRows.forEach(item => {
+      this[item] = new CostRow(cost[item]);
+    })
   }
+
+  costRows = [
+    'aluingot',
+    'castiron',
+    'curotor',
+    'custator',
+    'insulation',
+    'other',
+    'overheadcost',
+    'siliconsheet',
+    'steel',
+    'steelrebar',
+    'wagecost',
+  ]
+  costRowSets = [
+    'bearingcostSet',
+    'testcostSet',
+    'certificatecostSet',
+  ]
+  dependents = [
+    'standardparts',
+    'generalcost',
+  ]
 
   replaceWith(value, replaceValue){
     return value ? value : replaceValue;
