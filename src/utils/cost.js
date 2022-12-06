@@ -1,9 +1,9 @@
 export default class Cost{
-  constructor(id, chNumber, dateFa, spec) {
+  constructor(id, cost) {
     this.id = id;
-    this.chNumber = chNumber;
-    this.dateFa = dateFa;
-    this.spec = spec;
+    this.chNumber = cost.chNumber;
+    this.dateFa = cost.dateFa;
+    this.spec = cost.spec;
     this.costRows = [
       'aluingot',
       'castiron',
