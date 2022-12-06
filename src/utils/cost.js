@@ -4,6 +4,28 @@ export default class Cost{
     this.chNumber = chNumber;
     this.dateFa = dateFa;
     this.spec = spec;
+    this.costRows = [
+      'aluingot',
+      'castiron',
+      'curotor',
+      'custator',
+      'insulation',
+      'other',
+      'overheadcost',
+      'siliconsheet',
+      'steel',
+      'steelrebar',
+      'wagecost',
+    ]
+    this.costRowSets = [
+      'bearingcostSet',
+      'testcostSet',
+      'certificatecostSet',
+    ]
+    this.dependents = [
+      'standardparts',
+      'generalcost',
+    ]
     this.checkValues();
   }
 
