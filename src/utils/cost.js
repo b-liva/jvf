@@ -78,4 +78,23 @@ class CostRowSet extends CostRow{
   }
 }
 
+class BearingCostSet extends CostRowSet{
+  checkMore(brc) {
+    this.replaceWith(brc.node.bearing.id, '');
+    this.replaceWith(brc.node.bearing.name, '');
+  }
+}
+
+class TestCostSet extends CostRowSet{
+  checkMore(tst) {
+    this.replaceWith(tst.node.test.id, '');
+    this.replaceWith(tst.node.test.name, '');
+  }
+}
+
+class CertificateCostSet extends CostRowSet{
+  checkMore(crt) {
+    this.replaceWith(crt.node.certificate.id, '');
+    this.replaceWith(crt.node.certificate.name, '');
+  }
 }
