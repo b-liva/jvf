@@ -43,6 +43,9 @@ export default class Cost {
         this.replaceWith(this.dateFa, '');
         this.replaceWith(this.spec.id, '');
     }
+    static copy(obj){
+        return JSON.parse(JSON.stringify(obj))
+    }
 }
 
 class CostRow {

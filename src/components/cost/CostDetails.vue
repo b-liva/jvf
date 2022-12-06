@@ -41,7 +41,7 @@ onResult(qr => {
   const costRaw = qr.data.getProjectCostDetails;
   const costObj = new Cost(costRaw.id, costRaw);
   window.costObj = costObj;
-  store.cost = JSON.parse(JSON.stringify(costObj));
+  store.cost = Cost.copy(costObj);
 })
 
 </script>
