@@ -1,6 +1,6 @@
 <script setup>
 import {useStore} from "../../store/store.js";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import Cost from "../../utils/cost.js";
 
 import {useQuery} from "@vue/apollo-composable";
@@ -32,10 +32,7 @@ store.cost = ref({
   other: {}
 });
 
-const {onResult, refetch: refetchCost} = useQuery(getProjectCostDetails,
-    () => ({
-      costId: store.costId
-    }))
+const {onResult, refetch: refetchCost} = useQuery(getProjectCostDetails)
 onResult(qr => {
   window.qr = qr;
   const costRaw = qr.data.getProjectCostDetails;
@@ -43,8 +40,13 @@ onResult(qr => {
   window.costObj = costObj;
   store.cost = Cost.copy(costObj);
   window.emptyCost = Cost.reset();
-})
-
+});
+watch(
+    () => store.costId,
+    () => refetchCost({
+      costId: store.costId
+    })
+)
 </script>
 
 <template>
@@ -52,7 +54,6 @@ onResult(qr => {
   <div v-if="store.cost">
     <div>
       <ProjectCostTable/>
-      <p @click="refetchCost">get cost</p>
     </div>
   </div>
 </template>
