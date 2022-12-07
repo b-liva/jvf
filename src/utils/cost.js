@@ -29,7 +29,8 @@ export default class Cost {
 
     createCostRows(cost) {
         this.costRows.forEach(item => {
-            this[item.name] = new item.factoryClass(cost[item.name]);
+            const value = cost[item.name] ? cost[item.name] : Cost.copy(emptyCost[item.name])
+            this[item.name] = new item.factoryClass(value);
         })
     }
 
