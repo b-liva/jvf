@@ -4,6 +4,7 @@ import OrderDetails from '../order/OrderDetails.vue';
 import ProformasByOrder from '../proforma/ProformasByOrder.vue';
 import ProformaDetails from '../proforma/ProformaDetails.vue';
 import ProjectCosts from '../cost/ProjectCosts.vue';
+import CostDetails from '../cost/CostDetails.vue';
 
 </script>
 
@@ -13,6 +14,7 @@ import ProjectCosts from '../cost/ProjectCosts.vue';
   <ProformasByOrder/>
   <ProformaDetails/>
   <ProjectCosts/>
+  <CostDetails/>
 </template>
 
 <style scoped>

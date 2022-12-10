@@ -14,19 +14,18 @@ const {result: costList, loading, error, load} = useLazyQuery(getCostsBySpec,
 const costs = computed(() => costList.value?.getCostsBySpec.edges ?? [])
 watch(
     () => store.proformaSpecId,
-    () => load()
+    () => load(),
+    {deep: true}
 )
 </script>
 
 <template>
-  <div>project cost list: {{ store.proformaSpecId }}</div>
+  <div>project cost list for: {{ store.proformaSpecId }}</div>
+
   <p v-if="loading">loading</p>
   <ul>
     <li v-for="cost in costs" :key="cost.node.id" @click="store.costId = cost.node.id">{{ cost.node.id }} - {{ cost.node.chNumber }}</li>
   </ul>
-  <div>
-    <CostDetails v-if="store.costId"/>
-  </div>
 </template>
 
 <style scoped>

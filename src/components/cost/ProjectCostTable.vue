@@ -4,14 +4,14 @@ import {ref} from 'vue';
 import {useMutation, useQuery} from '@vue/apollo-composable'
 import {Button} from 'flowbite-vue'
 
-import mutateProjectCost from "../../graphql/cost/mutation/cost.graphql";
-import mutateRowCost from "../../graphql/cost/mutation/row.graphql";
-import mutateRowCostSet from "../../graphql/cost/mutation/cost_set.graphql";
-import mutateDependentCosts from "../../graphql/cost/mutation/dependent_cost.graphql";
-import deleteGqlObject from "../../graphql/core/mutations/delete.graphql";
-import getBearings from "../../graphql/cost/query/bearing.graphql";
-import getTests from "../../graphql/cost/query/test.graphql";
-import getCertificates from "../../graphql/cost/query/certificate.graphql";
+import {mutateProjectCost} from "../../graphql/cost/mutation/cost.graphql";
+import {mutateRowCost} from "../../graphql/cost/mutation/row.graphql";
+import {mutateRowCostSet} from "../../graphql/cost/mutation/cost_set.graphql";
+import {mutateDependentCosts} from "../../graphql/cost/mutation/dependent_cost.graphql";
+import {deleteGqlObject} from "../../graphql/core/mutations/delete.graphql";
+import {getBearings} from "../../graphql/cost/query/bearing.graphql";
+import {getTests} from "../../graphql/cost/query/test.graphql";
+import {getCertificates} from "../../graphql/cost/query/certificate.graphql";
 
 const store = useStore();
 const status = '';
@@ -427,7 +427,7 @@ function getTotalCost() {
           <tr>
             <td>
               <select :disabled="!editMode" v-model="bearing.node.bearing">
-                <option v-for="br in bearingList.getBearings.edges" :value="br.node" :key="br.node">{{ br.node.name }}
+                <option v-for="br in bearingList?.getBearings.edges ?? []" :value="br.node" :key="br.node">{{ br.node.name }}
                 </option>
               </select>
             </td>
@@ -457,7 +457,7 @@ function getTotalCost() {
           <tr>
             <td>
               <select :disabled="!editMode" v-model="test.node.test">
-                <option v-for="tst in testList.getTests.edges" :value="tst.node" :key="tst.node">{{ tst.node.name }}
+                <option v-for="tst in testList?.getTests.edges ?? []" :value="tst.node" :key="tst.node">{{ tst.node.name }}
                 </option>
               </select>
             </td>
@@ -477,7 +477,7 @@ function getTotalCost() {
           <tr>
             <td>
               <select :disabled="!editMode" v-model="certificate.node.certificate">
-                <option v-for="crt in certificateList.getCertificates.edges" :value="crt.node" :key="crt.node">
+                <option v-for="crt in certificateList?.getCertificates.edges ?? []" :value="crt.node" :key="crt.node">
                   {{ crt.node.name }}
                 </option>
               </select>
