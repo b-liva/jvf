@@ -10,11 +10,11 @@ import ProjectCostTable from '../cost/ProjectCostTable.vue';
 const store = useStore();
 store.cost = Cost.reset();
 
-const {result: projectCostDetailsResult, loading, load: load} = useLazyQuery(getProjectCostDetails, () => {
-  return {
-    costId: store.costId
-  }
-});
+const {result: projectCostDetailsResult, loading, load: load} = useLazyQuery(
+    getProjectCostDetails,
+    () => {return {costId: store.costId}},
+    {fetchPolicy: "cache-and-network"}
+);
 
 watch(
     projectCostDetailsResult,
