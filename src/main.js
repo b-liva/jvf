@@ -1,5 +1,4 @@
 import 'flowbite';
-import {register} from './components/web-comp.js';
 import 'vite/modulepreload-polyfill';
 
 import './apps/base.js';
