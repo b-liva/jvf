@@ -142,7 +142,7 @@ const emptyCost = {
     steelrebar: {id: '', qty: 0, price: 0},
     wagecost: {id: '', qty: 0, price: 0},
     standardparts: {id: '', percent: 12, amount: 0},
-    generalcost: {id: '', percent: 15, amount: 0},
+    generalcost: {id: '', percent: 80, amount: 0},
     bearingcostSet: {edges: [{node: {id: '', qty: 0, price: 0, bearing: {id: '', name: ''}}}]},
     testcostSet: {edges: [{node: {id: '', qty: 0, price: 0, test: {id: '', name: ''}}}]},
     certificatecostSet: {edges: [{node: {id: '', qty: 0, price: 0, certificate: {id: '', name: ''}}}]}

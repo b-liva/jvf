@@ -43,7 +43,7 @@ const rowItems = ref([
     value: 0,
     title2: 'overhead_cost',
     fn: getWageOverheadCost,
-    type: 'wage_overhead'
+    type: ''
   },
   {title: 'steel', name: 'فولاد', unit: 0, value: 0, title2: 'steel', fn: getMaterialCost, type: 'material'},
   {
