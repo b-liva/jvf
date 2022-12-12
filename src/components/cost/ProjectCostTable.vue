@@ -5,7 +5,7 @@ import {useMutation, useQuery} from '@vue/apollo-composable'
 import {Button} from 'flowbite-vue'
 
 import {Money3} from "v-money3";
-import {vMoneyConfig} from "../../utils/config.js"
+import {vMoneyConfig} from "../../utils/vue/config.js";
 import {mutateProjectCost} from "../../graphql/cost/mutation/cost.graphql";
 import {mutateRowCost} from "../../graphql/cost/mutation/row.graphql";
 import {mutateRowCostSet} from "../../graphql/cost/mutation/cost_set.graphql";
@@ -17,7 +17,6 @@ import {getCertificates} from "../../graphql/cost/query/certificate.graphql";
 
 const store = useStore();
 const status = '';
-const editMode = ref(false);
 const costItems = ref([
   {title: 'chNumber', name: 'شماره چارگون', inputType: 'number', title2: 'ch_number'},
   {title: 'dateFa', name: 'تاریخ', inputType: 'text', title2: 'date_fa'},
@@ -358,7 +357,11 @@ function getTotalCost() {
 
       <div>
         <label for="editMode">ویرایش</label>
-        <input id="editMode" type="checkbox" v-model="editMode">
+        <input
+            id="editMode"
+            type="checkbox"
+            :value="!vMoneyConfig.disabled"
+            @input="event => vMoneyConfig.disabled = !vMoneyConfig.disabled">
       </div>
       <table class="table-auto">
         <thead>
@@ -372,7 +375,7 @@ function getTotalCost() {
           <tr>
             <td>{{ item.name }}</td>
             <td><input
-                :disabled="!editMode"
+                :disabled="vMoneyConfig.disabled"
                 v-model="store.cost[item.title]"
                 v-on:keyup=""
                 type="text"></td>
@@ -380,7 +383,7 @@ function getTotalCost() {
         </template>
         </tbody>
       </table>
-      <div v-if="editMode" class="inline-flex">
+      <div v-if="!vMoneyConfig.disabled" class="inline-flex">
         <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
                 class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
           بیرینگ
@@ -408,20 +411,14 @@ function getTotalCost() {
             <td>
               <input
                   type="number"
-                  :disabled="!editMode"
+                  :disabled="vMoneyConfig.disabled"
                   v-model="store.cost[item.title]['qty']"
                   :id="item.title"
                   v-on:keyup="item.fn"
               >
             </td>
             <td>
-              <input
-                  type="number"
-                  :disabled="!editMode"
-                  v-model="store.cost[item.title]['price']"
-                  v-on:keyup="item.fn"
-              >
-              <money3 v-model="store.cost[item.title]['price']" v-bind="vMoneyConfig"></money3>
+              <money3 v-model="store.cost[item.title]['price']" v-bind="vMoneyConfig" v-on:keyup="item.fn"></money3>
             </td>
             <td>{{ store.cost[item.title]['qty'] * store.cost[item.title]['price'] }}</td>
           </tr>
@@ -429,29 +426,27 @@ function getTotalCost() {
         <template v-for="(bearing, index) in store.cost.bearingcostSet.edges" :key="bearing.node.id">
           <tr>
             <td>
-              <select :disabled="!editMode" v-model="bearing.node.bearing">
-                <option v-for="br in bearingList?.getBearings.edges ?? []" :value="br.node" :key="br.node">{{ br.node.name }}
+              <select :disabled="vMoneyConfig.disabled" v-model="bearing.node.bearing">
+                <option v-for="br in bearingList?.getBearings.edges ?? []" :value="br.node" :key="br.node">
+                  {{ br.node.name }}
                 </option>
               </select>
             </td>
             <td><input
                 type="number"
-                :disabled="!editMode"
+                :disabled="vMoneyConfig.disabled"
                 v-model="bearing.node.qty"
                 v-on:keyup="getMaterialCost"
             ></td>
-            <td><input
-                type="number"
-                :disabled="!editMode"
-                v-model="bearing.node.price"
-                v-on:keyup="getMaterialCost"
-            ></td>
+            <td>
+              <money3 v-model="bearing.node.price" v-bind="vMoneyConfig" v-on:keyup="getMaterialCost"></money3>
+            </td>
             <td>{{ bearing.node.qty * bearing.node.price }}</td>
             <td>
               <span
                   @click="Remove(store.cost.bearingcostSet.edges, index, bearing.node.id)"
                   class="red p-3 text-lg"
-                  v-if="editMode"
+                  v-if="vMoneyConfig.disabled"
               >-</span>
             </td>
           </tr>
@@ -459,19 +454,24 @@ function getTotalCost() {
         <template v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
           <tr>
             <td>
-              <select :disabled="!editMode" v-model="test.node.test">
-                <option v-for="tst in testList?.getTests.edges ?? []" :value="tst.node" :key="tst.node">{{ tst.node.name }}
+              <select :disabled="vMoneyConfig.disabled" v-model="test.node.test">
+                <option v-for="tst in testList?.getTests.edges ?? []" :value="tst.node" :key="tst.node">{{
+                    tst.node.name
+                  }}
                 </option>
               </select>
             </td>
-            <td><input type="number" :disabled="!editMode" v-model="test.node.qty"></td>
-            <td><input type="number" :disabled="!editMode" v-model="test.node.price"></td>
+            <td><input type="number" :disabled="vMoneyConfig.disabled" v-model="test.node.qty"></td>
+            <td>
+              <money3 v-model="test.node.price" v-bind="vMoneyConfig"></money3>
+            </td>
+
             <td>{{ test.node.qty * test.node.price }}</td>
             <td>
               <span
                   @click="Remove(store.cost.testcostSet.edges, index, test.node.id)"
                   class="red p-3 text-lg"
-                  v-if="editMode"
+                  v-if="vMoneyConfig.disabled"
               >-</span>
             </td>
           </tr>
@@ -479,20 +479,22 @@ function getTotalCost() {
         <template v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
           <tr>
             <td>
-              <select :disabled="!editMode" v-model="certificate.node.certificate">
+              <select :disabled="vMoneyConfig.disabled" v-model="certificate.node.certificate">
                 <option v-for="crt in certificateList?.getCertificates.edges ?? []" :value="crt.node" :key="crt.node">
                   {{ crt.node.name }}
                 </option>
               </select>
             </td>
-            <td><input type="number" :disabled="!editMode" v-model="certificate.node.qty"></td>
-            <td><input type="number" :disabled="!editMode" v-model="certificate.node.price"></td>
+            <td><input type="number" :disabled="vMoneyConfig.disabled" v-model="certificate.node.qty"></td>
+            <td>
+              <money3 v-model="certificate.node.price" v-bind="vMoneyConfig"></money3>
+            </td>
             <td>{{ certificate.node.qty * certificate.node.price }}</td>
             <td>
               <span
                   @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)"
                   class="red p-3 text-lg"
-                  v-if="editMode"
+                  v-if="vMoneyConfig.disabled"
               >-</span>
             </td>
           </tr>
@@ -501,15 +503,14 @@ function getTotalCost() {
           <tr>
             <td>{{ item.name }}</td>
             <td><input
-                :disabled="!editMode"
+                :disabled="vMoneyConfig.disabled"
                 v-model="store.cost[item.title]['percent']"
                 v-on:keyup="item.fn"
                 type="text"></td>
-            <td><input
-                :disabled="!editMode"
-                v-model="store.cost[item.title]['amount']"
-                type="text"
-            ></td>
+            <td>
+              <money3 v-model="store.cost[item.title]['amount']" v-bind="vMoneyConfig"></money3>
+            </td>
+
             <td>{{ store.cost[item.title]['amount'] }}</td>
           </tr>
         </template>
