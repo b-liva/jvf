@@ -6,6 +6,7 @@ import Cost from "../../utils/cost.js";
 import {useLazyQuery} from "@vue/apollo-composable";
 import {getProjectCostDetails} from "../../graphql/cost/query/cost.graphql";
 import ProjectCostTable from '../cost/ProjectCostTable.vue';
+import CommaSeparatedNumberInput from "../CommaSeparatedNumberInput.vue"
 
 const store = useStore();
 store.cost = Cost.reset();
@@ -37,6 +38,7 @@ watch(
 
 <template>
   <div v-if="store.costId">
+    <CommaSeparatedNumberInput/>
     <ProjectCostTable/>
   </div>
 </template>

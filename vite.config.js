@@ -51,5 +51,6 @@ export default defineConfig({
     },
     define: {
         'process.env': {}
-    }
+    },
+    optimizeDeps:{ esbuildOptions:{ target: 'es2020' }}
 })
