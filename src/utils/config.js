@@ -17,3 +17,18 @@ export const apolloClient = new ApolloClient({
   cache,
 });
 provideApolloClient(apolloClient)
+
+export let vMoneyConfig = {
+  masked: false,
+  prefix: '',
+  suffix: '',
+  thousands: ',',
+  decimal: '.',
+  precision: 0,
+  disableNegative: true,
+  disabled: false,
+  min: 0,
+  max: null,
+  allowBlank: false,
+  minimumNumberOfCharacters: 0,
+}

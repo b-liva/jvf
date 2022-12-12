@@ -4,6 +4,8 @@ import {ref} from 'vue';
 import {useMutation, useQuery} from '@vue/apollo-composable'
 import {Button} from 'flowbite-vue'
 
+import {Money3} from "v-money3";
+import {vMoneyConfig} from "../../utils/config.js"
 import {mutateProjectCost} from "../../graphql/cost/mutation/cost.graphql";
 import {mutateRowCost} from "../../graphql/cost/mutation/row.graphql";
 import {mutateRowCostSet} from "../../graphql/cost/mutation/cost_set.graphql";
@@ -419,6 +421,7 @@ function getTotalCost() {
                   v-model="store.cost[item.title]['price']"
                   v-on:keyup="item.fn"
               >
+              <money3 v-model="store.cost[item.title]['price']" v-bind="vMoneyConfig"></money3>
             </td>
             <td>{{ store.cost[item.title]['qty'] * store.cost[item.title]['price'] }}</td>
           </tr>
