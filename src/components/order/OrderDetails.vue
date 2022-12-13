@@ -28,5 +28,6 @@ watch(
 </template>
 
 <style scoped>
+@import url("../../assets/index.css");
 
 </style>
