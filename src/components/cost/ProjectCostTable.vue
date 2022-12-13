@@ -446,7 +446,7 @@ function getTotalCost() {
               <span
                   @click="Remove(store.cost.bearingcostSet.edges, index, bearing.node.id)"
                   class="red p-3 text-lg"
-                  v-if="vMoneyConfig.disabled"
+                  v-if="!vMoneyConfig.disabled"
               >-</span>
             </td>
           </tr>
@@ -472,7 +472,7 @@ function getTotalCost() {
               <span
                   @click="Remove(store.cost.testcostSet.edges, index, test.node.id)"
                   class="red p-3 text-lg"
-                  v-if="vMoneyConfig.disabled"
+                  v-if="!vMoneyConfig.disabled"
               >-</span>
             </td>
           </tr>
@@ -495,7 +495,7 @@ function getTotalCost() {
               <span
                   @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)"
                   class="red p-3 text-lg"
-                  v-if="vMoneyConfig.disabled"
+                  v-if="!vMoneyConfig.disabled"
               >-</span>
             </td>
           </tr>
