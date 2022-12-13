@@ -19,6 +19,7 @@ query getSpecsById($orderId:ID){
             node {
                 id
                 kw
+                qty
                 rpmNew {
                     rpm
                 }
