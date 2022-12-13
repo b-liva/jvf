@@ -3,7 +3,7 @@ import {useStore} from "../../store/store.js";
 import {ref} from 'vue';
 import {useMutation, useQuery} from '@vue/apollo-composable'
 import {Button} from 'flowbite-vue'
-
+import JNumber from "../../utils/number.js";
 import {Money3} from "v-money3";
 import {vMoneyConfig} from "../../utils/vue/config.js";
 import {mutateProjectCost} from "../../graphql/cost/mutation/cost.graphql";
@@ -420,7 +420,7 @@ function getTotalCost() {
             <td>
               <money3 v-model="store.cost[item.title]['price']" v-bind="vMoneyConfig" v-on:keyup="item.fn"></money3>
             </td>
-            <td>{{ store.cost[item.title]['qty'] * store.cost[item.title]['price'] }}</td>
+            <td>{{ new JNumber(store.cost[item.title]['qty'] * store.cost[item.title]['price']).thousandSeparate() }}</td>
           </tr>
         </template>
         <template v-for="(bearing, index) in store.cost.bearingcostSet.edges" :key="bearing.node.id">
@@ -455,9 +455,10 @@ function getTotalCost() {
           <tr>
             <td>
               <select :disabled="vMoneyConfig.disabled" v-model="test.node.test">
-                <option v-for="tst in testList?.getTests.edges ?? []" :value="tst.node" :key="tst.node">{{
-                    tst.node.name
-                  }}
+                <option
+                    v-for="tst in testList?.getTests.edges ?? []"
+                    :value="tst.node"
+                    :key="tst.node">{{tst.node.name}}
                 </option>
               </select>
             </td>
