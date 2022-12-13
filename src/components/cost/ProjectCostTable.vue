@@ -441,7 +441,7 @@ function getTotalCost() {
             <td>
               <money3 v-model="bearing.node.price" v-bind="vMoneyConfig" v-on:keyup="getMaterialCost"></money3>
             </td>
-            <td>{{ bearing.node.qty * bearing.node.price }}</td>
+            <td>{{ new JNumber(bearing.node.qty * bearing.node.price).thousandSeparate() }}</td>
             <td>
               <span
                   @click="Remove(store.cost.bearingcostSet.edges, index, bearing.node.id)"
@@ -467,7 +467,7 @@ function getTotalCost() {
               <money3 v-model="test.node.price" v-bind="vMoneyConfig"></money3>
             </td>
 
-            <td>{{ test.node.qty * test.node.price }}</td>
+            <td>{{ new JNumber(test.node.qty * test.node.price).thousandSeparate() }}</td>
             <td>
               <span
                   @click="Remove(store.cost.testcostSet.edges, index, test.node.id)"
@@ -490,7 +490,7 @@ function getTotalCost() {
             <td>
               <money3 v-model="certificate.node.price" v-bind="vMoneyConfig"></money3>
             </td>
-            <td>{{ certificate.node.qty * certificate.node.price }}</td>
+            <td>{{ new JNumber(certificate.node.qty * certificate.node.price).thousandSeparate() }}</td>
             <td>
               <span
                   @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)"
@@ -512,12 +512,12 @@ function getTotalCost() {
               <money3 v-model="store.cost[item.title]['amount']" v-bind="vMoneyConfig"></money3>
             </td>
 
-            <td>{{ store.cost[item.title]['amount'] }}</td>
+            <td>{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</td>
           </tr>
         </template>
         <tr>
           <td colspan="3">جمع</td>
-          <td>{{ getTotalCost() }}</td>
+          <td>{{ new JNumber(getTotalCost()).thousandSeparate() }}</td>
         </tr>
         </tbody>
       </table>
