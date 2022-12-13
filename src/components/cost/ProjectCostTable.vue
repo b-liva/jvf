@@ -46,7 +46,6 @@ const rowItems = ref([
     fn: getWageOverheadCost,
     type: ''
   },
-  {title: 'steel', name: 'فولاد', unit: 0, value: 0, title2: 'steel', fn: getMaterialCost, type: 'material'},
   {
     title: 'steelrebar',
     name: 'میلگرد فولادی',
@@ -56,6 +55,7 @@ const rowItems = ref([
     fn: getMaterialCost,
     type: 'material'
   },
+  {title: 'steel', name: 'فولاد', unit: 0, value: 0, title2: 'steel', fn: getMaterialCost, type: 'material'},
   {
     title: 'custator',
     name: 'مس استاتور',
@@ -66,15 +66,6 @@ const rowItems = ref([
     type: 'material'
   },
   {title: 'curotor', name: 'مس روتور', unit: 0, value: 0, title2: 'cu_rotor', fn: getMaterialCost, type: 'material'},
-  {
-    title: 'siliconsheet',
-    name: 'ورق سیلیکون',
-    unit: 0,
-    value: 0,
-    title2: 'silicon_sheet',
-    fn: getMaterialCost,
-    type: 'material'
-  },
   {title: 'aluingot', name: 'آلومینیوم', unit: 0, value: 0, title2: 'alu_ingot', fn: getMaterialCost, type: 'material'},
   {
     title: 'insulation',
@@ -82,6 +73,15 @@ const rowItems = ref([
     unit: 0,
     value: 0,
     title2: 'insulation',
+    fn: getMaterialCost,
+    type: 'material'
+  },
+  {
+    title: 'siliconsheet',
+    name: 'ورق سیلیکون',
+    unit: 0,
+    value: 0,
+    title2: 'silicon_sheet',
     fn: getMaterialCost,
     type: 'material'
   },
