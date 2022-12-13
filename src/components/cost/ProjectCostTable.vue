@@ -294,7 +294,7 @@ function getMaterialCost() {
 }
 
 function getStandardPartsCost() {
-  return store.cost['standardparts']['amount']
+  return parseFloat(store.cost['standardparts']['amount'])
 }
 
 
@@ -305,7 +305,7 @@ function getWageOverheadCost() {
 }
 
 function getGeneralCost() {
-  return store.cost['generalcost']['amount']
+  return parseFloat(store.cost['generalcost']['amount'])
 }
 
 function getRowItemsCost(rowItemList) {
