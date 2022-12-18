@@ -341,6 +341,20 @@ function getTotalCost() {
 </script>
 
 <template>
+  <div class="">
+    <p>{{ status }}</p>
+    <p v-if="loading">loading</p>
+    <div v-if="formError.length > 0">بروز خطا:
+      <ul>
+        <li v-for="er in formError">{{ getErrorFieldName(er.field) }}
+          <ul>
+            <li v-for="msg in er.messages">{{ msg }}</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
   <div class="flex items-start justify-between border-b">
     <h3 class="mb-4 text-green-500 font-semibold">ثبت بهای تمام شده</h3>
     <div>
@@ -497,159 +511,31 @@ function getTotalCost() {
               >-</span>
               </td>
             </tr>
+            <tr v-for="item in dependentCosts" :key="item.id">
+              <td>{{ item.name }}</td>
+              <td><input
+                  :disabled="vMoneyConfig.disabled"
+                  v-model="store.cost[item.title]['percent']"
+                  v-on:keyup="item.fn"
+                  type="text"></td>
+              <td>
+                <money3 v-model="store.cost[item.title]['amount']" v-bind="vMoneyConfig"></money3>
+              </td>
+
+              <td>{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</td>
+            </tr>
+            <tr>
+              <td colspan="3">جمع</td>
+              <td>{{ new JNumber(getTotalCost()).thousandSeparate() }}</td>
+            </tr>
             </tbody>
           </table>
+          <button @click="sendProjectCost">ثبت</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="">
-    <p>{{ status }}</p>
-    <p v-if="loading">loading</p>
-    <div v-if="formError.length > 0">بروز خطا:
-      <ul>
-        <li v-for="er in formError">{{ getErrorFieldName(er.field) }}
-          <ul>
-            <li v-for="msg in er.messages">{{ msg }}</li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      <table class="table-auto">
-        <thead>
-        <tr>
-          <th>عنوان</th>
-          <th>مقدار</th>
-          <th>قیمت واحد</th>
-          <th>قیمت کل</th>
-        </tr>
-        </thead>
-        <tbody>
-        <template v-for="(item, index) in rowItems">
-          <tr>
-            <td>{{ item.name }}</td>
-            <td>
-              <input
-                  type="number"
-                  :disabled="vMoneyConfig.disabled"
-                  v-model="store.cost[item.title]['qty']"
-                  :id="item.title"
-                  v-on:keyup="item.fn"
-              >
-            </td>
-            <td>
-              <money3 v-model="store.cost[item.title]['price']" v-bind="vMoneyConfig" v-on:keyup="item.fn"></money3>
-            </td>
-            <td>{{
-                new JNumber(store.cost[item.title]['qty'] * store.cost[item.title]['price']).thousandSeparate()
-              }}
-            </td>
-          </tr>
-        </template>
-        <template v-for="(bearing, index) in store.cost.bearingcostSet.edges" :key="bearing.node.id">
-          <tr>
-            <td>
-              <select :disabled="vMoneyConfig.disabled" v-model="bearing.node.bearing">
-                <option v-for="br in bearingList?.getBearings.edges ?? []" :value="br.node" :key="br.node">
-                  {{ br.node.name }}
-                </option>
-              </select>
-            </td>
-            <td><input
-                type="number"
-                :disabled="vMoneyConfig.disabled"
-                v-model="bearing.node.qty"
-                v-on:keyup="getMaterialCost"
-            ></td>
-            <td>
-              <money3 v-model="bearing.node.price" v-bind="vMoneyConfig" v-on:keyup="getMaterialCost"></money3>
-            </td>
-            <td>{{ new JNumber(bearing.node.qty * bearing.node.price).thousandSeparate() }}</td>
-            <td>
-              <span
-                  @click="Remove(store.cost.bearingcostSet.edges, index, bearing.node.id)"
-                  class="red p-3 text-lg"
-                  v-if="!vMoneyConfig.disabled"
-              >-</span>
-            </td>
-          </tr>
-        </template>
-        <template v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
-          <tr>
-            <td>
-              <select :disabled="vMoneyConfig.disabled" v-model="test.node.test">
-                <option
-                    v-for="tst in testList?.getTests.edges ?? []"
-                    :value="tst.node"
-                    :key="tst.node">{{ tst.node.name }}
-                </option>
-              </select>
-            </td>
-            <td><input type="number" :disabled="vMoneyConfig.disabled" v-model="test.node.qty"></td>
-            <td>
-              <money3 v-model="test.node.price" v-bind="vMoneyConfig"></money3>
-            </td>
-
-            <td>{{ new JNumber(test.node.qty * test.node.price).thousandSeparate() }}</td>
-            <td>
-              <span
-                  @click="Remove(store.cost.testcostSet.edges, index, test.node.id)"
-                  class="red p-3 text-lg"
-                  v-if="!vMoneyConfig.disabled"
-              >-</span>
-            </td>
-          </tr>
-        </template>
-        <template v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
-          <tr>
-            <td>
-              <select :disabled="vMoneyConfig.disabled" v-model="certificate.node.certificate">
-                <option v-for="crt in certificateList?.getCertificates.edges ?? []" :value="crt.node" :key="crt.node">
-                  {{ crt.node.name }}
-                </option>
-              </select>
-            </td>
-            <td><input type="number" :disabled="vMoneyConfig.disabled" v-model="certificate.node.qty"></td>
-            <td>
-              <money3 v-model="certificate.node.price" v-bind="vMoneyConfig"></money3>
-            </td>
-            <td>{{ new JNumber(certificate.node.qty * certificate.node.price).thousandSeparate() }}</td>
-            <td>
-              <span
-                  @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)"
-                  class="red p-3 text-lg"
-                  v-if="!vMoneyConfig.disabled"
-              >-</span>
-            </td>
-          </tr>
-        </template>
-        <template v-for="item in dependentCosts" :key="item.id">
-          <tr>
-            <td>{{ item.name }}</td>
-            <td><input
-                :disabled="vMoneyConfig.disabled"
-                v-model="store.cost[item.title]['percent']"
-                v-on:keyup="item.fn"
-                type="text"></td>
-            <td>
-              <money3 v-model="store.cost[item.title]['amount']" v-bind="vMoneyConfig"></money3>
-            </td>
-
-            <td>{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</td>
-          </tr>
-        </template>
-        <tr>
-          <td colspan="3">جمع</td>
-          <td>{{ new JNumber(getTotalCost()).thousandSeparate() }}</td>
-        </tr>
-        </tbody>
-      </table>
-      <!--      {{ getTotal() }}-->
-      <button @click="sendProjectCost">ثبت</button>
-    </div>
-  </div>
 </template>
 
 <style scoped>
