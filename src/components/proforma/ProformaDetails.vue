@@ -26,55 +26,52 @@ watch(
 
 <template>
 
-  <div class="overflow-x-auto relative">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-      <tr>
-        <th scope="col" class="py-3 px-6">
-          تعداد
-        </th>
-        <th scope="col" class="py-3 px-6">
-          کیلووات
-        </th>
-        <th scope="col" class="py-3 px-6">
-          دور
-        </th>
-        <th scope="col" class="py-3 px-6">
-          ولتاژ
-        </th>
-        <th scope="col" class="py-3 px-6">
-          قیمت واحد
-        </th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr
-          @click="store.proformaSpecId = spec.node.id" v-for="spec in specs" :key="spec.node.id"
-          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-500">
-        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-          {{spec.node.qty}}
-        </th>
-        <td class="py-4 px-6">
-          {{spec.node.kw}}
-        </td>
-        <td class="py-4 px-6">
-          {{spec.node.rpm}}
-        </td>
-        <td class="py-4 px-6">
-          {{spec.node.voltage}}
-        </td>
-        <td class="py-4 px-6">
-          {{new JNumber(spec.node.price).thousandSeparate()}}
-        </td>
-        <td><template v-if="spec.node.id === store.proformaSpecId">*</template></td>
-      </tr>
-      </tbody>
-    </table>
+  <div class="flex flex-col">
+    <div class="overflow-x-auto">
+      <div class="align-middle inline-block min-w-full">
+        <div class="shadow overflow-hidden">
+          <h3 class="mb-4 text-green-500 font-semibold">ردیف پیش فاکتور</h3>
+          <table class="table-fixed min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-100">
+            <tr >
+              <th scope="col" class="p-4"></th>
+              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">تعداد</th>
+              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">کیلووات</th>
+              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">دور</th>
+              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">ولتاژ</th>
+              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">قیمت واحد</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr
+                v-for="spec in specs"
+                :key="spec.node.id"
+                @click="store.proformaSpecId = spec.node.id"
+                class="hover:bg-gray-100">
+              <td class="p-3 w-4">
+                <div class="flex items-center">
+                  <input
+                      :checked="spec.node.id === store.proformaSpecId"
+                      type="checkbox"
+                      class="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-cyan-200 h-4 w-4 rounded">
+                </div>
+              </td>
+              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.qty}}</td>
+              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.kw}}</td>
+              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.rpm}}</td>
+              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.voltage}}</td>
+              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">
+                {{new JNumber(spec.node.price).thousandSeparate()}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
-
 </template>
 
 <style scoped>
-
+@import url("../../assets/index.css");
 </style>
