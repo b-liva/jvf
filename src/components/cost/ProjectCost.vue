@@ -93,29 +93,24 @@ import CostDetails from '../cost/CostDetails.vue';
         </div>
       </div>
     </aside>
-    <div id="main-content" class="h-full w-full bg-gray-500 relative overflow-y-auto lg:mr-64">
+    <div id="main-content" class="h-full w-full bg-gray-50 relative overflow-y-auto lg:mr-64">
       <main>
         <div class="pt-6 px-4">
           <div class="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
-            <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2">01</div>
-            <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">02</div>
-            <div>03</div>
+            <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2">
+              <OrdersByNumber/>
+              <ProformasByOrder/>
+            </div>
+            <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
+              <ProformaDetails/>
+              <ProjectCosts class="bg-blue-100"/>
+            </div>
+            <div>
+              <CostDetails class="bg-blue-500"/>
+            </div>
           </div>
         </div>
       </main>
-    </div>
-
-  </div>
-  <div class="flex flex-row">
-    <div class="basis-4/12 flex flex-col">
-      <OrdersByNumber/>
-      <!--      <OrderDetails class="bg-green-200"/>-->
-      <ProformasByOrder/>
-      <ProformaDetails/>
-      <ProjectCosts class="bg-blue-100"/>
-    </div>
-    <div class="basis-8/12 flex flex-col">
-      <CostDetails class="bg-blue-500"/>
     </div>
   </div>
 </template>
