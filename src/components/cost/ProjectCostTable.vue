@@ -500,6 +500,45 @@ function getTotalCost() {
               >-</span>
           </div>
         </template>
+<!--        certificate set-->
+        <template v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
+          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
+            <select
+                :disabled="vMoneyConfig.disabled"
+                v-model="certificate.node.certificate"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pr-8"
+            >
+              <option v-for="crt in certificateList?.getCertificates.edges ?? []" :value="crt.node" :key="crt.node">
+                {{ crt.node.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
+            <input
+                type="number"
+                :disabled="vMoneyConfig.disabled"
+                v-model="certificate.node.qty"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+            >
+          </div>
+          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
+            <money3
+                v-model="certificate.node.price"
+                v-bind="vMoneyConfig"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+            ></money3>
+          </div>
+          <div class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
+            {{ new JNumber(certificate.node.qty * certificate.node.price).thousandSeparate() }}
+          </div>
+          <div class="col-span-1 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
+              <span
+                  @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)"
+                  class="red p-3 text-lg"
+                  v-if="!vMoneyConfig.disabled"
+              >-</span>
+          </div>
+        </template>
       </div>
       <div class="flex flex-col mt-8">
         <div class="overflow-x-auto rounded-lg">
@@ -517,44 +556,7 @@ function getTotalCost() {
                 </thead>
                 <tbody class="bg-white">
 
-                <tr v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
-                  <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500">
-                    <select
-                        :disabled="vMoneyConfig.disabled"
-                        v-model="certificate.node.certificate"
-                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pr-8"
-                    >
-                      <option v-for="crt in certificateList?.getCertificates.edges ?? []" :value="crt.node" :key="crt.node">
-                        {{ crt.node.name }}
-                      </option>
-                    </select>
-                  </td>
-                  <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500">
-                    <input
-                        type="number"
-                        :disabled="vMoneyConfig.disabled"
-                        v-model="certificate.node.qty"
-                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    >
-                  </td>
-                  <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500">
-                    <money3
-                        v-model="certificate.node.price"
-                        v-bind="vMoneyConfig"
-                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    ></money3>
-                  </td>
-                  <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500">
-                    {{ new JNumber(certificate.node.qty * certificate.node.price).thousandSeparate() }}
-                  </td>
-                  <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500">
-              <span
-                  @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)"
-                  class="red p-3 text-lg"
-                  v-if="!vMoneyConfig.disabled"
-              >-</span>
-                  </td>
-                </tr>
+
                 <tr v-for="item in dependentCosts" :key="item.id">
                   <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500">{{ item.name }}</td>
                   <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500"><input
