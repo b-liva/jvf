@@ -103,7 +103,7 @@ import CostDetails from '../cost/CostDetails.vue';
             </div>
             <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
               <ProformaDetails/>
-              <ProjectCosts class="bg-blue-100"/>
+              <ProjectCosts class="mt-6"/>
             </div>
             <div>
               <CostDetails class="bg-blue-500"/>
