@@ -341,51 +341,48 @@ function getTotalCost() {
 </script>
 
 <template>
+  <div class="flex items-start justify-between border-b">
+    <h3 class="mb-4 text-green-500 font-semibold">ثبت بهای تمام شده</h3>
+    <div>
+      <label for="editMode">ویرایش</label>
+      <input
+          id="editMode"
+          type="checkbox"
+          :value="!vMoneyConfig.disabled"
+          @input="event => vMoneyConfig.disabled = !vMoneyConfig.disabled">
+    </div>
+  </div>
+  <div class="grid grid-cols-6 gap-6">
+    <template v-for="item in costItems" :key="item.id">
+      <div class="col-span-1">
+        <label :for="item.title" class="text-sm font-medium text-gray-900 block mb-2">{{ item.name }}</label>
+        <input
+            :id="item.title"
+            :disabled="vMoneyConfig.disabled"
+            v-model="store.cost[item.title]"
+            v-on:keyup=""
+            type="text"
+            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+        >
+      </div>
+    </template>
+    <div v-if="!vMoneyConfig.disabled" class="inline-flex col-span-2">
+      <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
+              class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
+        بیرینگ
+      </button>
+      <button @click="AddNew(store.cost.testcostSet.edges, 'test')"
+              class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست
+      </button>
+      <button @click="AddNew(store.cost.certificatecostSet.edges, 'certificate')"
+              class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه
+      </button>
+    </div>
+  </div>
   <div class="flex flex-col mt-8">
     <div class="overflow-x-auto rounded-lg">
       <div class="align-middle inline-block min-w-full">
         <div class="shadow overflow-hidden sm:rounded-lg">
-          <h3 class="mb-4 text-green-500 font-semibold">ثبت بهای تمام شده</h3>
-          <div>
-            <label for="editMode">ویرایش</label>
-            <input
-                id="editMode"
-                type="checkbox"
-                :value="!vMoneyConfig.disabled"
-                @input="event => vMoneyConfig.disabled = !vMoneyConfig.disabled">
-          </div>
-          <table class="table-auto">
-            <thead>
-            <tr>
-              <th>عنوان</th>
-              <th>مقدار</th>
-            </tr>
-            </thead>
-            <tbody>
-            <template v-for="item in costItems" :key="item.id">
-              <tr>
-                <td>{{ item.name }}</td>
-                <td><input
-                    :disabled="vMoneyConfig.disabled"
-                    v-model="store.cost[item.title]"
-                    v-on:keyup=""
-                    type="text"></td>
-              </tr>
-            </template>
-            </tbody>
-          </table>
-          <div v-if="!vMoneyConfig.disabled" class="inline-flex">
-            <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
-                    class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
-              بیرینگ
-            </button>
-            <button @click="AddNew(store.cost.testcostSet.edges, 'test')"
-                    class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست
-            </button>
-            <button @click="AddNew(store.cost.certificatecostSet.edges, 'certificate')"
-                    class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه
-            </button>
-          </div>
 
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
