@@ -105,9 +105,9 @@ import CostDetails from '../cost/CostDetails.vue';
               <ProformaDetails/>
               <ProjectCosts class="mt-6"/>
             </div>
-            <div>
-              <CostDetails class="bg-blue-500"/>
-            </div>
+          </div>
+          <div class="w-full grid grid-cols-1">
+            <CostDetails class="mt-8"/>
           </div>
         </div>
       </main>
