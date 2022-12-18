@@ -507,17 +507,17 @@ function getTotalCost() {
               </td>
             </tr>
             <tr v-for="item in dependentCosts" :key="item.id">
-              <td>{{ item.name }}</td>
-              <td><input
+              <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500">{{ item.name }}</td>
+              <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500"><input
                   :disabled="vMoneyConfig.disabled"
                   v-model="store.cost[item.title]['percent']"
                   v-on:keyup="item.fn"
                   type="text"></td>
-              <td>
+              <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500">
                 <money3 v-model="store.cost[item.title]['amount']" v-bind="vMoneyConfig"></money3>
               </td>
 
-              <td>{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</td>
+              <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500">{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</td>
             </tr>
             <tr>
               <td colspan="3">جمع</td>
