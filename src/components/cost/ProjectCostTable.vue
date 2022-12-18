@@ -440,14 +440,14 @@ function getTotalCost() {
               :disabled="vMoneyConfig.disabled"
               v-model="bearing.node.qty"
               v-on:keyup="getMaterialCost"
-              class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+              class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
           ></div>
           <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
             <money3
                 v-model="bearing.node.price"
                 v-bind="vMoneyConfig"
                 v-on:keyup="getMaterialCost"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
             ></money3>
           </div>
           <div class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
@@ -479,13 +479,13 @@ function getTotalCost() {
                 type="number"
                 :disabled="vMoneyConfig.disabled"
                 v-model="test.node.qty"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
             ></div>
           <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
             <money3
                 v-model="test.node.price"
                 v-bind="vMoneyConfig"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
             ></money3>
           </div>
 
@@ -518,14 +518,14 @@ function getTotalCost() {
                 type="number"
                 :disabled="vMoneyConfig.disabled"
                 v-model="certificate.node.qty"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
             >
           </div>
           <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
             <money3
                 v-model="certificate.node.price"
                 v-bind="vMoneyConfig"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
             ></money3>
           </div>
           <div class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
@@ -541,26 +541,30 @@ function getTotalCost() {
         </template>
 <!--        Dependent cost-->
         <template v-for="item in dependentCosts" :key="item.id">
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">{{ item.name }}</div>
+          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
+            <p class="p-2.5">{{ item.name }}</p>
+          </div>
           <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500"><input
               :disabled="vMoneyConfig.disabled"
               v-model="store.cost[item.title]['percent']"
               v-on:keyup="item.fn"
-              class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+              class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
               type="text"></div>
           <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
             <money3
                 v-model="store.cost[item.title]['amount']"
                 v-bind="vMoneyConfig"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
             ></money3>
           </div>
 
-          <div class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</div>
+          <div class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
+            <p class="p-2.5">{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</p>
+          </div>
         </template>
         <template>
-          <td colspan="3">جمع</td>
-          <td>{{ new JNumber(getTotalCost()).thousandSeparate() }}</td>
+          <div colspan="3">جمع</div>
+          <div>{{ new JNumber(getTotalCost()).thousandSeparate() }}</div>
         </template>
       </div>
       <div class="flex flex-col mt-8">
