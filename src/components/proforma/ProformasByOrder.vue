@@ -27,7 +27,7 @@ function selectedProformaClass(id){
 </script>
 
 <template>
-  <h2>پیش فاکتور</h2>
+  <h3 class="mb-4 text-green-500 font-semibold">پیش فاکتور</h3>
   <dl class="max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
     <div
         @click="store.proformaId = proforma.node.id" v-for="proforma in proformas" :key="proforma.node.id"
