@@ -18,45 +18,52 @@ const ordersModified = computed(() => orders.value?.getOrdersByNumber.edges ?? {
 </script>
 
 <template>
-  <div class="">
-    <div class="flex flex-col">
-      <div class="">
-        <label for="order_number" class="mb-2 text-sm font-medium text-red-900 dark:text-white">شماره
-          درخواست</label>
-        <input
-            type="number"
-            id="order_number"
-            class="basis-1/4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="شماره درخواست"
-            v-model="store.orderNumber"
-            v-on:keyup="load()"
-            required>
-      </div>
-      <div class="flex flex-row">
-        <p v-if="loading">loading...</p>
-
-        <ul class="P-5 basis-8/12 max-w-md divide-y divide-gray-200 dark:divide-gray-700">
-          <h3 class="mb-4 text-green-500 font-semibold">درخواست</h3>
-          <li
-              v-for="order in ordersModified"
-              :key="order.node.id"
-              @click="store.orderId = order.node.id"
-              class="pb-3 sm:pb-4 ">
-            <div class="flex items-center space-x-4">
-              <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                  {{order.node.customer.name}}
-                </p>
-              </div>
-              <div class="text-sm inline-flex items-center text-base text-gray-900 dark:text-white">
-                {{order.node.dateFa}}
-              </div>
-            </div>
-          </li>
-        </ul>
+  <div class="mb-4 flex items-center justify-between">
+    <div>
+      <h3 class="text-xl font-bold text-gray-900 mb-2">درخواست ها</h3>
+      <span class="text-base font-normal text-gray-500">شماره درخواست</span>
+    </div>
+    <div class="flex-shrink-0">
+      <input
+          type="number"
+          id="order_number"
+          placeholder="شماره درخواست"
+          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+          v-model="store.orderNumber"
+          v-on:keyup="load()"
+          required>
+    </div>
+  </div>
+  <div class="flex flex-col mt-8">
+    <div class="overflow-x-auto rounded-lg">
+      <div class="align-middle inline-block min-w-full">
+        <div class="shadow overflow-hidden sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="p-4 text-right text-xs font-medium text-gray-500 tracking-wider">مشتری</th>
+              <th scope="col" class="p-4 text-right text-xs font-medium text-gray-500 tracking-wider">تاریخ درخواست</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white">
+            <tr
+                v-for="(order, index) in ordersModified"
+                :key="order.node.id"
+                @click="store.orderId = order.node.id"
+                :class="{'bg-gray-50': index % 2 === 1}">
+              <td
+                  :class="{
+                'rounded-lg rounded-right': index % 2 === 1,
+                'text-lg font-semibold text-blue-500': order.node.id === store.orderId
+                }"
+                  class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">{{order.node.customer.name}}</td>
+              <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">{{order.node.dateFa}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 
