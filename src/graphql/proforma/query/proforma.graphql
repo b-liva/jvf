@@ -5,6 +5,7 @@ query getProformasByOrderId($orderId:ID){
                 id
                 number
                 perm
+                dateFa
                 reqId{
                     customer{
                      name
