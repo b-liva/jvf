@@ -20,7 +20,6 @@ const ordersModified = computed(() => orders.value?.getOrdersByNumber.edges ?? {
 <template>
   <div class="mb-4 flex items-center justify-between">
     <div>
-      <h3 class="text-xl font-bold text-gray-900 mb-2">درخواست ها</h3>
       <span class="text-base font-normal text-gray-500">شماره درخواست</span>
     </div>
     <div class="flex-shrink-0">
@@ -38,6 +37,7 @@ const ordersModified = computed(() => orders.value?.getOrdersByNumber.edges ?? {
     <div class="overflow-x-auto rounded-lg">
       <div class="align-middle inline-block min-w-full">
         <div class="shadow overflow-hidden sm:rounded-lg">
+          <h3 class="mb-4 text-green-500 font-semibold">درخواست</h3>
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
             <tr>
