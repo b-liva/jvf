@@ -539,48 +539,34 @@ function getTotalCost() {
               >-</span>
           </div>
         </template>
+<!--        Dependent cost-->
+        <template v-for="item in dependentCosts" :key="item.id">
+          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">{{ item.name }}</div>
+          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500"><input
+              :disabled="vMoneyConfig.disabled"
+              v-model="store.cost[item.title]['percent']"
+              v-on:keyup="item.fn"
+              class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+              type="text"></div>
+          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
+            <money3
+                v-model="store.cost[item.title]['amount']"
+                v-bind="vMoneyConfig"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+            ></money3>
+          </div>
+
+          <div class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</div>
+        </template>
+        <template>
+          <td colspan="3">جمع</td>
+          <td>{{ new JNumber(getTotalCost()).thousandSeparate() }}</td>
+        </template>
       </div>
       <div class="flex flex-col mt-8">
         <div class="overflow-x-auto rounded-lg">
           <div class="align-middle inline-block min-w-full">
             <div class="shadow overflow-hidden sm:rounded-lg">
-
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                <tr>
-                  <th scope="col" class="p-2 text-right text-xs font-medium text-gray-500 tracking-wider">عنوان</th>
-                  <th scope="col" class="p-2 text-right text-xs font-medium text-gray-500 tracking-wider">مقدار</th>
-                  <th scope="col" class="p-2 text-right text-xs font-medium text-gray-500 tracking-wider">قیمت مواد</th>
-                  <th scope="col" class="p-2 text-right text-xs font-medium text-gray-500 tracking-wider">قیمت کل</th>
-                </tr>
-                </thead>
-                <tbody class="bg-white">
-
-
-                <tr v-for="item in dependentCosts" :key="item.id">
-                  <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500">{{ item.name }}</td>
-                  <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500"><input
-                      :disabled="vMoneyConfig.disabled"
-                      v-model="store.cost[item.title]['percent']"
-                      v-on:keyup="item.fn"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                      type="text"></td>
-                  <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500">
-                    <money3
-                        v-model="store.cost[item.title]['amount']"
-                        v-bind="vMoneyConfig"
-                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    ></money3>
-                  </td>
-
-                  <td class="p-2 whitespace-nowrap text-sm font-normal text-gray-500">{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</td>
-                </tr>
-                <tr>
-                  <td colspan="3">جمع</td>
-                  <td>{{ new JNumber(getTotalCost()).thousandSeparate() }}</td>
-                </tr>
-                </tbody>
-              </table>
               <div v-if="!vMoneyConfig.disabled" class="inline-flex">
                 <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
                         class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
