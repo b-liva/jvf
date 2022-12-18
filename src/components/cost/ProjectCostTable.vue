@@ -385,7 +385,38 @@ function getTotalCost() {
         </template>
       </div>
     </div>
-    <div class="bg-red-400 col-start-1 col-end-9">
+    <div class="bg-red-400 col-start-2 col-end-8">
+      <div class="grid grid-cols-12 gap-x-4 bg-white">
+        <div class="col-span-3 p-2 text-xs font-medium text-gray-500">عنوان</div>
+        <div class="col-span-3 p-2 text-xs font-medium text-gray-500">مقدار</div>
+        <div class="col-span-3 p-2 text-xs font-medium text-gray-500">قیمت مواد</div>
+        <div class="col-span-3 p-2 text-xs font-medium text-gray-500">قیمت کل</div>
+        <template
+            v-for="(item, index) in rowItems">
+          <div class="col-span-3 p-2 whitespace-nowrap text-sm font-normal text-gray-500"><p class="p-2.5">{{ item.name }}</p></div>
+          <div class="col-span-3 p-2 whitespace-nowrap text-sm font-normal text-gray-500">
+            <input
+                type="number"
+                :disabled="vMoneyConfig.disabled"
+                v-model="store.cost[item.title]['qty']"
+                :id="item.title"
+                v-on:keyup="item.fn"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+            >
+          </div>
+          <div class="col-span-3 p-2 whitespace-nowrap text-sm font-normal text-gray-500">
+            <money3
+                v-model="store.cost[item.title]['price']"
+                v-bind="vMoneyConfig"
+                v-on:keyup="item.fn"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+            ></money3>
+          </div>
+          <div class="col-span-3 p-2 whitespace-nowrap text-sm font-normal text-gray-500">
+            <p class="p-2.5">{{ new JNumber(store.cost[item.title]['qty'] * store.cost[item.title]['price']).thousandSeparate() }}</p>
+          </div>
+        </template>
+      </div>
       <div class="flex flex-col mt-8">
         <div class="overflow-x-auto rounded-lg">
           <div class="align-middle inline-block min-w-full">
