@@ -355,7 +355,7 @@ function getTotalCost() {
     </div>
   </div>
   <div class="grid grid-cols-8 gap-4">
-    <div class="bg-red-100 col-start-3 col-span-4 ...">
+    <div class="bg-red-100 col-start-3 col-span-4">
       <div class="flex items-start justify-between border-b p-4">
         <h3 class="text-green-500 font-semibold">ثبت بهای تمام شده</h3>
         <div>
@@ -368,38 +368,26 @@ function getTotalCost() {
         </div>
       </div>
     </div>
-    <div class="bg-red-200 col-start-1 col-end-3 ...">02</div>
-    <div class="bg-red-300 col-end-9 col-span-2 ...">03</div>
-    <div class="bg-red-400 col-start-1 col-end-9 ...">04</div>
+    <div class="bg-red-200 col-start-3 col-span-4">
+      <div class="flex items-start justify-between">
+        <template v-for="item in costItems" :key="item.id">
+          <div class="col-span-1">
+            <label :for="item.title" class="text-sm font-medium text-gray-900 block mb-2">{{ item.name }}</label>
+            <input
+                :id="item.title"
+                :disabled="vMoneyConfig.disabled"
+                v-model="store.cost[item.title]"
+                v-on:keyup=""
+                type="text"
+                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+            >
+          </div>
+        </template>
+      </div>
+    </div>
+    <div class="bg-red-400 col-start-1 col-end-9">04</div>
   </div>
 
-  <div class="grid grid-cols-6 gap-6">
-    <template v-for="item in costItems" :key="item.id">
-      <div class="col-span-1">
-        <label :for="item.title" class="text-sm font-medium text-gray-900 block mb-2">{{ item.name }}</label>
-        <input
-            :id="item.title"
-            :disabled="vMoneyConfig.disabled"
-            v-model="store.cost[item.title]"
-            v-on:keyup=""
-            type="text"
-            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-        >
-      </div>
-    </template>
-    <div v-if="!vMoneyConfig.disabled" class="inline-flex col-span-2">
-      <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
-              class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
-        بیرینگ
-      </button>
-      <button @click="AddNew(store.cost.testcostSet.edges, 'test')"
-              class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست
-      </button>
-      <button @click="AddNew(store.cost.certificatecostSet.edges, 'certificate')"
-              class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه
-      </button>
-    </div>
-  </div>
   <div class="flex flex-col mt-8">
     <div class="overflow-x-auto rounded-lg">
       <div class="align-middle inline-block min-w-full">
@@ -537,6 +525,18 @@ function getTotalCost() {
             </tr>
             </tbody>
           </table>
+          <div v-if="!vMoneyConfig.disabled" class="inline-flex">
+            <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
+                    class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
+              بیرینگ
+            </button>
+            <button @click="AddNew(store.cost.testcostSet.edges, 'test')"
+                    class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست
+            </button>
+            <button @click="AddNew(store.cost.certificatecostSet.edges, 'certificate')"
+                    class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه
+            </button>
+          </div>
           <button @click="sendProjectCost">ثبت</button>
         </div>
       </div>
