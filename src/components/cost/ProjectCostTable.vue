@@ -456,9 +456,9 @@ function getTotalCost() {
           <div class="col-span-1 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
               <span
                   @click="Remove(store.cost.bearingcostSet.edges, index, bearing.node.id)"
-                  class="red p-3 text-lg"
+                  class="p-3 text-red-600 text-lg hover:cursor-pointer  hover:text-red-800 hover:text-xl"
                   v-if="!vMoneyConfig.disabled"
-              >-</span>
+              >x</span>
           </div>
 
         </template>
@@ -495,9 +495,9 @@ function getTotalCost() {
           <div class="col-span-1 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
               <span
                   @click="Remove(store.cost.testcostSet.edges, index, test.node.id)"
-                  class="red p-3 text-lg"
+                  class="p-3 text-red-600 text-lg hover:cursor-pointer  hover:text-red-800 hover:text-xl"
                   v-if="!vMoneyConfig.disabled"
-              >-</span>
+              >x</span>
           </div>
         </template>
 <!--        certificate set-->
@@ -534,9 +534,9 @@ function getTotalCost() {
           <div class="col-span-1 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
               <span
                   @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)"
-                  class="red p-3 text-lg"
+                  class="p-3 text-red-600 text-lg hover:cursor-pointer hover:text-red-800 hover:text-xl"
                   v-if="!vMoneyConfig.disabled"
-              >-</span>
+              >x</span>
           </div>
         </template>
 <!--        Dependent cost-->
@@ -564,22 +564,20 @@ function getTotalCost() {
         </template>
         <div class="col-span-3 p-1 text-center text-lg"><p class="p-2.5">جمع</p></div>
         <div class="col-start-10 text-lg text-center p-1"><p class="p-2.5">{{ new JNumber(getTotalCost()).thousandSeparate() }}</p></div>
-        <div class="col-span-12">
-          <div v-if="!vMoneyConfig.disabled" class="inline-flex">
+        <div class="fixed left-0 top-2/4">
+          <div v-if="!vMoneyConfig.disabled" class="flex flex-col">
             <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
-                    class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
+                    class="my-1 bg-green-500 hover:bg-green-800 text-white py-2 px-4 rounded-r">
               بیرینگ
             </button>
             <button @click="AddNew(store.cost.testcostSet.edges, 'test')"
-                    class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست
+                    class="my-1 bg-green-500 hover:bg-green-800 text-white py-2 px-4">تست
             </button>
             <button @click="AddNew(store.cost.certificatecostSet.edges, 'certificate')"
-                    class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه
+                    class="my-1 bg-green-500 hover:bg-green-800 text-white p-3 rounded-l">گواهی نامه
             </button>
+            <button class="my-1 bg-blue-800 text-white p-2 rounded" @click="sendProjectCost">ثبت</button>
           </div>
-        </div>
-        <div class="col-span-12">
-          <button class="bg-blue-800 text-white p-3 rounded" @click="sendProjectCost">ثبت</button>
         </div>
       </div>
 
