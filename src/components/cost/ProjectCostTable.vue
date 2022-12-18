@@ -354,9 +354,9 @@ function getTotalCost() {
       </ul>
     </div>
   </div>
-  <div class="grid grid-cols-8 gap-4">
-    <div class="bg-red-100 col-start-3 col-span-4">
-      <div class="flex items-start justify-between border-b p-4">
+  <div class="bg-white grid grid-cols-8 gap-4">
+    <div class="col-start-3 col-span-4">
+      <div class="flex items-start justify-between p-4">
         <h3 class="text-green-500 font-semibold">ثبت بهای تمام شده</h3>
         <div>
           <label for="editMode">ویرایش</label>
@@ -368,8 +368,8 @@ function getTotalCost() {
         </div>
       </div>
     </div>
-    <div class="bg-red-200 col-start-3 col-span-4">
-      <div class="flex items-start justify-between">
+    <div class="col-start-3 col-span-4 border-b pb-4">
+      <div class="flex items-start justify-around">
         <template v-for="item in costItems" :key="item.id">
           <div class="col-span-1">
             <label :for="item.title" class="text-sm font-medium text-gray-900 block mb-2">{{ item.name }}</label>
@@ -387,32 +387,32 @@ function getTotalCost() {
     </div>
     <div class="bg-red-400 col-start-2 col-end-8">
       <div class="grid grid-cols-12 gap-x-4 bg-white">
-        <div class="col-span-3 p-2 text-xs font-medium text-gray-500">عنوان</div>
-        <div class="col-span-3 p-2 text-xs font-medium text-gray-500">مقدار</div>
-        <div class="col-span-3 p-2 text-xs font-medium text-gray-500">قیمت مواد</div>
-        <div class="col-span-3 p-2 text-xs font-medium text-gray-500">قیمت کل</div>
+        <div class="col-span-3 text-center p-1 text-xs font-medium text-gray-500">عنوان</div>
+        <div class="col-span-3 text-center p-1 text-xs font-medium text-gray-500">مقدار</div>
+        <div class="col-span-3 text-center p-1 text-xs font-medium text-gray-500">قیمت مواد</div>
+        <div class="col-span-3 text-center p-1 text-xs font-medium text-gray-500">قیمت کل</div>
         <template
             v-for="(item, index) in rowItems">
-          <div class="col-span-3 p-2 whitespace-nowrap text-sm font-normal text-gray-500"><p class="p-2.5">{{ item.name }}</p></div>
-          <div class="col-span-3 p-2 whitespace-nowrap text-sm font-normal text-gray-500">
+          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500"><p class="p-2.5">{{ item.name }}</p></div>
+          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
             <input
                 type="number"
                 :disabled="vMoneyConfig.disabled"
                 v-model="store.cost[item.title]['qty']"
                 :id="item.title"
                 v-on:keyup="item.fn"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
             >
           </div>
-          <div class="col-span-3 p-2 whitespace-nowrap text-sm font-normal text-gray-500">
+          <div class="col-span-3 p-1 whitespace-nowrap text-sm font-normal text-gray-500">
             <money3
                 v-model="store.cost[item.title]['price']"
                 v-bind="vMoneyConfig"
                 v-on:keyup="item.fn"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
             ></money3>
           </div>
-          <div class="col-span-3 p-2 whitespace-nowrap text-sm font-normal text-gray-500">
+          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
             <p class="p-2.5">{{ new JNumber(store.cost[item.title]['qty'] * store.cost[item.title]['price']).thousandSeparate() }}</p>
           </div>
         </template>
