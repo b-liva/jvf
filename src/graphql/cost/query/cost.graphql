@@ -3,6 +3,7 @@ query getCostsBySpec($specId:ID){
         edges {
             node {
                 id
+                dateFa
                 chNumber
                 standardparts {
                     id
