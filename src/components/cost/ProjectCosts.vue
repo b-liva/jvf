@@ -21,11 +21,17 @@ watch(
 
 <template>
   <div>project cost list for: {{ store.proformaSpecId }}</div>
-
+  <h2>بهای تمام شده</h2>
   <p v-if="loading">loading</p>
-  <ul>
-    <li v-for="cost in costs" :key="cost.node.id" @click="store.costId = cost.node.id">{{ cost.node.id }} - {{ cost.node.chNumber }}</li>
-  </ul>
+  <dl class="max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
+    <div
+        v-for="cost in costs" :key="cost.node.id" @click="store.costId = cost.node.id"
+        class="flex flex-col pb-3">
+      <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">{{cost.node.chNumber}}</dt>
+      <dd class="text-lg font-semibold">{{cost.node.dateFa}}</dd>
+    </div>
+  </dl>
+
 </template>
 
 <style scoped>
