@@ -385,7 +385,7 @@ function getTotalCost() {
         </template>
       </div>
     </div>
-    <div class="bg-red-400 col-start-2 col-end-8">
+    <div class="col-start-2 col-end-8">
       <div class="grid grid-cols-12 gap-x-4 bg-white">
         <div class="col-span-3 text-center p-1 text-xs font-medium text-gray-500">عنوان</div>
         <div class="col-span-3 text-center p-1 text-xs font-medium text-gray-500">مقدار</div>
@@ -562,32 +562,27 @@ function getTotalCost() {
             <p class="p-2.5">{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</p>
           </div>
         </template>
-        <template>
-          <div colspan="3">جمع</div>
-          <div>{{ new JNumber(getTotalCost()).thousandSeparate() }}</div>
-        </template>
-      </div>
-      <div class="flex flex-col mt-8">
-        <div class="overflow-x-auto rounded-lg">
-          <div class="align-middle inline-block min-w-full">
-            <div class="shadow overflow-hidden sm:rounded-lg">
-              <div v-if="!vMoneyConfig.disabled" class="inline-flex">
-                <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
-                        class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
-                  بیرینگ
-                </button>
-                <button @click="AddNew(store.cost.testcostSet.edges, 'test')"
-                        class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست
-                </button>
-                <button @click="AddNew(store.cost.certificatecostSet.edges, 'certificate')"
-                        class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه
-                </button>
-              </div>
-              <button @click="sendProjectCost">ثبت</button>
-            </div>
+        <div class="col-span-3 p-1 text-center text-lg"><p class="p-2.5">جمع</p></div>
+        <div class="col-start-10 text-lg text-center p-1"><p class="p-2.5">{{ new JNumber(getTotalCost()).thousandSeparate() }}</p></div>
+        <div class="col-span-12">
+          <div v-if="!vMoneyConfig.disabled" class="inline-flex">
+            <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
+                    class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-r">
+              بیرینگ
+            </button>
+            <button @click="AddNew(store.cost.testcostSet.edges, 'test')"
+                    class="bg-green-600 hover:bg-green-800 text-white py-2 px-4">تست
+            </button>
+            <button @click="AddNew(store.cost.certificatecostSet.edges, 'certificate')"
+                    class="bg-green-600 hover:bg-green-800 text-white py-2 px-4 rounded-l">گواهی نامه
+            </button>
           </div>
         </div>
+        <div class="col-span-12">
+          <button class="bg-blue-800 text-white p-3 rounded" @click="sendProjectCost">ثبت</button>
+        </div>
       </div>
+
     </div>
   </div>
 
