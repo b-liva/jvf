@@ -354,18 +354,25 @@ function getTotalCost() {
       </ul>
     </div>
   </div>
-  
-  <div class="flex items-start justify-between border-b">
-    <h3 class="mb-4 text-green-500 font-semibold">ثبت بهای تمام شده</h3>
-    <div>
-      <label for="editMode">ویرایش</label>
-      <input
-          id="editMode"
-          type="checkbox"
-          :value="!vMoneyConfig.disabled"
-          @input="event => vMoneyConfig.disabled = !vMoneyConfig.disabled">
+  <div class="grid grid-cols-8 gap-4">
+    <div class="bg-red-100 col-start-3 col-span-4 ...">
+      <div class="flex items-start justify-between border-b p-4">
+        <h3 class="text-green-500 font-semibold">ثبت بهای تمام شده</h3>
+        <div>
+          <label for="editMode">ویرایش</label>
+          <input
+              id="editMode"
+              type="checkbox"
+              :value="!vMoneyConfig.disabled"
+              @input="event => vMoneyConfig.disabled = !vMoneyConfig.disabled">
+        </div>
+      </div>
     </div>
+    <div class="bg-red-200 col-start-1 col-end-3 ...">02</div>
+    <div class="bg-red-300 col-end-9 col-span-2 ...">03</div>
+    <div class="bg-red-400 col-start-1 col-end-9 ...">04</div>
   </div>
+
   <div class="grid grid-cols-6 gap-6">
     <template v-for="item in costItems" :key="item.id">
       <div class="col-span-1">
