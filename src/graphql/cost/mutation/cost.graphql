@@ -11,6 +11,9 @@ mutation mutateProjectCost(
         dateFa:$dateFa,
     }){
         clientMutationId
+        projectCost{
+            id
+        }
         errors{
             field
             messages

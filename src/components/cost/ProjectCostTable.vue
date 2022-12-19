@@ -1,5 +1,6 @@
 <script setup>
 import {useStore} from "../../store/store.js";
+import Cost from "../../utils/cost.js";
 import {ref} from 'vue';
 import {useMutation, useQuery} from '@vue/apollo-composable'
 import {Button} from 'flowbite-vue'
@@ -213,6 +214,10 @@ const {mutate: createRowCost, loading: rowCostLoading, onDone: rowCostOnDone} = 
 let formError = ref([])
 onDone(result => {
   formError.value = formError.value.concat(result.data.mutateProjectCost.errors);
+  store.costId = store.cost.id = result.data.mutateProjectCost.projectCost.id;
+  if (store.cost.id !== ""){
+    createCostRows();
+  }
 })
 rowCostOnDone(result => {
   formError.value = formError.value.concat(result.data.mutateOverheadCost.errors);
@@ -235,11 +240,13 @@ const {result: certificateList, loading: certificateLoading, error: certificateE
 function sendProjectCost() {
   formError.value = []
   createProjectCost();
+
+}
+function createCostRows(){
   createDependentCosts()
   createRowCost();
   createRowCostSet();
 }
-
 function logStore() {
   console.log("spec id: ", store)
 }
@@ -565,17 +572,21 @@ function getTotalCost() {
         </template>
         <div class="col-span-3 p-1 text-center text-lg"><p class="p-2.5">جمع</p></div>
         <div class="col-start-10 text-lg text-center p-1"><p class="p-2.5">{{ new JNumber(getTotalCost()).thousandSeparate() }}</p></div>
-        <div class="fixed left-0 top-2/4">
+        <div class="fixed left-0 top-1/4">
           <div v-if="!vMoneyConfig.disabled" class="flex flex-col">
+            <button
+                @click="store.cost = Cost.reset()"
+                class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r"
+            >جدید</button>
             <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
-                    class="my-1 bg-green-500 hover:bg-green-800 text-white py-2 px-4 rounded-r">
+                    class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r">
               بیرینگ
             </button>
             <button @click="AddNew(store.cost.testcostSet.edges, 'test')"
-                    class="my-1 bg-green-500 hover:bg-green-800 text-white py-2 px-4">تست
+                    class="my-1 bg-green-500 hover:bg-green-800 text-white p-1">تست
             </button>
             <button @click="AddNew(store.cost.certificatecostSet.edges, 'certificate')"
-                    class="my-1 bg-green-500 hover:bg-green-800 text-white p-3 rounded-l">گواهی نامه
+                    class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-l">گواهی نامه
             </button>
             <button class="my-1 bg-blue-800 text-white p-2 rounded" @click="sendProjectCost">ثبت</button>
           </div>
