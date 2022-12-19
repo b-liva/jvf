@@ -15,6 +15,10 @@ const {result: proformasByOrder, loading, errors, load: getProformas} = useLazyQ
     })
 const proformas = computed(() => proformasByOrder.value?.getProformasByOrderId.edges ?? [])
 watch(
+    () => store.orderNumber,
+    () => proformasByOrder.value = null
+)
+watch(
     () => store.orderId,
     () => {
       getProformas()
