@@ -28,12 +28,18 @@ watch(
       getProformas();
     }
 )
+
 function getValue(){
-  return proformasByOrder.value?.getProformasByOrderId.edges ?? []
+  return {
+    value: proformasByOrder.value?.getProformasByOrderId.edges ?? [],
+    resetValue: []
+  }
 }
+
 function selectedProformaClass(id){
   return id === store.proformaId ? "text-lg font-semibold" : "";
 }
+
 </script>
 
 <template>

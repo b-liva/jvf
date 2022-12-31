@@ -6,7 +6,8 @@ export default class Reset{
     }
 
     getValueOrReset(getValue){
-        return this.resetting.value ? [] : getValue()
+        const v = getValue()
+        return this.resetting.value ? v.resetValue : v.value
     }
     reset(){
         this.resetting.value = true;
