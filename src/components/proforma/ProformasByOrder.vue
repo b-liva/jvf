@@ -2,7 +2,8 @@
 import {useStore} from "../../store/store.js";
 import {useLazyQuery} from "@vue/apollo-composable";
 import {getProformasByOrderId} from "../../graphql/proforma/query/proforma.graphql";
-import {computed, watch} from "vue";
+import {computed, watch, ref} from "vue";
+let resetting = ref(false);
 import { ListGroup, ListGroupItem } from 'flowbite-vue'
 const store = useStore();
 
@@ -13,20 +14,27 @@ const {result: proformasByOrder, loading, errors, load: getProformas} = useLazyQ
     }), {
       prefetch: false
     })
-const proformas = computed(() => proformasByOrder.value?.getProformasByOrderId.edges ?? [])
+const proformas = computed(() => getValueOrReset(proformasByOrder))
 watch(
     () => store.orderNumber,
-    () => proformasByOrder.value = null
+    () => reset()
 )
 watch(
     () => store.orderId,
     () => {
-      getProformas()
+      resetting.value = false;
+      getProformas();
     }
 )
-
+function getValueOrReset(proformasByOrder){
+  return resetting.value ? [] : proformasByOrder.value?.getProformasByOrderId.edges ?? []
+}
 function selectedProformaClass(id){
   return id === store.proformaId ? "text-lg font-semibold" : "";
+}
+function reset(){
+  resetting.value = true;
+  console.log('proformas by order reset');
 }
 </script>
 
@@ -35,7 +43,7 @@ function selectedProformaClass(id){
     <div class="overflow-x-auto rounded-lg">
       <div class="align-middle inline-block min-w-full">
         <div class="shadow overflow-hidden sm:rounded-lg">
-          <h3 class="mb-4 text-green-500 font-semibold">پیش فاکتور</h3>
+          <h3 class="mb-4 text-green-500 font-semibold" @click="reset">پیش فاکتور</h3>
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
             <tr>
