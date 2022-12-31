@@ -10,24 +10,18 @@ import ProjectCostTable from '../cost/ProjectCostTable.vue';
 const store = useStore();
 store.cost = Cost.reset();
 
-const {result: projectCostDetailsResult, loading, load: load} = useLazyQuery(
+const {result: projectCostDetailsResult, loading, load: load, onResult: onResult} = useLazyQuery(
     getProjectCostDetails,
     () => {return {costId: store.costId}},
     {fetchPolicy: "cache-and-network"}
 );
 
-watch(
-    projectCostDetailsResult,
-    () => {
-      if (!loading.value) {
-        const costRaw = projectCostDetailsResult.value?.getProjectCostDetails ?? Cost.reset()
-        const costObj = new Cost(costRaw.id, costRaw);
-        window.costObj = costObj;
-        store.cost = Cost.copy(costObj);
-        window.emptyCost = Cost.reset();
-      }
-    },
-    {deep: true})
+onResult(qr => {
+  const costRaw = projectCostDetailsResult.value?.getProjectCostDetails ?? Cost.reset()
+  const costObj = new Cost(costRaw.id, costRaw);
+  store.cost = Cost.copy(costObj);
+})
+
 watch(
     () => store.costId,
     () => load(),
