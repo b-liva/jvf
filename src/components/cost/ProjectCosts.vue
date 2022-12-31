@@ -5,19 +5,35 @@ import {useLazyQuery} from "@vue/apollo-composable";
 import {computed} from "vue";
 import {getCostsBySpec} from "../../graphql/cost/query/cost.graphql";
 import JNumber from "../../utils/number.js";
-import CostDetails from "./CostDetails.vue";
-
+import Reset from "../../utils/reset.js";
+const reset = new Reset();
 const store = useStore();
+
 const {result: costList, loading, error, load} = useLazyQuery(getCostsBySpec,
     () => ({
       specId: store.proformaSpecId
     }))
-const costs = computed(() => costList.value?.getCostsBySpec.edges ?? [])
+const costs = computed(() => reset.getValueOrReset(getValue))
 watch(
     () => store.proformaSpecId,
-    () => load(),
+    () => {
+      reset.resetting.value = false
+      load()
+    },
     {deep: true}
 )
+
+watch(
+    () => [store.orderNumber, store.orderId, store.proformaId],
+    () => reset.reset()
+)
+
+function getValue(){
+  return{
+    value: costList.value?.getCostsBySpec.edges ?? [],
+    resetValue: []
+  }
+}
 </script>
 
 <template>
