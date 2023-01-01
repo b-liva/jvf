@@ -18,6 +18,10 @@ function resetStore() {
   store.costId = null;
   store.cost = null;
 }
+
+function idIsNull(id){
+  return id in [false, '', ' ', 0, '0']
+}
 </script>
 
 <template>
@@ -184,16 +188,11 @@ function resetStore() {
         <div class="pt-6 px-4">
           <div class="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
             <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2">
-              <div dir="ltr">
-                <p>orderNumber: {{ store.orderNumber }}</p>
-                <p>orderId: {{ store.orderId }}</p>
-                <p>proformaId: {{ store.proformaId }}</p>
-                <p>specId: {{ store.specId }}</p>
-                <p>proformaSpecId: {{ store.proformaSpecId }}</p>
-                <p>costId: {{ store.costId }}</p>
-                <!--                <p>orderId: {{store.cost}}</p>-->
-              </div>
-              <button @click="resetStore">clear</button>
+              <button
+                  v-if="!idIsNull(store.orderNumber)"
+                  @click="resetStore"
+                  class="text-sm font-normal text-red-500"
+              >حذف همه</button>
               <OrdersByNumber/>
               <ProformasByOrder/>
             </div>
