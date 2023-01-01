@@ -19,6 +19,7 @@ const specs = computed(() => proformaRes.value?.getProforma?.prefspecSet.edges ?
 watch(
     () => store.proformaId,
     () => {
+      store.proformaSpecId = 0;
       getProformaDetails()
     }
 )
