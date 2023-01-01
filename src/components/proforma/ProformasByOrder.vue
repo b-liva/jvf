@@ -12,6 +12,7 @@ const proformas = computed(() => proformasByOrder.value?.getProformasByOrderId.e
 watch(
     () => store.orderId,
     () => {
+      store.proformaId = 0;
       let vars = {
         orderId: store.orderId
       }
