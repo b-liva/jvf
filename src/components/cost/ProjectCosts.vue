@@ -5,34 +5,27 @@ import {useLazyQuery} from "@vue/apollo-composable";
 import {computed} from "vue";
 import {getCostsBySpec} from "../../graphql/cost/query/cost.graphql";
 import JNumber from "../../utils/number.js";
-import Reset from "../../utils/reset.js";
-const reset = new Reset();
+import {getProformasByOrderId} from "../../graphql/proforma/query/proforma.graphql";
 const store = useStore();
 
-const {result: costList, loading, error, load} = useLazyQuery(getCostsBySpec,
-    () => ({
-      specId: store.proformaSpecId
-    }))
-const costs = computed(() => reset.getValueOrReset(getValue))
+const {result: costList, loading, error, load} = useLazyQuery(getCostsBySpec)
+const costs = computed(() => costList.value?.getCostsBySpec.edges ?? [])
 watch(
     () => store.proformaSpecId,
     () => {
-      reset.resetting.value = false
-      load()
+      store.costId = 0;
+      let vars = {
+        specId: store.proformaSpecId
+      }
+      if (idIsNull(store.proformaSpecId)){
+        vars['specPk'] = 0
+      }
+      load(getCostsBySpec, vars);
     },
     {deep: true}
 )
-
-watch(
-    () => [store.orderNumber, store.orderId, store.proformaId],
-    () => reset.reset()
-)
-
-function getValue(){
-  return{
-    value: costList.value?.getCostsBySpec.edges ?? [],
-    resetValue: []
-  }
+function idIsNull(id){
+  return id in [false, '', ' ', 0, '0']
 }
 </script>
 

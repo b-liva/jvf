@@ -1,5 +1,11 @@
-query getCostsBySpec($specId:ID){
-    getCostsBySpec:projectCosts(spec:$specId) {
+query getCostsBySpec(
+$specId:ID,
+$specPk:Float
+){
+    getCostsBySpec:projectCosts(
+    spec:$specId,
+    specPk:$specPk
+    ) {
         edges {
             node {
                 id
