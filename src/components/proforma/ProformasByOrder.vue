@@ -3,23 +3,15 @@ import {useStore} from "../../store/store.js";
 import {useLazyQuery} from "@vue/apollo-composable";
 import {getProformasByOrderId} from "../../graphql/proforma/query/proforma.graphql";
 import {computed, watch, ref} from "vue";
-import Reset from "../../utils/reset.js";
-let reset = new Reset();
 const store = useStore();
 
 const {result: proformasByOrder, loading, errors, load: getProformas} = useLazyQuery(getProformasByOrderId)
 
-const proformas = computed(() => reset.getValueOrReset(getValue))
-
-watch(
-    () => store.orderNumber,
-    () => reset.reset()
-)
+const proformas = computed(() => proformasByOrder.value?.getProformasByOrderId.edges ?? [])
 
 watch(
     () => store.orderId,
     () => {
-      reset.resetting.value = false;
       let vars = {
         orderId: store.orderId
       }
@@ -32,12 +24,6 @@ watch(
 
 function idIsNull(id){
   return id in [false, '', ' ', 0, '0']
-}
-function getValue() {
-  return {
-    value: proformasByOrder.value?.getProformasByOrderId.edges ?? [],
-    resetValue: []
-  }
 }
 
 function selectedProformaClass(id) {
