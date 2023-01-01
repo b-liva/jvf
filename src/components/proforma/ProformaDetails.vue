@@ -40,7 +40,7 @@ function getProformaValue(){
 
 function getProformaSpecValue(){
   return {
-    value: proformaRes.value?.getProforma.prefspecSet.edges ?? {},
+    value: proformaRes.value?.getProforma?.prefspecSet.edges ?? {},
     resetValue: {}
   }
 }
