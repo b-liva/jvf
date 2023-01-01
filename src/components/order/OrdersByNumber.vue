@@ -5,13 +5,20 @@ const store = useStore();
 
 import {useLazyQuery} from "@vue/apollo-composable";
 import {getOrdersByNumber} from "../../graphql/order/query/order.graphql"
-import {computed} from "vue";
+import {computed, watch} from "vue";
 
 const {result: orders, loading, error, load} = useLazyQuery(getOrdersByNumber,
     () => {
       return {
         number: store.orderNumber
       }
+    }
+)
+watch(
+    () => store.orderNumber,
+    () => {
+      store.orderId = 0;
+      load()
     }
 )
 const ordersModified = computed(() => orders.value?.getOrdersByNumber.edges ?? {})
@@ -29,7 +36,6 @@ const ordersModified = computed(() => orders.value?.getOrdersByNumber.edges ?? {
           placeholder="شماره درخواست"
           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
           v-model="store.orderNumber"
-          v-on:keyup="load()"
           required>
     </div>
   </div>
