@@ -5,8 +5,6 @@ import {useLazyQuery} from "@vue/apollo-composable";
 import {getProforma} from "../../graphql/proforma/query/proforma.graphql";
 import JNumber from "../../utils/number.js";
 const store = useStore();
-import Reset from "../../utils/reset.js";
-let reset = new Reset();
 
 const {result: proformaRes, loading, errors, load: getProformaDetails} = useLazyQuery(getProforma,
     () => ({
@@ -15,35 +13,16 @@ const {result: proformaRes, loading, errors, load: getProformaDetails} = useLazy
       prefetch: false
     })
 
-const proforma = computed(() => reset.getValueOrReset(getProformaValue))
-const specs = computed(() => reset.getValueOrReset(getProformaSpecValue))
-
-watch(
-    () => [store.orderNumber, store.orderId],
-    () => reset.reset()
-)
+const proforma = computed(() => proformaRes.value?.getProforma ?? {})
+const specs = computed(() => proformaRes.value?.getProforma?.prefspecSet.edges ?? {})
 
 watch(
     () => store.proformaId,
     () => {
-      reset.resetting.value = false;
       getProformaDetails()
     }
 )
 
-function getProformaValue(){
-  return {
-    value: proformaRes.value?.getProforma ?? {},
-    resetValue: {}
-  }
-}
-
-function getProformaSpecValue(){
-  return {
-    value: proformaRes.value?.getProforma?.prefspecSet.edges ?? {},
-    resetValue: {}
-  }
-}
 </script>
 
 <template>
