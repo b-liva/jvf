@@ -6,8 +6,7 @@ import ProformasByOrder from '../proforma/ProformasByOrder.vue';
 import ProformaDetails from '../proforma/ProformaDetails.vue';
 import ProjectCosts from '../cost/ProjectCosts.vue';
 import CostDetails from '../cost/CostDetails.vue';
-import {idIsNull} from "../../utils/methods";
-import {baseUrl} from "../../utils/methods";
+import {idIsNull, baseUrl} from "../../utils/methods";
 
 const store = useStore();
 
