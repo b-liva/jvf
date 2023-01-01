@@ -7,12 +7,7 @@ import Reset from "../../utils/reset.js";
 let reset = new Reset();
 const store = useStore();
 
-const {result: proformasByOrder, loading, errors, load: getProformas} = useLazyQuery(getProformasByOrderId,
-    () => ({
-      orderId: store.orderId,
-    }), {
-      prefetch: false
-    })
+const {result: proformasByOrder, loading, errors, load: getProformas} = useLazyQuery(getProformasByOrderId)
 
 const proformas = computed(() => reset.getValueOrReset(getValue))
 
@@ -25,18 +20,27 @@ watch(
     () => store.orderId,
     () => {
       reset.resetting.value = false;
-      getProformas();
+      let vars = {
+        orderId: store.orderId
+      }
+      if (idIsNull(store.orderId)){
+        vars['orderPk'] = 0
+      }
+      getProformas(getProformasByOrderId, vars);
     }
 )
 
-function getValue(){
+function idIsNull(id){
+  return id in [false, '', ' ', 0, '0']
+}
+function getValue() {
   return {
     value: proformasByOrder.value?.getProformasByOrderId.edges ?? [],
     resetValue: []
   }
 }
 
-function selectedProformaClass(id){
+function selectedProformaClass(id) {
   return id === store.proformaId ? "text-lg font-semibold" : "";
 }
 
@@ -66,9 +70,11 @@ function selectedProformaClass(id){
                 'rounded-lg rounded-right': index % 2 === 1,
                 'text-lg font-semibold text-blue-500': proforma.node.id === store.proformaId
                 }"
-                  class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">{{proforma.node.number}}</td>
+                  class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">{{ proforma.node.number }}
+              </td>
               <td
-                  class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">{{proforma.node.dateFa}}</td>
+                  class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">{{ proforma.node.dateFa }}
+              </td>
             </tr>
             </tbody>
           </table>

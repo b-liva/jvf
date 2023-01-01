@@ -1,5 +1,11 @@
-query getProformasByOrderId($orderId:ID){
-    getProformasByOrderId: allProformas(reqId:$orderId) {
+query getProformasByOrderId(
+$orderId:ID,
+$orderPk:Float
+){
+    getProformasByOrderId: allProformas(
+    reqId:$orderId,
+    reqPk:$orderPk
+    ) {
         edges {
             node {
                 id
