@@ -6,6 +6,7 @@ import {computed} from "vue";
 import {getCostsBySpec} from "../../graphql/cost/query/cost.graphql";
 import JNumber from "../../utils/number.js";
 import {getProformasByOrderId} from "../../graphql/proforma/query/proforma.graphql";
+import {idIsNull} from "../../utils/methods";
 const store = useStore();
 
 const {result: costList, loading, error, load} = useLazyQuery(getCostsBySpec)
@@ -24,9 +25,7 @@ watch(
     },
     {deep: true}
 )
-function idIsNull(id){
-  return id in [false, '', ' ', 0, '0']
-}
+
 </script>
 
 <template>

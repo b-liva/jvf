@@ -6,6 +6,7 @@ import ProformasByOrder from '../proforma/ProformasByOrder.vue';
 import ProformaDetails from '../proforma/ProformaDetails.vue';
 import ProjectCosts from '../cost/ProjectCosts.vue';
 import CostDetails from '../cost/CostDetails.vue';
+import {idIsNull} from "../../utils/methods";
 
 const store = useStore();
 
@@ -19,9 +20,6 @@ function resetStore() {
   store.cost = null;
 }
 
-function idIsNull(id){
-  return id in [false, '', ' ', 0, '0']
-}
 </script>
 
 <template>

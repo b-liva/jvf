@@ -3,6 +3,7 @@ import {useStore} from "../../store/store.js";
 import {useLazyQuery} from "@vue/apollo-composable";
 import {getProformasByOrderId} from "../../graphql/proforma/query/proforma.graphql";
 import {computed, watch, ref} from "vue";
+import {idIsNull} from "../../utils/methods";
 const store = useStore();
 
 const {result: proformasByOrder, loading, errors, load: getProformas} = useLazyQuery(getProformasByOrderId)
@@ -22,10 +23,6 @@ watch(
       getProformas(getProformasByOrderId, vars);
     }
 )
-
-function idIsNull(id){
-  return id in [false, '', ' ', 0, '0']
-}
 
 function selectedProformaClass(id) {
   return id === store.proformaId ? "text-lg font-semibold" : "";

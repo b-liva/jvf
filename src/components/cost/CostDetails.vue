@@ -5,6 +5,7 @@ import {useLazyQuery} from "@vue/apollo-composable";
 import {getProjectCostDetails} from "../../graphql/cost/query/cost.graphql";
 import ProjectCostTable from '../cost/ProjectCostTable.vue';
 import {ref, watch} from "vue";
+import {idIsNull} from "../../utils/methods";
 let show = ref(false)
 const store = useStore();
 store.cost = Cost.reset();
@@ -36,9 +37,6 @@ watch(
     {deep: true}
 )
 
-function idIsNull(id){
-  return id in [false, '', ' ', 0, '0']
-}
 </script>
 
 <template>
