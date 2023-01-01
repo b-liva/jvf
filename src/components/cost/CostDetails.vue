@@ -28,11 +28,17 @@ watch(
 watch(
     () => store.costId,
     () => {
-      show.value = true;
-      load()
+      if (!idIsNull(store.costId)){
+        show.value = true;
+        load()
+      }
     },
     {deep: true}
 )
+
+function idIsNull(id){
+  return id in [false, '', ' ', 0, '0']
+}
 </script>
 
 <template>
