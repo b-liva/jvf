@@ -51,6 +51,6 @@ import router from "./router/routes";
   </div>
 </template>
 
-<style scoped>
+<style >
 @import url("./assets/index.css");
 </style>
