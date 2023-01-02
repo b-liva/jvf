@@ -5,8 +5,7 @@ import ProformasByOrder from '../proforma/ProformasByOrder.vue';
 import ProformaDetails from '../proforma/ProformaDetails.vue';
 import ProjectCosts from '../cost/ProjectCosts.vue';
 import CostDetails from '../cost/CostDetails.vue';
-import {idIsNull, baseUrl} from "../../utils/methods";
-import { RouterLink, RouterView } from 'vue-router'
+import {idIsNull} from "../../utils/methods";
 
 const store = useStore();
 
