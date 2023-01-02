@@ -18,7 +18,8 @@
     "graphql-tag": "^2.12.6",
     "pinia": "^2.0.25",
     "v-money3": "^3.22.2",
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@rollup/plugin-graphql": "^1.1.0",
