@@ -1,12 +1,12 @@
 <script setup>
 import {useStore} from "../../store/store.js";
 import OrdersByNumber from '../order/OrdersByNumber.vue';
-import OrderDetails from '../order/OrderDetails.vue';
 import ProformasByOrder from '../proforma/ProformasByOrder.vue';
 import ProformaDetails from '../proforma/ProformaDetails.vue';
 import ProjectCosts from '../cost/ProjectCosts.vue';
 import CostDetails from '../cost/CostDetails.vue';
 import {idIsNull, baseUrl} from "../../utils/methods";
+import { RouterLink, RouterView } from 'vue-router'
 
 const store = useStore();
 
@@ -70,6 +70,14 @@ function resetStore() {
                   @click="resetStore"
                   class="text-sm font-normal text-red-500"
               >حذف همه</button>
+              <div>
+                <div class="bg-gray-300">
+                  <RouterLink to="/">Home</RouterLink> |
+                  <RouterLink to="/about">About</RouterLink>
+                  <RouterView />
+                </div>
+
+              </div>
               <OrdersByNumber/>
               <ProformasByOrder/>
             </div>
