@@ -31,14 +31,6 @@ function resetStore() {
             @click="resetStore"
             class="text-sm font-normal text-red-500"
         >حذف همه</button>
-        <div>
-          <div class="bg-gray-300">
-            <RouterLink to="/">Home</RouterLink> |
-            <RouterLink to="/about">About</RouterLink>
-            <RouterView />
-          </div>
-
-        </div>
         <OrdersByNumber/>
         <ProformasByOrder/>
       </div>
