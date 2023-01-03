@@ -4,9 +4,10 @@ import {ref} from "vue";
 import {filterOrders} from "../../graphql/order/query/order.graphql"
 import {useLazyQuery} from "@vue/apollo-composable";
 import {computed, watch} from "vue";
+import {idIsNull} from "../../utils/methods";
 
 const orderStore = useOrderStore();
-let orderNumber = ref('');
+let orderNumber = ref(0)
 let customerName = ref('');
 const {result: orders, loading, error, load} = useLazyQuery(filterOrders,
     () => {
@@ -19,17 +20,20 @@ const {result: orders, loading, error, load} = useLazyQuery(filterOrders,
 watch(
     () => [orderNumber.value, customerName.value],
     () => {
-      load()
+      if (idIsNull(orderNumber.value)){orderNumber.value = null;}
+      if (filterIsValid()){load()}
     }
 )
 orderStore.orders = computed(() => orders.value?.filterOrders.edges ?? [])
+function filterIsValid(){
+  return orderNumber.value || customerName.value
+}
 </script>
 
 <template>
   <div>
     <span class="text-base font-normal text-gray-500">شماره درخواست</span>
     <input
-        type="number"
         id="order_number"
         placeholder="شماره درخواست"
         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
