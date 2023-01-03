@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router";
 import HomePage from "../components/test/HomePage.vue";
 import Orders from "../components/order/Orders.vue";
+import Order from "../components/order/Order.vue";
 import ProjectCost from '../components/cost/ProjectCost.vue';
 
 export const menuRoutes = [
@@ -10,6 +11,7 @@ export const menuRoutes = [
 ]
 
 const nonMenuRoutes = [
+    {path: '/order/:id', name: 'order', component: Order, props: {title: 'جزئیات سفارش'}},
 ]
 
 const routes = menuRoutes.concat(nonMenuRoutes)
