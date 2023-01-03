@@ -23,11 +23,11 @@ const ordersModified = computed(() => orders.value?.filterOrders.edges ?? {})
 </script>
 
 <template>
-  <div class="mb-4 flex items-center justify-between">
+  <div class="">
     <div>
       <span class="text-base font-normal text-gray-500">شماره درخواست</span>
     </div>
-    <div class="flex-shrink-0">
+    <div class="">
       <input
           type="number"
           id="order_number"
@@ -37,33 +37,18 @@ const ordersModified = computed(() => orders.value?.filterOrders.edges ?? {})
           required>
     </div>
   </div>
-  <div class="flex flex-col mt-8">
+  <div class="">
     <div class="overflow-x-auto rounded-lg">
-      <div class="align-middle inline-block min-w-full">
-        <div class="shadow overflow-hidden sm:rounded-lg">
+      <div class="">
+        <div class="">
           <h3 class="mb-4 text-green-500 font-semibold">درخواست</h3>
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="p-4 text-right text-xs font-medium text-gray-500 tracking-wider">مشتری</th>
-              <th scope="col" class="p-4 text-right text-xs font-medium text-gray-500 tracking-wider">تاریخ درخواست</th>
-            </tr>
-            </thead>
-            <tbody class="bg-white">
-            <tr
-                v-for="(order, index) in ordersModified"
-                :key="order.node.id"
-                @click="router.push({name: 'order', params:{id:order.node.id}})"
-                :class="{'bg-gray-50': index % 2 === 1}">
-              <td
-                  :class="{
-                'rounded-lg rounded-right': index % 2 === 1,
-                }"
-                  class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">{{order.node.customer.name}}</td>
-              <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">{{order.node.dateFa}}</td>
-            </tr>
-            </tbody>
-          </table>
+          <div
+              v-for="(order, index) in ordersModified"
+              :key="order.node.id"
+              @click="router.push({name: 'order', params:{id:order.node.id}})"
+              :class="{'bg-gray-50': index % 2 === 1}">
+            {{ order.node.customer.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -71,6 +56,5 @@ const ordersModified = computed(() => orders.value?.filterOrders.edges ?? {})
 </template>
 
 <style scoped>
-@import url("../../assets/index.css");
 
 </style>
