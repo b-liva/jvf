@@ -12,10 +12,10 @@ const router = useRouter();
         v-for="(order, index) in orders"
         :key="order.node.id"
         @click="router.push({name: 'order', params:{id:order.node.id}})"
-        class="border bg-white rounded-lg p-2 mb-6">
+        class="border bg-white rounded-lg p-2 mb-6 relative">
       <div class="">
         <div class="grid grid-cols-12">
-          <div class="text-base text-blue-500 p-1.5">{{ order.node.number }}</div>
+          <div class="text-sm text-white text-center p-1.5 bg-blue-400 absolute top-0 right-0 w-12 rounded-tr-lg rounded-bl-lg">{{ order.node.number }}</div>
           <div class="col-start-13 text-green-700 p-1">{{order.node.owner.lastName}}</div>
         </div>
         <div class="grid grid-cols-6 py-4">
