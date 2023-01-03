@@ -1,10 +1,10 @@
 <script setup>
-import OrdersByNumber from "./OrdersByNumber.vue"
+import List from "./List.vue";
 </script>
 
 <template>
   <div class="grid grid-cols-4 gap-4">
-    <div class=""><OrdersByNumber/></div>
+    <div class=""><List/></div>
   </div>
 </template>
 
