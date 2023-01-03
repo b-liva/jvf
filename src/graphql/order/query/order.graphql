@@ -47,6 +47,9 @@ query filterOrders(
           id
           name
         }
+        owner{
+          lastName
+        }
         totalKw
         totalQty
       }
