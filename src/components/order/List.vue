@@ -1,12 +1,12 @@
 <script setup>
 import {useRouter} from "vue-router";
 import {useLazyQuery} from "@vue/apollo-composable";
-import {getOrdersByNumber} from "../../graphql/order/query/order.graphql"
+import {filterOrders} from "../../graphql/order/query/order.graphql"
 import {computed, watch, ref} from "vue";
 
 const router = useRouter();
 let orderNumber = ref('');
-const {result: orders, loading, error, load} = useLazyQuery(getOrdersByNumber,
+const {result: orders, loading, error, load} = useLazyQuery(filterOrders,
     () => {
       return {
         number: orderNumber.value
@@ -19,7 +19,7 @@ watch(
       load()
     }
 )
-const ordersModified = computed(() => orders.value?.getOrdersByNumber.edges ?? {})
+const ordersModified = computed(() => orders.value?.filterOrders.edges ?? {})
 </script>
 
 <template>
