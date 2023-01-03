@@ -1,6 +1,7 @@
 <script setup>
 import {baseUrl} from "./utils/methods";
-import router from "./router/routes";
+import {menuRoutes} from "./router/routes";
+
 </script>
 
 <template>
@@ -12,7 +13,7 @@ import router from "./router/routes";
         <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
           <div class="flex-1 px-3 bg-white divide-y space-y-1">
             <ul class="space-y-2 pb-2">
-              <RouterLink v-for="route in router.getRoutes()" :to="route.path">
+              <RouterLink v-for="route in menuRoutes" :to="route.path">
                 <li>
                   <a href="#"
                      class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group ">
@@ -22,7 +23,7 @@ import router from "./router/routes";
                             d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    <span class="ml-3 flex-1 whitespace-nowrap">{{route.props.default.title}}</span>
+                    <span class="ml-3 flex-1 whitespace-nowrap">{{route.props.title}}</span>
                   </a>
                 </li>
               </RouterLink>
