@@ -34,8 +34,40 @@ const route = useRoute();
   </div>
   <div class="grid grid-cols-12 mt-6">
     <div class="col-span-3 bg-blue-100">
-      <div class="p-3">
-        simple timeline
+      <div class="m-3">
+        <div class="pr-3 border-r-blue-500 border-r-4 border-b-gray-900">
+          <input checked disabled type="checkbox" class="inline-block align-middle rounded border-gray-300 mr-1 bg-gray-50 focus:ring-3 focus:ring-cyan-200 h-4 w-4">
+          <div class="inline-block align-middle pr-3">
+            <label class="">دریافت سفارش</label>
+            <p class="text-gray-600 text-xs pt-2
+">1401-03-06</p>
+          </div>
+        </div>
+        <div>
+          <input type="checkbox">
+          <p>صدور پیش فاکتور</p>
+          <p>1401-03-06</p>
+        </div>
+        <div>
+          <input type="checkbox">
+          <p>دریافت وجه</p>
+          <p>1401-06-06</p>
+        </div>
+        <div>
+          <input type="checkbox">
+          <p>صدور مجوز</p>
+          <p>1401-06-06</p>
+        </div>
+        <div>
+          <input type="checkbox">
+          <p>ارسال به مشتری</p>
+          <p>1401-06-06</p>
+        </div>
+        <div>
+          <input type="checkbox">
+          <p>ارسال فاکتور</p>
+          <p>1401-06-06</p>
+        </div>
       </div>
     </div>
     <div class="col-span-7 bg-blue-200 px-3">
