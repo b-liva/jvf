@@ -3,10 +3,24 @@ import HomePage from "../components/test/HomePage.vue";
 import Orders from "../components/order/Orders.vue";
 import Order from "../components/order/Order.vue";
 import ProjectCost from '../components/cost/ProjectCost.vue';
+import Filters from "../components/order/Filters.vue";
+import List from "../components/order/List.vue";
+import SearchPage from "../layout/SearchPage.vue"
 
 export const menuRoutes = [
-    {path: '/', name: 'home', component: HomePage, props:{title:'نخست'}},
-    {path: '/orders', name: 'orders', component: Orders, props: {title: 'سفارش فروش'}},
+    {path: '/', name: 'home', component: HomePage, props: {title: 'نخست'}},
+    {
+        path: '/orders',
+        name: 'orders',
+        component: SearchPage,
+        children: [{
+            path: '',
+            components: {
+                SearchFilters: Filters,
+                SearchResults: List,
+            }
+        }],
+        props: {title: 'سفارش فروش'}},
     {path: '/cost', name: 'cost', component: ProjectCost, props: {title: 'بهای تمام شده'}},
 ]
 
