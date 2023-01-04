@@ -1,6 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
 import HomePage from "../components/test/HomePage.vue";
-import Orders from "../components/order/Orders.vue";
 import Order from "../components/order/Order.vue";
 import ProjectCost from '../components/cost/ProjectCost.vue';
 import Filters from "../components/order/Filters.vue";
