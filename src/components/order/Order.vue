@@ -40,7 +40,7 @@ const props = [
       <div class="pt-2 text-blue-600">فروغی</div>
     </div>
   </div>
-  <div class="grid grid-cols-12 mt-6">
+  <div class="grid grid-cols-12 mt-20">
     <div class="col-span-3 m-3">
       <TimeLineList v-for="prop in props" v-bind="prop" class="my-2"/>
     </div>
@@ -79,7 +79,7 @@ const props = [
 
     </div>
     <div class="col-span-2">
-      <div>
+      <div class="p-3">
         <div>شرح</div>
         <div>توضیحات مربوط به این درخواست</div>
       </div>
