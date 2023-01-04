@@ -6,32 +6,34 @@ const route = useRoute();
 </script>
 
 <template>
-  <div class="grid grid-cols-9 mt-6">
-    <div class="col-span-2 bg-blue-100">
+  <div class="flex justify-center mt-12">
+    <div class="text-center px-4">
+      <div class="border-b pb-2">شماره درخواست</div>
+      <div class="pt-2 text-blue-600">450</div>
+    </div>
+    <div class="text-center px-4">
+      <div class="border-b pb-2">تاریخ</div>
+      <div class="pt-2 text-blue-600">1401-05-05</div>
+    </div>
+    <div class="text-center px-4">
+      <div class="border-b pb-2">تعداد دستگاه</div>
+      <div class="pt-2 text-blue-600">6</div>
+    </div>
+    <div class="text-center px-4">
+      <div class="border-b pb-2">مجموع کیلووات</div>
+      <div class="pt-2 text-blue-600">450</div>
+    </div>
+  </div>
+  <div class="grid grid-cols-12 mt-6">
+    <div class="col-span-3 bg-blue-100">
       <div class="p-3">
-        <div>
-          <span>شماره درخواست</span>
-          <span>450</span>
-        </div>
-        <div>
-          <span>تاریخ درخواست</span>
-          <span>1401-05-05</span>
-        </div>
-        <div>
-          <span>دستگاه</span>
-          <span>5</span>
-        </div>
-        <div>
-          <span>کیلووات</span>
-          <span>275</span>
-        </div>
         <div>
           <div>شرح</div>
           <div>توضیحات مربوط به این درخواست</div>
         </div>
       </div>
     </div>
-    <div class="col-span-5 bg-blue-200 px-3">
+    <div class="col-span-7 bg-blue-200 px-3">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -74,7 +76,7 @@ const route = useRoute();
         <div>دانشی</div>
       </div>
     </div>
-    {{ route.params.id }}
+    <div>{{ route.params.id }}</div>
   </div>
 </template>
 
