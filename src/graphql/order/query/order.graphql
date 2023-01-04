@@ -29,3 +29,40 @@ query getSpecsById($orderId:ID){
         }
     }
 }
+
+query filterOrders(
+  $number:Int,
+  $customerName:String
+){
+  filterOrders: allRequests(
+    number:$number,
+    customer_Name_Icontains: $customerName
+  ) {
+    edges {
+      node {
+        id
+        number
+        dateFa
+        customer{
+          id
+          name
+        }
+        owner{
+          lastName
+        }
+        orderfollowupSet(last:1) {
+          edges {
+            node {
+              id
+              summary
+              description
+              dateFa
+            }
+          }
+        }
+        totalKw
+        totalQty
+      }
+    }
+  }
+}
