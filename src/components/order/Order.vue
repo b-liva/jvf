@@ -8,6 +8,10 @@ const route = useRoute();
 <template>
   <div class="flex justify-center mt-12">
     <div class="text-center px-4">
+      <div class="border-b pb-2">مشتری</div>
+      <div class="pt-2 text-blue-600">هوایار</div>
+    </div>
+    <div class="text-center px-4">
       <div class="border-b pb-2">شماره درخواست</div>
       <div class="pt-2 text-blue-600">450</div>
     </div>
@@ -23,14 +27,15 @@ const route = useRoute();
       <div class="border-b pb-2">مجموع کیلووات</div>
       <div class="pt-2 text-blue-600">450</div>
     </div>
+    <div class="text-center px-4">
+      <div class="border-b pb-2">کارشناس</div>
+      <div class="pt-2 text-blue-600">فروغی</div>
+    </div>
   </div>
   <div class="grid grid-cols-12 mt-6">
     <div class="col-span-3 bg-blue-100">
       <div class="p-3">
-        <div>
-          <div>شرح</div>
-          <div>توضیحات مربوط به این درخواست</div>
-        </div>
+        simple timeline
       </div>
     </div>
     <div class="col-span-7 bg-blue-200 px-3">
@@ -67,13 +72,8 @@ const route = useRoute();
     </div>
     <div class="col-span-2 bg-blue-300">
       <div>
-        <span>مشتری</span>
-        <span>هوایار</span>
-      </div>
-      <div>
-        <div>کارشناسان</div>
-        <div>فروغی</div>
-        <div>دانشی</div>
+        <div>شرح</div>
+        <div>توضیحات مربوط به این درخواست</div>
       </div>
     </div>
     <div>{{ route.params.id }}</div>
