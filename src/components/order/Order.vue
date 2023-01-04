@@ -4,12 +4,12 @@ import TimeLineList from "../list/TimeLineList.vue";
 
 const route = useRoute();
 const props = [
-    {title: 'دریافت سفارش', subtitle: '1401-05-05', checked: true},
-    {title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true},
-    {title: 'دریافت وجه', subtitle: '1401-05-05', checked: true},
-    {title: 'صدور مجوز', subtitle: '1401-05-05', checked: true},
-    {title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: true},
-    {title: 'ارسال فاکتور', subtitle: '1401-05-05', checked: true},
+    {title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true, color: 'blue-600'},
+    {title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true, color: 'blue-600'},
+    {title: 'دریافت وجه', subtitle: '1401-05-05', checked: true, color: 'blue-600'},
+    {title: 'صدور مجوز', subtitle: '1401-05-05', checked: false, color: 'blue-700'},
+    {title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false, color: 'blue-700'},
+    {title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false, color: 'blue-700'}
 ]
 </script>
 
@@ -41,10 +41,8 @@ const props = [
     </div>
   </div>
   <div class="grid grid-cols-12 mt-6">
-    <div class="col-span-3 bg-blue-100">
-      <div class="m-3">
-        <TimeLineList v-for="prop in props" v-bind="prop"/>
-      </div>
+    <div class="col-span-3 m-3">
+      <TimeLineList v-for="prop in props" v-bind="prop" class="my-2"/>
     </div>
     <div class="col-span-7 bg-blue-200 px-3">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
