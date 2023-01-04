@@ -40,11 +40,11 @@ const props = [
       <div class="pt-2 text-blue-600">فروغی</div>
     </div>
   </div>
-  <div class="grid grid-cols-12 mt-20">
-    <div class="col-span-3 m-3">
+  <div class="grid grid-cols-12 gap-6 mt-20">
+    <div class="col-span-2 m-3">
       <TimeLineList v-for="prop in props" v-bind="prop" class="my-2"/>
     </div>
-    <div class="col-span-7 px-3">
+    <div class="col-span-8 px-3">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
