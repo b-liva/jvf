@@ -1,15 +1,14 @@
 <script setup>
 import {useRouter} from "vue-router";
-
-const props = defineProps(['orders'])
+import {useOrderStore} from "../../store/store";
 const router = useRouter();
-
+const orderStore = useOrderStore()
 </script>
 
 <template>
   <div class="overflow-x-auto">
     <div
-        v-for="(order, index) in orders"
+        v-for="(order, index) in orderStore.orders"
         :key="order.node.id"
         @click="router.push({name: 'order', params:{id:order.node.id}})"
         class="border bg-white rounded-lg p-2 mb-6 relative">
