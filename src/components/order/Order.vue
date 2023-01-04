@@ -57,6 +57,7 @@ const props = [
             <th scope="col" class="px-6 py-3">IC</th>
             <th scope="col" class="px-6 py-3">IP</th>
             <th scope="col" class="px-6 py-3">IE</th>
+            <th scope="col" class="px-6 py-3"></th>
           </tr>
           </thead>
           <tbody>
@@ -70,6 +71,7 @@ const props = [
             <td class="px-6 py-4">IC411</td>
             <td class="px-6 py-4">IP55</td>
             <td class="px-6 py-4">IE2</td>
+            <td class="px-6 py-4">...</td>
           </tr>
           </tbody>
         </table>
