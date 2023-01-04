@@ -50,6 +50,16 @@ query filterOrders(
         owner{
           lastName
         }
+        orderfollowupSet(last:1) {
+          edges {
+            node {
+              id
+              summary
+              description
+              dateFa
+            }
+          }
+        }
         totalKw
         totalQty
       }

@@ -17,7 +17,7 @@ const orderStore = useOrderStore()
           <div class="text-sm text-white text-center p-1.5 bg-blue-400 absolute top-0 right-0 w-12 rounded-tr-lg rounded-bl-lg">{{ order.node.number }}</div>
           <div class="col-start-13 text-green-700 p-1">{{order.node.owner.lastName}}</div>
         </div>
-        <div class="grid grid-cols-6 py-4">
+        <div class="grid grid-cols-9 py-4">
           <div class="col-span-3">{{ order.node.customer.name }}</div>
           <div class="">
             <div class="text-center">تعداد دستگاه</div>
@@ -28,6 +28,12 @@ const orderStore = useOrderStore()
             <div class="text-center text-green-500">{{ order.node.totalKw }}</div>
           </div>
           <div class="text-center">{{ order.node.dateFa }}</div>
+          <div class="col-span-3 text-right">
+            <div class="text-xs text-center text-gray-500 px-4 text-justify">
+              {{order.node.orderfollowupSet.edges[0]?.node.summary ?? ""}}
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
