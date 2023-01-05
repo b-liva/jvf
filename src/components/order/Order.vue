@@ -41,6 +41,19 @@ const props = [
       <div class="border-b pb-2">کارشناس</div>
       <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">فروغی</div>
     </div>
+    <div class="px-4 group relative cursor-pointer">
+      <div class="border-b pb-2 px-4">...</div>
+      <div class="text-gray-500 hidden group-hover:block min-w-max
+      absolute right-0 top-10 bg-gray-100 rounded rounded-l py-2 px-4 text-xs z-20">
+        <div class="pb-1 min-h-fit">ویرایش</div>
+        <div class="pb-1 min-h-fit">حذف</div>
+        <div class="pb-1 min-h-fit">ردیف جدید</div>
+        <div class="pb-1 min-h-fit">پیش فاکتور جدید</div>
+        <div class="pb-1 min-h-fit">کپی درخواست</div>
+        <div class="pb-1 min-h-fit">اختتام</div>
+        <div class="pb-1 min-h-fit">درخواست تغییر کارشناس</div>
+      </div>
+    </div>
   </div>
   <div class="grid grid-cols-12 gap-6 mt-20">
     <div class="col-span-2 m-3">
