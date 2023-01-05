@@ -1,8 +1,7 @@
 <script setup>
 import {computed} from "vue";
 
-const props = defineProps(['title', 'subtitle', 'checked', 'color', 'hasPopUp', 'name', 'pageName'])
-const computedColor = computed(() => props.checked ? "border-blue-700" : "border-gray-300")
+const props = defineProps(['title', 'subtitle', 'checked', 'name', 'pageName'])
 const computedTextColor = computed(() => props.checked ? "" : "text-gray-300")
 </script>
 
@@ -13,7 +12,7 @@ const computedTextColor = computed(() => props.checked ? "" : "text-gray-300")
         'border-blue-700': checked,
         'border-gray-300': !checked,
         'bg-gray-100': name === pageName,
-        'cursor-not-allowed': !hasPopUp
+        'cursor-not-allowed': !checked
       }"
   >
     <div class="border-b border-gray-100">
@@ -27,7 +26,7 @@ const computedTextColor = computed(() => props.checked ? "" : "text-gray-300")
     <div class="absolute hidden  top-0 mr-40 bg-gray-200 p-5 rounded rounded-l
     min-w-[250px] z-20"
     :class="{
-      'group-hover:block': hasPopUp
+      'group-hover:block': checked
     }">
       <div class="py-1">
         <span class="pl-2 text-green-600">1401-05-05</span>

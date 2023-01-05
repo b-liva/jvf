@@ -6,12 +6,12 @@ import {ref} from "vue";
 let show = ref(false)
 const route = useRoute();
 const props = [
-  {name: 'order', title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true, color: 'blue-600', hasPopUp: true},
-  {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true, color: 'blue-600', hasPopUp: true},
-  {name: 'income', title: 'دریافت وجه', subtitle: '1401-05-05', checked: true, color: 'blue-600', hasPopUp: true},
-  {name: 'permit', title: 'صدور مجوز', subtitle: '1401-05-05', checked: true, color: 'blue-700', hasPopUp: true},
-  {name: 'invOut', title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: true, color: 'blue-700', hasPopUp: true},
-  {name: 'invoice', title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: true, color: 'blue-700', hasPopUp: true},
+  {name: 'order', title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true},
+  {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true},
+  {name: 'income', title: 'دریافت وجه', subtitle: '1401-05-05', checked: true},
+  {name: 'permit', title: 'صدور مجوز', subtitle: '1401-05-05', checked: false},
+  {name: 'invOut', title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false},
+  {name: 'invoice', title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false},
 ]
 </script>
 
@@ -20,7 +20,7 @@ const props = [
     <div class="text-center px-4">
       <div class="border-b pb-2">مشتری</div>
       <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
-        <RouterLink :to="{name:'customer', params: {id: 'customerId'}}">هوایار</RouterLink>
+        <RouterLink :to="{name:'customer', params: {id: 'customerId'}}">CustomerName</RouterLink>
       </div>
     </div>
     <div class="text-center px-4">
