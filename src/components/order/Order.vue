@@ -6,12 +6,12 @@ import {ref} from "vue";
 let show = ref(false)
 const route = useRoute();
 const props = [
-  {title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true, color: 'blue-600', hasPopUp: true},
-  {title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true, color: 'blue-600', hasPopUp: true},
-  {title: 'دریافت وجه', subtitle: '1401-05-05', checked: true, color: 'blue-600', hasPopUp: true},
-  {title: 'صدور مجوز', subtitle: '1401-05-05', checked: false, color: 'blue-700', hasPopUp: false},
-  {title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false, color: 'blue-700', hasPopUp: false},
-  {title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false, color: 'blue-700', hasPopUp: false},
+  {name: 'order', title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true, color: 'blue-600', hasPopUp: true},
+  {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true, color: 'blue-600', hasPopUp: true},
+  {name: 'income', title: 'دریافت وجه', subtitle: '1401-05-05', checked: true, color: 'blue-600', hasPopUp: true},
+  {name: 'permit', title: 'صدور مجوز', subtitle: '1401-05-05', checked: false, color: 'blue-700', hasPopUp: false},
+  {name: 'invOut', title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false, color: 'blue-700', hasPopUp: false},
+  {name: 'invoice', title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false, color: 'blue-700', hasPopUp: false},
 ]
 </script>
 
@@ -57,7 +57,7 @@ const props = [
   </div>
   <div class="grid grid-cols-12 gap-6 mt-20">
     <div class="col-span-2 m-3">
-      <TimeLineList v-for="prop in props" v-bind="prop" class="my-2"/>
+      <TimeLineList v-for="prop in props" v-bind="prop" page-name="order" class="my-2"/>
     </div>
     <div class="col-span-8 px-3">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

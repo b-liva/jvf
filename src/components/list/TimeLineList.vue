@@ -1,7 +1,7 @@
 <script setup>
 import {computed} from "vue";
 
-const props = defineProps(['title', 'subtitle', 'checked', 'color', 'hasPopUp'])
+const props = defineProps(['title', 'subtitle', 'checked', 'color', 'hasPopUp', 'name', 'pageName'])
 const computedColor = computed(() => props.checked ? "border-blue-700" : "border-gray-300")
 const computedTextColor = computed(() => props.checked ? "" : "text-gray-300")
 </script>
@@ -12,7 +12,7 @@ const computedTextColor = computed(() => props.checked ? "" : "text-gray-300")
       :class="{
         'border-blue-700': checked,
         'border-gray-300': !checked,
-        'hover:bg-gray-100': hasPopUp,
+        'bg-gray-100': name === pageName,
         'cursor-not-allowed': !hasPopUp
       }"
   >
