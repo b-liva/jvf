@@ -1,24 +1,17 @@
 <script setup>
 import TimeLineList from "../list/TimeLineList.vue";
 import {ref} from "vue";
-
+import {useBaseTimeLineData} from "../../data/base";
 let show = ref(false)
-const orders = [
-  {name: 'order', title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true},
-  {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true},
-  {name: 'income', title: 'دریافت وجه', subtitle: '1401-05-05', checked: true},
-  {name: 'permit', title: 'صدور مجوز', subtitle: '1401-05-05', checked: false},
-  {name: 'invOut', title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false},
-  {name: 'invoice', title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false},
-]
 let condense = ref(false)
+const timeLineData = useBaseTimeLineData();
 </script>
 
 <template>
   <div class="grid grid-cols-12 gap-6">
     <div class="col-span-2">
       <div class="col-span-2 m-3">
-        <TimeLineList v-for="prop in orders" v-bind="prop" page-name="order" class="my-2"/>
+        <TimeLineList v-for="tld in timeLineData" v-bind="tld" page-name="order" class="my-2"/>
       </div>
     </div>
     <div class="col-span-10">
