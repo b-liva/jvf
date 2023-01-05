@@ -70,17 +70,23 @@ const props = [
           <tr v-for="(row, index) in [1,2,3,4,5]" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ index + 1 }}
             </th>
-            <td class="text-center px-3 py-4">1010025</td>
-            <td class="text-center px-3 py-4">روتین</td>
-            <td class="text-center px-3 py-4">2</td>
-            <td class="text-center px-3 py-4">110</td>
-            <td class="text-center px-3 py-4">1500</td>
-            <td class="text-center px-3 py-4">380</td>
-            <td class="text-center px-3 py-4">IMB3</td>
-            <td class="text-center px-3 py-4">IC411</td>
-            <td class="text-center px-3 py-4">IP55</td>
-            <td class="text-center px-3 py-4">IE2</td>
-            <td class="text-center px-3 py-4">...</td>
+            <td class="text-sm text-center px-3 py-4">1010025</td>
+            <td class="text-sm text-center px-3 py-4">روتین</td>
+            <td class="text-sm text-center px-3 py-4">2</td>
+            <td class="text-sm text-center px-3 py-4">110</td>
+            <td class="text-sm text-center px-3 py-4">1500</td>
+            <td class="text-sm text-center px-3 py-4">380</td>
+            <td class="text-sm text-center px-3 py-4">IMB3</td>
+            <td class="text-sm text-center px-3 py-4">IC411</td>
+            <td class="text-sm text-center px-3 py-4">IP55</td>
+            <td class="text-sm text-center px-3 py-4">IE2</td>
+            <td class="text-sm text-center px-3 py-4 cursor-pointer relative group">
+              <span class="group-hover:invisible">...</span>
+              <div class="absolute hidden left-0 top-0 group-hover:block p-2">
+                <p class="text-blue-800 text-xs pb-1">ویرایش</p>
+                <p class="text-red-800 text-xs ">حذف</p>
+              </div>
+            </td>
           </tr>
           </tbody>
         </table>
