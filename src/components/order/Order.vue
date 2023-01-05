@@ -1,15 +1,17 @@
 <script setup>
 import {useRoute} from "vue-router";
 import TimeLineList from "../list/TimeLineList.vue";
+import {ref} from "vue";
 
+let show = ref(false)
 const route = useRoute();
 const props = [
-    {title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true, color: 'blue-600'},
-    {title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true, color: 'blue-600'},
-    {title: 'دریافت وجه', subtitle: '1401-05-05', checked: true, color: 'blue-600'},
-    {title: 'صدور مجوز', subtitle: '1401-05-05', checked: false, color: 'blue-700'},
-    {title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false, color: 'blue-700'},
-    {title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false, color: 'blue-700'}
+  {title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true, color: 'blue-600'},
+  {title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true, color: 'blue-600'},
+  {title: 'دریافت وجه', subtitle: '1401-05-05', checked: true, color: 'blue-600'},
+  {title: 'صدور مجوز', subtitle: '1401-05-05', checked: false, color: 'blue-700'},
+  {title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false, color: 'blue-700'},
+  {title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false, color: 'blue-700'}
 ]
 </script>
 
@@ -51,7 +53,7 @@ const props = [
           <tr>
             <th scope="col" class="px-6 py-3">ردیف</th>
             <th scope="col" class="px-6 py-3">کد</th>
-            <th scope="col" class="px-6 py-3">کیلووات </th>
+            <th scope="col" class="px-6 py-3">کیلووات</th>
             <th scope="col" class="px-6 py-3">دور</th>
             <th scope="col" class="px-6 py-3">ولتاژ</th>
             <th scope="col" class="px-6 py-3">IM</th>
@@ -64,7 +66,8 @@ const props = [
           <tbody>
 
           <tr v-for="(row, index) in [1,2,3,4,5]" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{index}}</th>
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ index }}
+            </th>
             <td class="px-6 py-4">1010025</td>
             <td class="px-6 py-4">110</td>
             <td class="px-6 py-4">1500</td>
@@ -80,13 +83,33 @@ const props = [
       </div>
 
     </div>
-    <div class="col-span-2">
+    <div class="col-span-2 relative">
       <div class="p-3">
         <div>شرح</div>
         <div>توضیحات مربوط به این درخواست</div>
       </div>
+      <div v-if="show" class="absolute bottom-0 left-0 ml-6 mb-8 rounded-md bg-gray-300 min-w-[360px]">
+        <div class="relative p-5">
+          <p @click="show = !show" class="absolute top-0 right-0 p-1 bg-red-400">X</p>
+          <div class="py-1">
+            <span class="text-green-500 pl-2">1401-05-06</span>
+            <span class="text-xs">ارجاع به واحد مهندسی</span>
+          </div>
+          <div class="py-1">
+            <span class="text-green-500 pl-2">1401-05-06</span>
+            <span class="text-xs">ارجاع به واحد مهندسی</span>
+          </div>
+          <div class="py-1">
+            <span class="text-green-500 pl-2">1401-05-06</span>
+            <span class="text-xs">ارجاع به واحد مهندسی</span>
+          </div>
+        </div>
+      </div>
+      <div @click="show = !show" v-else class="absolute bottom-0 left-0 bg-gray-300 ml-3 mb-3 p-4 rounded-full">
+        شرح پیگیری
+      </div>
     </div>
-    <div>{{ route.params.id }}</div>
+    <!--    <div>{{ route.params.id }}</div>-->
   </div>
 </template>
 
