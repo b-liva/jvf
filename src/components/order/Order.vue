@@ -19,7 +19,9 @@ const props = [
   <div class="flex justify-center mt-12">
     <div class="text-center px-4">
       <div class="border-b pb-2">مشتری</div>
-      <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">هوایار</div>
+      <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
+        <RouterLink :to="{name:'customer', params: {id: 'customerId'}}">هوایار</RouterLink>
+      </div>
     </div>
     <div class="text-center px-4">
       <div class="border-b pb-2">شماره درخواست</div>
