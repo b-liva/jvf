@@ -32,12 +32,16 @@ const computedTextColor = computed(() => props.checked ? "" : "text-gray-300")
       <div class="py-1">
         <span class="pl-2 text-green-600">1401-05-05</span>
         <span class="pl-2">شماره</span>
-        <span class="hover:font-bold hover:text-blue-500 hover:cursor-pointer">9815252</span>
+        <span class="hover:font-bold hover:text-blue-500 hover:cursor-pointer">
+          <RouterLink :to="{name: name, params: {id: `${name}Id`}}">9815252</RouterLink>
+        </span>
       </div>
       <div class="py-1">
         <span class="pl-2 text-green-600">1401-05-05</span>
         <span class="pl-2">شماره</span>
-        <span class="hover:font-bold hover:text-blue-500 hover:cursor-pointer">9815265</span>
+        <span class="hover:font-bold hover:text-blue-500 hover:cursor-pointer">
+          <RouterLink :to="{name: name, params: {id: `${name}Id`}}">9815300</RouterLink>
+        </span>
       </div>
     </div>
   </div>

@@ -9,9 +9,9 @@ const props = [
   {name: 'order', title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true, color: 'blue-600', hasPopUp: true},
   {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true, color: 'blue-600', hasPopUp: true},
   {name: 'income', title: 'دریافت وجه', subtitle: '1401-05-05', checked: true, color: 'blue-600', hasPopUp: true},
-  {name: 'permit', title: 'صدور مجوز', subtitle: '1401-05-05', checked: false, color: 'blue-700', hasPopUp: false},
-  {name: 'invOut', title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false, color: 'blue-700', hasPopUp: false},
-  {name: 'invoice', title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false, color: 'blue-700', hasPopUp: false},
+  {name: 'permit', title: 'صدور مجوز', subtitle: '1401-05-05', checked: true, color: 'blue-700', hasPopUp: true},
+  {name: 'invOut', title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: true, color: 'blue-700', hasPopUp: true},
+  {name: 'invoice', title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: true, color: 'blue-700', hasPopUp: true},
 ]
 </script>
 
