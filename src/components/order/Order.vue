@@ -41,7 +41,9 @@ const props = [
     </div>
     <div class="text-center px-4">
       <div class="border-b pb-2">کارشناس</div>
-      <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">فروغی</div>
+      <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
+        <RouterLink :to="{name:'user', params: {id: 'userId'}}">username</RouterLink>
+      </div>
     </div>
     <div class="px-4 group relative cursor-pointer">
       <div class="border-b pb-2 px-4">...</div>
