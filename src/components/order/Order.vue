@@ -19,7 +19,7 @@ const props = [
   <div class="flex justify-center mt-12">
     <div class="text-center px-4">
       <div class="border-b pb-2">مشتری</div>
-      <div class="pt-2 text-blue-600">هوایار</div>
+      <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">هوایار</div>
     </div>
     <div class="text-center px-4">
       <div class="border-b pb-2">شماره درخواست</div>
@@ -39,7 +39,7 @@ const props = [
     </div>
     <div class="text-center px-4">
       <div class="border-b pb-2">کارشناس</div>
-      <div class="pt-2 text-blue-600">فروغی</div>
+      <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">فروغی</div>
     </div>
   </div>
   <div class="grid grid-cols-12 gap-6 mt-20">
@@ -94,7 +94,7 @@ const props = [
       </div>
       <div v-if="show" class="absolute bottom-0 left-0 ml-6 mb-8 rounded-md bg-gray-300 min-w-[360px]">
         <div class="relative p-5">
-          <p @click="show = !show" class="absolute top-0 right-0 p-1 bg-red-400">X</p>
+          <p @click="show = !show" class="absolute top-0 right-0 p-1 bg-red-400 hover:cursor-pointer">X</p>
           <div class="py-1">
             <span class="text-green-500 pl-2">1401-05-06</span>
             <span class="text-xs">ارجاع به واحد مهندسی</span>
@@ -109,7 +109,8 @@ const props = [
           </div>
         </div>
       </div>
-      <div @click="show = !show" v-else class="absolute bottom-0 left-0 bg-gray-300 ml-3 mb-3 p-4 rounded-full">
+      <div @click="show = !show" v-else
+           class="absolute bottom-0 left-0 bg-gray-300 ml-3 mb-3 p-4 rounded-full hover:cursor-pointer">
         شرح پیگیری
       </div>
     </div>
