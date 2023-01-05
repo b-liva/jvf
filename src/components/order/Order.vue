@@ -6,12 +6,12 @@ import {ref} from "vue";
 let show = ref(false)
 const route = useRoute();
 const props = [
-  {title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true, color: 'blue-600'},
-  {title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true, color: 'blue-600'},
-  {title: 'دریافت وجه', subtitle: '1401-05-05', checked: true, color: 'blue-600'},
-  {title: 'صدور مجوز', subtitle: '1401-05-05', checked: false, color: 'blue-700'},
-  {title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false, color: 'blue-700'},
-  {title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false, color: 'blue-700'}
+  {title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true, color: 'blue-600', hasPopUp: true},
+  {title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true, color: 'blue-600', hasPopUp: true},
+  {title: 'دریافت وجه', subtitle: '1401-05-05', checked: true, color: 'blue-600', hasPopUp: true},
+  {title: 'صدور مجوز', subtitle: '1401-05-05', checked: false, color: 'blue-700', hasPopUp: false},
+  {title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false, color: 'blue-700', hasPopUp: false},
+  {title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false, color: 'blue-700', hasPopUp: false},
 ]
 </script>
 
