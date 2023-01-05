@@ -1,17 +1,15 @@
 <script setup>
-import {useRoute} from "vue-router";
 import TimeLineList from "../list/TimeLineList.vue";
 import {ref} from "vue";
 
 let show = ref(false)
-const route = useRoute();
-const props = [
-  {name: 'order', title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true, color: 'blue-600', hasPopUp: true},
-  {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true, color: 'blue-600', hasPopUp: true},
-  {name: 'income', title: 'دریافت وجه', subtitle: '1401-05-05', checked: true, color: 'blue-600', hasPopUp: true},
-  {name: 'permit', title: 'صدور مجوز', subtitle: '1401-05-05', checked: false, color: 'blue-700', hasPopUp: false},
-  {name: 'invOut', title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false, color: 'blue-700', hasPopUp: false},
-  {name: 'invoice', title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false, color: 'blue-700', hasPopUp: false},
+const orders = [
+  {name: 'order', title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true},
+  {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true},
+  {name: 'income', title: 'دریافت وجه', subtitle: '1401-05-05', checked: true},
+  {name: 'permit', title: 'صدور مجوز', subtitle: '1401-05-05', checked: false},
+  {name: 'invOut', title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false},
+  {name: 'invoice', title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false},
 ]
 </script>
 
@@ -19,7 +17,9 @@ const props = [
   <div class="flex justify-center mt-12">
     <div class="text-center px-4">
       <div class="border-b pb-2">مشتری</div>
-      <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">هوایار</div>
+      <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
+        <RouterLink :to="{name:'customer', params: {id: 'customerId'}}">CustomerName</RouterLink>
+      </div>
     </div>
     <div class="text-center px-4">
       <div class="border-b pb-2">شماره درخواست</div>
@@ -39,7 +39,9 @@ const props = [
     </div>
     <div class="text-center px-4">
       <div class="border-b pb-2">کارشناس</div>
-      <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">فروغی</div>
+      <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
+        <RouterLink :to="{name:'user', params: {id: 'userId'}}">username</RouterLink>
+      </div>
     </div>
     <div class="px-4 group relative cursor-pointer">
       <div class="border-b pb-2 px-4">...</div>
@@ -57,7 +59,7 @@ const props = [
   </div>
   <div class="grid grid-cols-12 gap-6 mt-20">
     <div class="col-span-2 m-3">
-      <TimeLineList v-for="prop in props" v-bind="prop" page-name="order" class="my-2"/>
+      <TimeLineList v-for="prop in orders" v-bind="prop" page-name="order" class="my-2"/>
     </div>
     <div class="col-span-8 px-3">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
