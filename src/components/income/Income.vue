@@ -101,10 +101,12 @@ function getPercentage(index){
                   class="py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">{{income.date}}
               </th>
               <td class="text-sm text-center">
-                <RouterLink class="bg-gray-300 rounded-full p-1" :to="{name:'proforma', params:{id:income.proforma}}">{{income.proforma}}</RouterLink>
+                <RouterLink class="font-bold" :to="{name:'proforma', params:{id:income.proforma}}">{{income.proforma}}</RouterLink>
               </td>
               <td class="text-sm text-center">{{income.price}}</td>
-              <td class="text-sm text-center">{{income.owner}}</td>
+              <td class="text-sm text-center">
+                <RouterLink class="font-bold" :to="{name:'user', params: {id: income.owner}}">{{income.owner}}</RouterLink>
+              </td>
               <td class="text-sm text-center">
                 <div class="relative bg-gray-200 rounded rounded-md">
                   <div class="bg-gray-500 text-white" :class="{'rounded-l-md': getPercentage(index) === 100}" :style="{width:`${getPercentage(index)}%`}">{{getPercentage(index)}}</div>
