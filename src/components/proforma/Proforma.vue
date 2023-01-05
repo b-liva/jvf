@@ -11,6 +11,13 @@ const props = [
   {name: 'invOut', title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false},
   {name: 'invoice', title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false},
 ]
+const proformas = ref([
+  {code: 1010025, type: 'روتین', qty: 2, kw: 55, rpm: 1500, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", price: 2000000, show: false},
+  {code: 1010026, type: 'روتین', qty: 1, kw: 75, rpm: 300, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", price: 2000000, show: false},
+  {code: 1010027, type: 'روتین', qty: 3, kw: 110, rpm: 1000, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", price: 2000000, show: false},
+  {code: 1010028, type: 'روتین', qty: 1, kw: 132, rpm: 1500, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", price: 2000000, show: false},
+])
+let condense = ref(false)
 </script>
 
 <template>
@@ -72,6 +79,13 @@ const props = [
     </div>
     <div class="col-span-8 px-3">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div>
+          <label>
+            <input type="checkbox" v-model="condense">
+            <span class="mr-2">فشرده</span>
+          </label>
+
+        </div>
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -82,36 +96,61 @@ const props = [
             <th scope="col" class="text-center px-3 py-3">کیلووات</th>
             <th scope="col" class="text-center px-3 py-3">دور</th>
             <th scope="col" class="text-center px-3 py-3">ولتاژ</th>
-            <th scope="col" class="text-center px-3 py-3">IM</th>
-            <th scope="col" class="text-center px-3 py-3">IC</th>
-            <th scope="col" class="text-center px-3 py-3">IP</th>
-            <th scope="col" class="text-center px-3 py-3">IE</th>
+            <th scope="col" class="text-center px-3 py-3">قیمت واحد</th>
+            <th scope="col" class="text-center px-3 py-3">قیمت کل</th>
             <th scope="col" class="text-center px-3 py-3"></th>
           </tr>
           </thead>
           <tbody>
+          <template v-for="(row, index) in proformas" >
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row"
+                  class="relative px-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  :class="{
+                'py-6': !condense,
+                  }"
+              >{{ index + 1 }}
+                <div class="absolute bottom-0 right-0 text-xs pr-2 cursor-pointer text-blue-500"
+                     @click="row.show = !row.show"  >جزئیات</div>
+              </th>
+              <td class="text-sm text-center px-3">{{row.code}}</td>
+              <td class="text-sm text-center px-3">{{row.type}}</td>
+              <td class="text-sm text-center px-3">{{row.qty}}</td>
+              <td class="text-sm text-center px-3">{{row.kw}}</td>
+              <td class="text-sm text-center px-3">{{row.rpm}}</td>
+              <td class="text-sm text-center px-3">{{row.voltage}}</td>
+              <td class="text-sm text-center px-3">{{row.price}}</td>
+              <td class="text-sm text-center px-3">{{row.qty * row.price}}</td>
+              <td class="text-sm text-center px-3 cursor-pointer relative group">
+                <span class="group-hover:invisible">...</span>
+                <div class="absolute hidden left-0 top-0 group-hover:block p-2">
+                  <p class="text-blue-800 text-xs pb-1">ویرایش</p>
+                  <p class="text-red-800 text-xs ">حذف</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="border-b border-b-2" :class="{
+              'hidden': !row.show
+            }">
+              <td colspan="5">
+                <div class="grid grid-cols-4 min-w-20 py-2">
+                  <div>
+                    <p>{{row.im}}</p>
+                  </div>
+                  <div>
+                    <p>{{row.ic}}</p>
+                  </div>
+                  <div>
+                    <p>{{row.ip}}</p>
+                  </div>
+                  <div>
+                    <p>{{row.ie}}</p>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </template>
 
-          <tr v-for="(row, index) in [1,2,3,4,5]" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ index + 1 }}
-            </th>
-            <td class="text-sm text-center px-3 py-4">1010025</td>
-            <td class="text-sm text-center px-3 py-4">روتین</td>
-            <td class="text-sm text-center px-3 py-4">2</td>
-            <td class="text-sm text-center px-3 py-4">110</td>
-            <td class="text-sm text-center px-3 py-4">1500</td>
-            <td class="text-sm text-center px-3 py-4">380</td>
-            <td class="text-sm text-center px-3 py-4">IMB3</td>
-            <td class="text-sm text-center px-3 py-4">IC411</td>
-            <td class="text-sm text-center px-3 py-4">IP55</td>
-            <td class="text-sm text-center px-3 py-4">IE2</td>
-            <td class="text-sm text-center px-3 py-4 cursor-pointer relative group">
-              <span class="group-hover:invisible">...</span>
-              <div class="absolute hidden left-0 top-0 group-hover:block p-2">
-                <p class="text-blue-800 text-xs pb-1">ویرایش</p>
-                <p class="text-red-800 text-xs ">حذف</p>
-              </div>
-            </td>
-          </tr>
           </tbody>
         </table>
       </div>
