@@ -8,7 +8,7 @@ const computedTextColor = computed(() => props.checked ? "" : "text-gray-300")
 
 <template>
   <div
-      class="pr-3 border-r-4"
+      class="pr-3 border-r-4 group relative hover:bg-gray-100"
       :class="computedColor">
     <div class="border-b border-gray-100">
       <input :checked="checked" disabled type="checkbox"
@@ -16,6 +16,18 @@ const computedTextColor = computed(() => props.checked ? "" : "text-gray-300")
       <div class="inline-block align-middle pr-3 py-1">
         <label class="" :class="computedTextColor">{{ title }}</label>
         <p class="text-gray-600 text-xs py-2"><span v-if="checked">{{ subtitle }}</span></p>
+      </div>
+    </div>
+    <div class="absolute hidden group-hover:block top-0 mr-40 bg-gray-200 p-5 rounded rounded-l min-w-[250px] z-20">
+      <div class="py-1">
+        <span class="pl-2 text-green-600">1401-05-05</span>
+        <span class="pl-2">شماره</span>
+        <span class="hover:font-bold hover:text-blue-500 hover:cursor-pointer">9815252</span>
+      </div>
+      <div class="py-1">
+        <span class="pl-2 text-green-600">1401-05-05</span>
+        <span class="pl-2">شماره</span>
+        <span class="hover:font-bold hover:text-blue-500 hover:cursor-pointer">9815265</span>
       </div>
     </div>
   </div>
