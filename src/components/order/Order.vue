@@ -103,15 +103,18 @@ const props = [
           <p @click="show = !show" class="absolute top-0 right-0 p-1 bg-red-400 hover:cursor-pointer">X</p>
           <div class="py-1">
             <span class="text-green-500 pl-2">1401-05-06</span>
-            <span class="text-xs">ارجاع به واحد مهندسی</span>
+            <span class="text-xs">ارجاع به واحد مهندسی </span>
+            <span class="text-xs text-red-800 cursor-pointer mr-2 py-1">حذف</span>
           </div>
           <div class="py-1">
             <span class="text-green-500 pl-2">1401-05-06</span>
-            <span class="text-xs">ارجاع به واحد مهندسی</span>
+            <span class="text-xs">ارجاع به واحد مهندسی </span>
+            <span class="text-xs text-red-800 cursor-pointer mr-2 py-1">حذف</span>
           </div>
           <div class="py-1">
             <span class="text-green-500 pl-2">1401-05-06</span>
-            <span class="text-xs">ارجاع به واحد مهندسی</span>
+            <span class="text-xs">ارجاع به واحد مهندسی </span>
+            <span class="text-xs text-red-800 cursor-pointer mr-2 py-1">حذف</span>
           </div>
         </div>
       </div>
