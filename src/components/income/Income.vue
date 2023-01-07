@@ -1,16 +1,10 @@
 <script setup>
 import TimeLineList from "../list/TimeLineList.vue";
 import {ref} from "vue";
+import {useBaseTimeLineData} from "../../data/base";
 
 let show = ref(false)
-const props = [
-  {name: 'order', title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true},
-  {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true},
-  {name: 'income', title: 'دریافت وجه', subtitle: '1401-05-05', checked: true},
-  {name: 'permit', title: 'صدور مجوز', subtitle: '1401-05-05', checked: false},
-  {name: 'invOut', title: 'ارسال به مشتری', subtitle: '1401-05-05', checked: false},
-  {name: 'invoice', title: 'ارسال فاکتور', subtitle: '1402-06-05', checked: false},
-]
+const timeLineData = useBaseTimeLineData();
 const incomes = [
   {date: '1401-05-05', proforma: 860, price: 2500000000, owner: 'userName'},
   {date: '1401-05-06', proforma: 861, price: 3500000000, owner: 'userName'},
@@ -34,7 +28,7 @@ function getPercentage(index){
   <div class="grid grid-cols-12 gap-6">
     <div class="col-span-2">
       <div class="col-span-2 m-3">
-        <TimeLineList v-for="prop in props" v-bind="prop" page-name="income" class="my-2"/>
+        <TimeLineList v-for="tld in timeLineData" v-bind="tld" page-name="income" class="my-2"/>
       </div>
     </div>
     <div class="col-span-10">
