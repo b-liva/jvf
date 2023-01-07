@@ -39,8 +39,8 @@ let condense = ref(false)
           </div>
         </div>
         <div class="text-center px-4">
-          <div class="border-b pb-2">تعداد دستگاه</div>
-          <div class="pt-2 text-blue-600">6</div>
+          <div class="border-b pb-2">مانده مجوز</div>
+          <div class="pt-2 text-blue-600">4 / 6</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">مجموع کیلووات</div>
@@ -78,6 +78,7 @@ let condense = ref(false)
                 <th scope="col" class="text-center px-3 py-3">کد</th>
                 <th scope="col" class="text-center px-3 py-3">نوع</th>
                 <th scope="col" class="text-center px-3 py-3">تعداد</th>
+                <th scope="col" class="text-center px-3 py-3">مانده</th>
                 <th scope="col" class="text-center px-3 py-3">کیلووات</th>
                 <th scope="col" class="text-center px-3 py-3">دور</th>
                 <th scope="col" class="text-center px-3 py-3">ولتاژ</th>
@@ -98,6 +99,7 @@ let condense = ref(false)
                 <td class="text-sm text-center px-3">{{permit.code}}</td>
                 <td class="text-sm text-center px-3">{{permit.type}}</td>
                 <td class="text-sm text-center px-3">{{permit.qty}}</td>
+                <td class="text-sm text-center px-3">{{permit.qty - permit.delivered}}</td>
                 <td class="text-sm text-center px-3">{{permit.kw}}</td>
                 <td class="text-sm text-center px-3">{{permit.rpm}}</td>
                 <td class="text-sm text-center px-3">{{permit.voltage}}</td>

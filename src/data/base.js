@@ -26,9 +26,9 @@ export function useBaseProformaData(){
 
 export function useBasePermitData(){
     return ref([
-        {code: 1010025, type: 'روتین', qty: 2, kw: 55, rpm: 1500, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
-        {code: 1010026, type: 'روتین', qty: 1, kw: 75, rpm: 300, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
-        {code: 1010027, type: 'روتین', qty: 3, kw: 110, rpm: 1000, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
-        {code: 1010028, type: 'روتین', qty: 1, kw: 132, rpm: 1500, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
+        {code: 1010025, type: 'روتین', qty: 2, delivered: 1, kw: 55, rpm: 1500, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
+        {code: 1010026, type: 'روتین', qty: 1, delivered: 1, kw: 75, rpm: 300, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
+        {code: 1010027, type: 'روتین', qty: 3, delivered: 1, kw: 110, rpm: 1000, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
+        {code: 1010028, type: 'روتین', qty: 1, delivered: 1, kw: 132, rpm: 1500, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
     ])
 }
