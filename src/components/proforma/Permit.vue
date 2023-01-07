@@ -120,31 +120,7 @@ let condense = ref(false)
         <div class="col-span-2">
           <div class="p-3">
             <div>شرح</div>
-            <div>توضیحات مربوط به این درخواست</div>
-          </div>
-          <div v-if="show" class="absolute bottom-0 left-0 ml-6 mb-8 rounded-md bg-gray-300 min-w-[360px]">
-            <div class="relative p-5">
-              <p @click="show = !show" class="absolute top-0 right-0 p-1 bg-red-400 hover:cursor-pointer">X</p>
-              <div class="py-1">
-                <span class="text-green-500 pl-2">1401-05-06</span>
-                <span class="text-xs">ارجاع به واحد مهندسی </span>
-                <span class="text-xs text-red-800 cursor-pointer mr-2 py-1">حذف</span>
-              </div>
-              <div class="py-1">
-                <span class="text-green-500 pl-2">1401-05-06</span>
-                <span class="text-xs">ارجاع به واحد مهندسی </span>
-                <span class="text-xs text-red-800 cursor-pointer mr-2 py-1">حذف</span>
-              </div>
-              <div class="py-1">
-                <span class="text-green-500 pl-2">1401-05-06</span>
-                <span class="text-xs">ارجاع به واحد مهندسی </span>
-                <span class="text-xs text-red-800 cursor-pointer mr-2 py-1">حذف</span>
-              </div>
-            </div>
-          </div>
-          <div @click="show = !show" v-else
-               class="absolute bottom-0 left-0 bg-gray-300 ml-3 mb-3 p-4 rounded-full hover:cursor-pointer">
-            شرح پیگیری
+            <div>توضیحات مربوط به این مجوز</div>
           </div>
         </div>
       </div>
