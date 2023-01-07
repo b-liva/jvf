@@ -32,6 +32,12 @@ let condense = ref(false)
           <div class="pt-2 text-blue-600">1401-05-05</div>
         </div>
         <div class="text-center px-4">
+          <div class="border-b pb-2">پیش بینی تحویل</div>
+          <div class="pt-2 text-blue-600">
+            <p><span>45</span> / <span class="text-green-500">30</span></p>
+          </div>
+        </div>
+        <div class="text-center px-4">
           <div class="border-b pb-2">تعداد دستگاه</div>
           <div class="pt-2 text-blue-600">6</div>
         </div>
