@@ -57,11 +57,7 @@ let condense = ref(false)
       absolute right-0 top-10 bg-gray-100 rounded rounded-l py-2 px-4 text-xs z-20">
             <div class="pb-1 min-h-fit">ویرایش</div>
             <div class="pb-1 min-h-fit">حذف</div>
-            <div class="pb-1 min-h-fit">ردیف جدید</div>
-            <div class="pb-1 min-h-fit">پیش فاکتور جدید</div>
-            <div class="pb-1 min-h-fit">کپی درخواست</div>
-            <div class="pb-1 min-h-fit">اختتام</div>
-            <div class="pb-1 min-h-fit">درخواست تغییر کارشناس</div>
+            <div class="pb-1 min-h-fit">ابطال</div>
           </div>
         </div>
       </div>
