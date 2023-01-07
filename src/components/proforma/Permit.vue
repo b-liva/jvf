@@ -1,10 +1,11 @@
 <script setup>
 import TimeLineList from "../list/TimeLineList.vue";
 import {ref} from "vue";
-import {useBaseTimeLineData} from "../../data/base";
+import {useBaseTimeLineData, useBasePermitData} from "../../data/base";
 
 let show = ref(false)
 const timeLineData = useBaseTimeLineData();
+const permitData = useBasePermitData();
 let condense = ref(false)
 </script>
 
@@ -89,21 +90,21 @@ let condense = ref(false)
               </thead>
               <tbody>
 
-              <tr v-for="(row, index) in [1,2,3,4,5]" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <tr v-for="(permit, index) in permitData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row"
                     :class="{'py-4': !condense}"
                     class="px-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ index + 1 }}
                 </th>
-                <td class="text-sm text-center px-3">1010025</td>
-                <td class="text-sm text-center px-3">روتین</td>
-                <td class="text-sm text-center px-3">2</td>
-                <td class="text-sm text-center px-3">110</td>
-                <td class="text-sm text-center px-3">1500</td>
-                <td class="text-sm text-center px-3">380</td>
-                <td class="text-sm text-center px-3">IMB3</td>
-                <td class="text-sm text-center px-3">IC411</td>
-                <td class="text-sm text-center px-3">IP55</td>
-                <td class="text-sm text-center px-3">IE2</td>
+                <td class="text-sm text-center px-3">{{permit.code}}</td>
+                <td class="text-sm text-center px-3">{{permit.type}}</td>
+                <td class="text-sm text-center px-3">{{permit.qty}}</td>
+                <td class="text-sm text-center px-3">{{permit.kw}}</td>
+                <td class="text-sm text-center px-3">{{permit.rpm}}</td>
+                <td class="text-sm text-center px-3">{{permit.voltage}}</td>
+                <td class="text-sm text-center px-3">{{permit.im}}</td>
+                <td class="text-sm text-center px-3">{{permit.ic}}</td>
+                <td class="text-sm text-center px-3">{{permit.ip}}</td>
+                <td class="text-sm text-center px-3">{{permit.ie}}</td>
                 <td class="text-sm text-center px-3 cursor-pointer relative group">
                   <span class="group-hover:invisible">...</span>
                   <div class="absolute hidden left-0 top-0 group-hover:block p-2">
