@@ -1,6 +1,22 @@
+<script setup>
+import {JSONToCSVConvertor} from "./ex"
+const data = [
+  {"Vehicle":"BMW","Date":"30, Jul 2013 09:24 AM","Location":"Hauz Khas, Enclave, New Delhi, Delhi, India","Speed":42},
+  {"Vehicle":"Honda CBR","Date":"30, Jul 2013 12:00 AM","Location":"Military Road,  West Bengal 734013,  India","Speed":0},
+  {"Vehicle":"Supra","Date":"30, Jul 2013 07:53 AM","Location":"Sec-45, St. Angel's School, Gurgaon, Haryana, India","Speed":58},
+  {"Vehicle":"Land Cruiser","Date":"30, Jul 2013 09:35 AM","Location":"DLF Phase I, Marble Market, Gurgaon, Haryana, India","Speed":83},
+  {"Vehicle":"Suzuki Swift","Date":"30, Jul 2013 12:02 AM","Location":"Behind Central Bank RO, Ram Krishna Rd by-lane, Siliguri, West Bengal, India","Speed":0},
+  {"Vehicle":"Honda Civic","Date":"30, Jul 2013 12:00 AM","Location":"Behind Central Bank RO, Ram Krishna Rd by-lane, Siliguri, West Bengal, India","Speed":0},
+  {"Vehicle":"Honda Accord","Date":"30, Jul 2013 11:05 AM","Location":"DLF Phase IV, Super Mart 1, Gurgaon, Haryana, India","Speed":71}];
+
+</script>
+
 <template>
 <div class="grid grid-cols-3">
-  <div class="col-start-2 text-center p-6 ">Soon...</div>
+  <div class="col-start-2 text-center p-6 ">
+    <p>Soon...</p>
+    <p class="cursor-pointer" @click="JSONToCSVConvertor(data, 'Vehicle Report', true)">download</p>
+  </div>
 </div>
 </template>
 
