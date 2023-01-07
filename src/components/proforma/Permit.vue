@@ -25,7 +25,7 @@ let condense = ref(false)
           </div>
         </div>
         <div class="text-center px-4">
-          <div class="border-b pb-2">شماره درخواست</div>
+          <div class="border-b pb-2">شماره مجوز</div>
           <div class="pt-2 text-blue-600">450</div>
         </div>
         <div class="text-center px-4">
