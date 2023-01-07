@@ -58,11 +58,11 @@ watch(
                       class="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-cyan-200 h-4 w-4 rounded">
                 </div>
               </td>
-              <td class="p-1 whitespace-nowrap text-xs font-medium text-gray-700 text-center">{{spec.node.qty}}</td>
-              <td class="p-1 whitespace-nowrap text-xs font-medium text-gray-700 text-center">{{spec.node.kw}}</td>
-              <td class="p-1 whitespace-nowrap text-xs font-medium text-gray-700 text-center">{{spec.node.rpm}}</td>
-              <td class="p-1 whitespace-nowrap text-xs font-medium text-gray-700 text-center">{{spec.node.voltage}}</td>
-              <td class="p-1 whitespace-nowrap text-xs font-medium text-gray-700 text-center">
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.qty}}</td>
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.kw}}</td>
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.rpm}}</td>
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.voltage}}</td>
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">
                 {{new JNumber(spec.node.price).thousandSeparate()}}
               </td>
             </tr>

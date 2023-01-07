@@ -37,10 +37,10 @@ watch(
           <table class="table-fixed min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-100">
             <tr >
-              <th scope="col" class="p-4"></th>
-              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">شماره</th>
-              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">تاریخ</th>
-              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">بهای تمام شده</th>
+              <th scope="col" class="p-1"></th>
+              <th scope="col" class="p-1 text-xs font-medium text-gray-500 text-center">شماره</th>
+              <th scope="col" class="p-1 text-xs font-medium text-gray-500 text-center">تاریخ</th>
+              <th scope="col" class="p-1 text-xs font-medium text-gray-500 text-center">بهای تمام شده</th>
             </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -48,8 +48,8 @@ watch(
                 v-for="cost in costs"
                 :key="cost.node.id"
                 @click="store.costId = cost.node.id"
-                class="hover:bg-gray-100">
-              <td class="p-3 w-4">
+                class="hover:bg-gray-100 cursor-pointer">
+              <td class="p-1 w-4">
                 <div class="flex items-center">
                   <input
                       :checked="cost.node.id === store.costId"
@@ -57,9 +57,9 @@ watch(
                       class="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-cyan-200 h-4 w-4 rounded">
                 </div>
               </td>
-              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{cost.node.chNumber}}</td>
-              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{cost.node.dateFa}}</td>
-              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{cost.node.chNumber}}</td>
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{cost.node.dateFa}}</td>
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">
                 {{new JNumber(0).thousandSeparate()}}
               </td>
             </tr>
