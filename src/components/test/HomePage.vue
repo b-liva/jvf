@@ -1,5 +1,5 @@
 <script setup>
-import {JSONToCSVConvertor} from "./ex"
+import {JSONToCSVConvertor} from "../../utils/xls"
 const data = [
   {"Vehicle":"BMW","Date":"30, Jul 2013 09:24 AM","Location":"Hauz Khas, Enclave, New Delhi, Delhi, India","Speed":42},
   {"Vehicle":"Honda CBR","Date":"30, Jul 2013 12:00 AM","Location":"Military Road,  West Bengal 734013,  India","Speed":0},

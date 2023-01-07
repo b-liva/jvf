@@ -45,7 +45,7 @@ export function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
     }
 
     //Generate a file name
-    let fileName = "MyReport_";
+    let fileName = "project_";
     //this will remove the blank-spaces from the title and replace it with an underscore
     fileName += ReportTitle.replace(/ /g,"_");
 

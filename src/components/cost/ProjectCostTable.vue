@@ -15,6 +15,7 @@ import {deleteGqlObject} from "../../graphql/core/mutations/delete.graphql";
 import {getBearings} from "../../graphql/cost/query/bearing.graphql";
 import {getTests} from "../../graphql/cost/query/test.graphql";
 import {getCertificates} from "../../graphql/cost/query/certificate.graphql";
+import {JSONToCSVConvertor} from "../../utils/xls";
 
 const store = useStore();
 const status = '';
@@ -398,7 +399,8 @@ function excelExport() {
     totalPrice: new JNumber(getTotalCost()).thousandSeparate()
   })
 
-  console.log(data)
+  console.log(data);
+  JSONToCSVConvertor(data, 'cost', true)
 }
 </script>
 
