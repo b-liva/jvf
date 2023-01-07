@@ -1,11 +1,11 @@
 <script setup>
 import TimeLineList from "../list/TimeLineList.vue";
 import {ref} from "vue";
-import {useBaseTimeLineData, useBaseInvOutData} from "../../data/base";
+import {useBaseTimeLineData, useBaseInvInData} from "../../data/base";
 
 let show = ref(false)
 const timeLineData = useBaseTimeLineData();
-const inventoryOutData = useBaseInvOutData();
+const inventoryInData = useBaseInvInData();
 let condense = ref(false)
 </script>
 
@@ -13,7 +13,7 @@ let condense = ref(false)
   <div class="grid grid-cols-12 gap-6">
     <div class="col-span-2">
       <div class="col-span-2 m-3">
-        <TimeLineList v-for="tld in timeLineData" v-bind="tld" page-name="invOut" class="my-2"/>
+        <TimeLineList v-for="tld in timeLineData" v-bind="tld" page-name="invIn" class="my-2"/>
       </div>
     </div>
     <div class="col-span-10">
@@ -25,7 +25,7 @@ let condense = ref(false)
           </div>
         </div>
         <div class="text-center px-4">
-          <div class="border-b pb-2">شماره خروج از انبار</div>
+          <div class="border-b pb-2">شماره ورودی انبار</div>
           <div class="pt-2 text-blue-600">450</div>
         </div>
         <div class="text-center px-4">
@@ -79,21 +79,21 @@ let condense = ref(false)
               </thead>
               <tbody>
 
-              <tr v-for="(inv_out, index) in inventoryOutData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <tr v-for="(inv_in, index) in inventoryInData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row"
                     :class="{'py-4': !condense}"
                     class="px-3 font-medium text-center text-gray-900 whitespace-nowrap dark:text-white">{{ index + 1 }}
                 </th>
-                <td class="text-sm text-center px-3">{{inv_out.code}}</td>
-                <td class="text-sm text-center px-3">{{inv_out.serial}}</td>
-                <td class="text-sm text-center px-3">{{inv_out.qty}}</td>
-                <td class="text-sm text-center px-3">{{inv_out.kw}}</td>
-                <td class="text-sm text-center px-3">{{inv_out.rpm}}</td>
-                <td class="text-sm text-center px-3">{{inv_out.voltage}}</td>
-                <td class="text-sm text-center px-3">{{inv_out.im}}</td>
-                <td class="text-sm text-center px-3">{{inv_out.ic}}</td>
-                <td class="text-sm text-center px-3">{{inv_out.ip}}</td>
-                <td class="text-sm text-center px-3">{{inv_out.ie}}</td>
+                <td class="text-sm text-center px-3">{{inv_in.code}}</td>
+                <td class="text-sm text-center px-3">{{inv_in.serial}}</td>
+                <td class="text-sm text-center px-3">{{inv_in.qty}}</td>
+                <td class="text-sm text-center px-3">{{inv_in.kw}}</td>
+                <td class="text-sm text-center px-3">{{inv_in.rpm}}</td>
+                <td class="text-sm text-center px-3">{{inv_in.voltage}}</td>
+                <td class="text-sm text-center px-3">{{inv_in.im}}</td>
+                <td class="text-sm text-center px-3">{{inv_in.ic}}</td>
+                <td class="text-sm text-center px-3">{{inv_in.ip}}</td>
+                <td class="text-sm text-center px-3">{{inv_in.ie}}</td>
                 <td class="text-sm text-center px-3 cursor-pointer relative group">
                   <span class="group-hover:invisible">...</span>
                   <div class="absolute hidden left-0 top-0 group-hover:block p-2">
