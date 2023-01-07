@@ -51,3 +51,12 @@ export function useBaseInvOutData(){
         {code: 1010028, serial: 140120004, qty: 1, kw: 132, rpm: 1500, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
     ])
 }
+
+export function useBaseInvoiceData(){
+    return ref([
+        {code: 1010025, serial: 140120001, qty: 3, kw: 55, rpm: 1500, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
+        {code: 1010026, serial: 140120002, qty: 1, kw: 75, rpm: 300, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
+        {code: 1010027, serial: 140120003, qty: 2, kw: 110, rpm: 1000, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
+        {code: 1010028, serial: 140120004, qty: 1, kw: 132, rpm: 1500, voltage: 380, im: "IMB3", ic: "IC411", ip: "IP55", ie: "IE1", show: false},
+    ])
+}
