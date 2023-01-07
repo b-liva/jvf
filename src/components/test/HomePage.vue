@@ -1,5 +1,7 @@
 <template>
-<div class="">This is Home page</div>
+<div class="grid grid-cols-3">
+  <div class="col-start-2 text-center p-6 ">Soon...</div>
+</div>
 </template>
 
 <script>

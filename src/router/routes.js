@@ -16,6 +16,7 @@ import Invoice from "../components/invoice/Invoice.vue";
 
 export const menuRoutes = [
     {path: '/', name: 'home', component: HomePage, props: {title: 'نخست'}},
+    {path: '/customer', name: 'customers', component: HomePage, props: {title: 'مشتری'}},
     {
         path: '/orders',
         name: 'orders',
@@ -28,6 +29,10 @@ export const menuRoutes = [
             }
         }],
         props: {title: 'سفارش فروش'}},
+    {path: '/proforma', name: 'proformas', component: HomePage, props: {title: 'پیش فاکتور'}},
+    {path: '/income', name: 'incomes', component: HomePage, props: {title: 'دریافت وجه'}},
+    {path: '/inventory', name: 'inventory', component: HomePage, props: {title: 'انبار'}},
+    {path: '/invoice', name: 'invoices', component: HomePage, props: {title: 'فاکتور'}},
     {path: '/cost', name: 'cost', component: ProjectCost, props: {title: 'بهای تمام شده'}},
 ]
 
@@ -38,8 +43,8 @@ const nonMenuRoutes = [
     {path: '/proforma/:id', name: 'proforma', component: Proforma, props: {title: 'پیش فاکتور'}},
     {path: '/proforma/:id/permit', name: 'permit', component: Permit, props: {title: 'مجوز'}},
     {path: '/income/:id', name: 'income', component: Income, props: {title: 'دریافت وجه'}},
-    {path: '/intIn/:id', name: 'invIn', component: InventoryIn, props: {title: 'ورود به انبار'}},
-    {path: '/intOut/:id', name: 'invOut', component: InventoryOut, props: {title: 'خروج از انبار'}},
+    {path: '/inventory/in/:id', name: 'invIn', component: InventoryIn, props: {title: 'ورود به انبار'}},
+    {path: '/inventory/out/:id', name: 'invOut', component: InventoryOut, props: {title: 'خروج از انبار'}},
     {path: '/invoice/:id', name: 'invoice', component: Invoice, props: {title: 'فاکتور'}},
 ]
 
