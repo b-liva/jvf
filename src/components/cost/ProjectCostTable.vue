@@ -345,6 +345,44 @@ function getTotalCost() {
   value += getGeneralCost();
   return value
 }
+
+function excelExport() {
+  let data = [];
+  rowItems.value.forEach(row => {
+    let item = store.cost[row.title];
+    data.push({
+      name: row.name,
+      qty: item.qty,
+      unitPrice: item.price,
+      totalPrice: item.qty * item.price,
+    })
+  })
+  store.cost.bearingcostSet.edges.forEach(row => {
+    data.push({
+      name: row.node.bearing.name,
+      qty: row.node.qty,
+      unitPrice: row.node.price,
+      totalPrice: row.node.qty * row.node.price,
+    })
+  })
+  store.cost.testcostSet.edges.forEach(row => {
+    data.push({
+      name: row.node.test.name,
+      qty: row.node.qty,
+      unitPrice: row.node.price,
+      totalPrice: row.node.qty * row.node.price,
+    })
+  })
+  store.cost.certificatecostSet.edges.forEach(row => {
+    data.push({
+      name: row.node.certificate.name,
+      qty: row.node.qty,
+      unitPrice: row.node.price,
+      totalPrice: row.node.qty * row.node.price,
+    })
+  })
+  console.log(data)
+}
 </script>
 
 <template>
@@ -591,7 +629,13 @@ function getTotalCost() {
               <button
                   @click="store.cost = Cost.reset()"
                   class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r"
-              >جدید</button>
+              >جدید
+              </button>
+              <button
+                  @click="excelExport"
+                  class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r"
+              >فایل
+              </button>
               <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
                       class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r">
                 بیرینگ
