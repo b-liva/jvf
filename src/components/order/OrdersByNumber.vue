@@ -47,8 +47,8 @@ const ordersModified = computed(() => orders.value?.getOrdersByNumber.edges ?? {
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
             <tr>
-              <th scope="col" class="p-4 text-right text-xs font-medium text-gray-500 tracking-wider">مشتری</th>
-              <th scope="col" class="p-4 text-right text-xs font-medium text-gray-500 tracking-wider">تاریخ درخواست</th>
+              <th scope="col" class="p-2 text-right text-xs font-medium text-gray-500 tracking-wider">مشتری</th>
+              <th scope="col" class="p-2 text-right text-xs font-medium text-gray-500 tracking-wider">تاریخ درخواست</th>
             </tr>
             </thead>
             <tbody class="bg-white">
@@ -60,10 +60,10 @@ const ordersModified = computed(() => orders.value?.getOrdersByNumber.edges ?? {
               <td
                   :class="{
                 'rounded-lg rounded-right': index % 2 === 1,
-                'text-lg font-semibold text-blue-500': order.node.id === store.orderId
+                'text-base font-semibold text-blue-500': order.node.id === store.orderId
                 }"
-                  class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">{{order.node.customer.name}}</td>
-              <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">{{order.node.dateFa}}</td>
+                  class="p-1 cursor-pointer whitespace-nowrap text-sm font-normal text-gray-900">{{order.node.customer.name}}</td>
+              <td class="p-1 cursor-pointer whitespace-nowrap text-sm font-normal text-gray-500">{{order.node.dateFa}}</td>
             </tr>
             </tbody>
           </table>
