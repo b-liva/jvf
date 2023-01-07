@@ -3,7 +3,6 @@ import TimeLineList from "../list/TimeLineList.vue";
 import {ref} from "vue";
 import {useBaseTimeLineData} from "../../data/base";
 
-let show = ref(false)
 const timeLineData = useBaseTimeLineData();
 const incomes = [
   {date: '1401-05-05', proforma: 860, price: 2500000000, owner: 'userName'},
@@ -15,7 +14,6 @@ function getPercentage(index){
   let total = 0;
   incomes.forEach((value, key) => {
     if (key <= index){
-      console.log(index, value, key, sum, total)
       sum = sum + value.price
     }
     total = total + value.price;
