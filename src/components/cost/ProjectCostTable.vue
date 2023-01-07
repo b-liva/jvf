@@ -381,6 +381,23 @@ function excelExport() {
       totalPrice: row.node.qty * row.node.price,
     })
   })
+
+  dependentCosts.value.forEach(row => {
+    data.push({
+      name: row.name,
+      qty: store.cost[row.title]['percent'],
+      unitPrice: store.cost[row.title]['amount'],
+      totalPrice: store.cost[row.title]['amount'],
+    })
+  })
+
+  data.push({
+    name: 'جمع',
+    qty: '',
+    unitPrice: '',
+    totalPrice: new JNumber(getTotalCost()).thousandSeparate()
+  })
+
   console.log(data)
 }
 </script>
