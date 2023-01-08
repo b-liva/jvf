@@ -447,7 +447,7 @@ function excelExport() {
           </div>
         </div>
       </div>
-      <div class="border-b pb-4">
+      <div class="border-b">
         <div class="flex items-start justify-around">
           <template v-for="item in costItems" :key="item.id">
             <div class="col-span-1">
@@ -458,7 +458,8 @@ function excelExport() {
                   v-model="store.cost[item.title]"
                   v-on:keyup=""
                   type="text"
-                  class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                  class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                  focus:ring-cyan-600 focus:border-cyan-600 block w-full"
               >
             </div>
           </template>
@@ -487,7 +488,8 @@ function excelExport() {
                     v-model="store.cost[item.title]['qty']"
                     :id="item.title"
                     v-on:keyup="item.fn"
-                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm
+                    rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5"
                 >
               </td>
               <td>
@@ -497,13 +499,12 @@ function excelExport() {
                     v-model="store.cost[item.title]['price']"
                     v-bind="vMoneyConfig"
                     v-on:keyup="item.fn"
-                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm
+                    rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5"
                 ></money3>
               </td>
               <td>
-                <p>{{
-                    new JNumber(store.cost[item.title]['qty'] * store.cost[item.title]['price']).thousandSeparate()
-                  }}</p>
+                <p>{{ new JNumber(store.cost[item.title]['qty'] * store.cost[item.title]['price']).thousandSeparate() }}</p>
               </td>
             </tr>
             <!--        bearing set -->
@@ -515,7 +516,8 @@ function excelExport() {
                     v-else
                     :disabled="vMoneyConfig.disabled"
                     v-model="bearing.node.bearing"
-                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pr-8"
+                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm
+                    rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5 pr-8"
                 >
                   <option
                       v-for="br in bearingList?.getBearings.edges ?? []"
@@ -534,7 +536,8 @@ function excelExport() {
                   :disabled="vMoneyConfig.disabled"
                   v-model="bearing.node.qty"
                   v-on:keyup="getMaterialCost"
-                  class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                  class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm
+                  rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5"
               ></td>
               <td>
                 <template v-if="vMoneyConfig.disabled">{{ new JNumber(bearing.node.price).thousandSeparate() }}</template>
@@ -543,7 +546,8 @@ function excelExport() {
                     v-model="bearing.node.price"
                     v-bind="vMoneyConfig"
                     v-on:keyup="getMaterialCost"
-                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm
+                    rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5"
                 ></money3>
               </td>
               <td> {{ new JNumber(bearing.node.qty * bearing.node.price).thousandSeparate() }} </td>
@@ -562,7 +566,8 @@ function excelExport() {
               <th class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <template v-if="vMoneyConfig.disabled">{{ test.node.test.name }}</template>
                 <select v-else :disabled="vMoneyConfig.disabled" v-model="test.node.test"
-                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pr-8">
+                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                        focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5 pr-8">
                   <option
                       v-for="tst in testList?.getTests.edges ?? []"
                       :value="tst.node"
@@ -577,7 +582,8 @@ function excelExport() {
                     type="number"
                     :disabled="vMoneyConfig.disabled"
                     v-model="test.node.qty"
-                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg
+                    focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5"
                 ></td>
               <td>
                 <template v-if="vMoneyConfig.disabled">{{ new JNumber(test.node.price).thousandSeparate() }}</template>
@@ -585,7 +591,8 @@ function excelExport() {
                     v-else
                     v-model="test.node.price"
                     v-bind="vMoneyConfig"
-                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg
+                    focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5"
                 ></money3>
               </td>
               <td> {{ new JNumber(test.node.qty * test.node.price).thousandSeparate() }} </td>
@@ -606,7 +613,8 @@ function excelExport() {
                     v-else
                     :disabled="vMoneyConfig.disabled"
                     v-model="certificate.node.certificate"
-                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pr-8"
+                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                    focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5 pr-8"
                 >
                   <option v-for="crt in certificateList?.getCertificates.edges ?? []" :value="crt.node" :key="crt.node">
                     {{ crt.node.name }}
@@ -620,7 +628,8 @@ function excelExport() {
                     type="number"
                     :disabled="vMoneyConfig.disabled"
                     v-model="certificate.node.qty"
-                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg
+                    focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5"
                 >
               </td>
               <td>
@@ -629,7 +638,8 @@ function excelExport() {
                     v-else
                     v-model="certificate.node.price"
                     v-bind="vMoneyConfig"
-                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg
+                    focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5"
                 ></money3>
               </td>
               <td> {{ new JNumber(certificate.node.qty * certificate.node.price).thousandSeparate() }} </td>
@@ -654,7 +664,8 @@ function excelExport() {
                   :disabled="vMoneyConfig.disabled"
                   v-model="store.cost[item.title]['percent']"
                   v-on:keyup="item.fn"
-                  class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                  class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg
+                  focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5"
                   type="text"></td>
               <td>
                 <template v-if="vMoneyConfig.disabled">{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</template>
@@ -662,7 +673,8 @@ function excelExport() {
                     v-else
                     v-model="store.cost[item.title]['amount']"
                     v-bind="vMoneyConfig"
-                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg
+                    focus:ring-cyan-600 focus:border-cyan-600 block w-full p-0.5"
                 ></money3>
               </td>
               <td>{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</td>
