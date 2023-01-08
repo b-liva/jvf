@@ -351,7 +351,7 @@ function getTotalCost() {
 
 function excelExport() {
   let data = [
-      ['عنوان', 'مقدار', 'قیمت واحد', 'قیمت کل']
+    ['عنوان', 'مقدار', 'قیمت واحد', 'قیمت کل']
   ];
   rowItems.value.forEach(row => {
     let item = store.cost[row.title];
@@ -427,14 +427,23 @@ function excelExport() {
       <div class="">
         <div class="flex items-start justify-between p-4">
           <h3 class="text-green-500 font-semibold">ثبت بهای تمام شده</h3>
-          <div class="fixed top-0 left-0 p-3 bg-gray-200 text-xs rounded">
-            <label for="editMode">ویرایش</label>
-            <input
-                id="editMode"
-                type="checkbox"
-                class="rounded border-gray-300 mr-1 bg-gray-50 focus:ring-3 focus:ring-cyan-200 h-4 w-4"
-                :value="!vMoneyConfig.disabled"
-                @input="event => vMoneyConfig.disabled = !vMoneyConfig.disabled">
+          <div class="fixed top-0 left-0 p-3">
+            <div class="bg-gray-200 text-xs rounded p-2 mb-1">
+              <label for="editMode">ویرایش</label>
+              <input
+                  id="editMode"
+                  type="checkbox"
+                  class="rounded border-gray-300 mr-1 bg-gray-50 focus:ring-3 focus:ring-cyan-200 h-4 w-4"
+                  :value="!vMoneyConfig.disabled"
+                  @input="event => vMoneyConfig.disabled = !vMoneyConfig.disabled">
+            </div>
+            <div>
+              <button
+                  @click="excelExport"
+                  class="bg-green-500 hover:bg-green-800 text-white p-1 rounded min-w-full text-xs"
+              >فایل
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -654,11 +663,6 @@ function excelExport() {
                   @click="store.cost = Cost.reset()"
                   class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r"
               >جدید
-              </button>
-              <button
-                  @click="excelExport"
-                  class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r"
-              >فایل
               </button>
               <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
                       class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r">
