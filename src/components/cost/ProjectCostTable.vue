@@ -475,7 +475,7 @@ function excelExport() {
             </thead>
             <tbody>
             <!-- row items -->
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="item in rowItems" :key="item.id">
+            <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="item in rowItems" :key="item.id">
               <th scope="row" class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ item.name }}
               </th>
@@ -487,7 +487,7 @@ function excelExport() {
                     v-model="store.cost[item.title]['qty']"
                     :id="item.title"
                     v-on:keyup="item.fn"
-                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full"
                 >
               </td>
               <td>
@@ -497,7 +497,7 @@ function excelExport() {
                     v-model="store.cost[item.title]['price']"
                     v-bind="vMoneyConfig"
                     v-on:keyup="item.fn"
-                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full"
                 ></money3>
               </td>
               <td>
