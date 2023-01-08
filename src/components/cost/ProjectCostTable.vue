@@ -464,13 +464,13 @@ function excelExport() {
           </template>
         </div>
         <div>
-          <table>
-            <thead>
+          <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr class="text-center">
-              <td>عنوان</td>
-              <td>مقدار</td>
-              <td>قیمت واحد</td>
-              <td>قیمت کل</td>
+              <th scope="col" class="px-6 py-3">عنوان</th>
+              <th scope="col" class="px-6 py-3">مقدار</th>
+              <th scope="col" class="px-6 py-3">قیمت واحد</th>
+              <th scope="col" class="px-6 py-3">قیمت کل</th>
             </tr>
             </thead>
             <tbody>
