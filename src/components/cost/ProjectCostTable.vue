@@ -15,7 +15,7 @@ import {deleteGqlObject} from "../../graphql/core/mutations/delete.graphql";
 import {getBearings} from "../../graphql/cost/query/bearing.graphql";
 import {getTests} from "../../graphql/cost/query/test.graphql";
 import {getCertificates} from "../../graphql/cost/query/certificate.graphql";
-import {JSONToCSVConvertor} from "../../utils/xls";
+import {exportToSpreadsheet} from "../../utils/excel/xlsx";
 
 const store = useStore();
 const status = '';
@@ -216,7 +216,7 @@ let formError = ref([])
 onDone(result => {
   formError.value = formError.value.concat(result.data.mutateProjectCost.errors);
   store.costId = store.cost.id = result.data.mutateProjectCost.projectCost.id;
-  if (store.cost.id !== ""){
+  if (store.cost.id !== "") {
     createCostRows();
   }
 })
@@ -243,11 +243,13 @@ function sendProjectCost() {
   createProjectCost();
 
 }
-function createCostRows(){
+
+function createCostRows() {
   createDependentCosts()
   createRowCost();
   createRowCostSet();
 }
+
 function logStore() {
   console.log("spec id: ", store)
 }
@@ -348,59 +350,60 @@ function getTotalCost() {
 }
 
 function excelExport() {
-  let data = [];
+  let data = [
+      ['عنوان', 'مقدار', 'قیمت واحد', 'قیمت کل']
+  ];
   rowItems.value.forEach(row => {
     let item = store.cost[row.title];
-    data.push({
-      name: row.name,
-      qty: item.qty,
-      unitPrice: item.price,
-      totalPrice: item.qty * item.price,
-    })
+    data.push([
+      row.name,
+      item.qty,
+      item.price,
+      item.qty * item.price,
+    ])
   })
   store.cost.bearingcostSet.edges.forEach(row => {
-    data.push({
-      name: row.node.bearing.name,
-      qty: row.node.qty,
-      unitPrice: row.node.price,
-      totalPrice: row.node.qty * row.node.price,
-    })
+    data.push([
+      row.node.bearing.name,
+      row.node.qty,
+      row.node.price,
+      row.node.qty * row.node.price,
+    ])
   })
   store.cost.testcostSet.edges.forEach(row => {
-    data.push({
-      name: row.node.test.name,
-      qty: row.node.qty,
-      unitPrice: row.node.price,
-      totalPrice: row.node.qty * row.node.price,
-    })
+    data.push([
+      row.node.test.name,
+      row.node.qty,
+      row.node.price,
+      row.node.qty * row.node.price,
+    ])
   })
   store.cost.certificatecostSet.edges.forEach(row => {
-    data.push({
-      name: row.node.certificate.name,
-      qty: row.node.qty,
-      unitPrice: row.node.price,
-      totalPrice: row.node.qty * row.node.price,
-    })
+    data.push([
+      row.node.certificate.name,
+      row.node.qty,
+      row.node.price,
+      row.node.qty * row.node.price,
+    ])
   })
 
   dependentCosts.value.forEach(row => {
-    data.push({
-      name: row.name,
-      qty: store.cost[row.title]['percent'],
-      unitPrice: store.cost[row.title]['amount'],
-      totalPrice: store.cost[row.title]['amount'],
-    })
+    data.push([
+      row.name,
+      store.cost[row.title]['percent'],
+      store.cost[row.title]['amount'],
+      store.cost[row.title]['amount'],
+    ])
   })
 
-  data.push({
-    name: 'جمع',
-    qty: '',
-    unitPrice: '',
-    totalPrice: new JNumber(getTotalCost()).thousandSeparate()
-  })
+  data.push([
+    'جمع',
+    '',
+    '',
+    new JNumber(getTotalCost()).thousandSeparate()
+  ])
 
-  console.log(data);
-  JSONToCSVConvertor(data, 'cost', true)
+  exportToSpreadsheet(data, 'cost')
 }
 </script>
 
@@ -465,7 +468,7 @@ function excelExport() {
             <!--        row items -->
             <tr v-for="item in rowItems" :key="item.id">
               <td>
-                {{item.name}}
+                {{ item.name }}
               </td>
               <td>
                 <input
@@ -486,7 +489,9 @@ function excelExport() {
                 ></money3>
               </td>
               <td>
-                <p class="p-2.5">{{ new JNumber(store.cost[item.title]['qty'] * store.cost[item.title]['price']).thousandSeparate() }}</p>
+                <p class="p-2.5">{{
+                    new JNumber(store.cost[item.title]['qty'] * store.cost[item.title]['price']).thousandSeparate()
+                  }}</p>
               </td>
             </tr>
             <!--        bearing sset -->
