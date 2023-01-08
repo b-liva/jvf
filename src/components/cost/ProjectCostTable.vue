@@ -474,11 +474,11 @@ function excelExport() {
             </tr>
             </thead>
             <tbody>
-            <!--        row items -->
-            <tr class="text-center text-gray-500 text-sm" v-for="item in rowItems" :key="item.id">
-              <td>
+            <!-- row items -->
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="item in rowItems" :key="item.id">
+              <th scope="row" class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ item.name }}
-              </td>
+              </th>
               <td>
                 <p v-if="vMoneyConfig.disabled">{{store.cost[item.title]['qty']}}</p>
                 <input
@@ -506,10 +506,11 @@ function excelExport() {
                   }}</p>
               </td>
             </tr>
-            <!--        bearing sset -->
-            <tr v-for="(bearing, index) in store.cost.bearingcostSet.edges" :key="bearing.node.id">
-              <td class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p v-if="vMoneyConfig.disabled">{{bearing.node.bearing.name}}</p>
+            <!--        bearing set -->
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                v-for="(bearing, index) in store.cost.bearingcostSet.edges" :key="bearing.node.id">
+              <th class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <template v-if="vMoneyConfig.disabled">{{bearing.node.bearing.name}}</template>
                 <select
                     v-else
                     :disabled="vMoneyConfig.disabled"
@@ -524,9 +525,9 @@ function excelExport() {
                     {{ br.node.name }}
                   </option>
                 </select>
-              </td>
-              <td class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p v-if="vMoneyConfig.disabled">{{ bearing.node.qty }}</p>
+              </th>
+              <td>
+                <template v-if="vMoneyConfig.disabled">{{ bearing.node.qty }}</template>
                 <input
                   v-else
                   type="number"
@@ -535,8 +536,8 @@ function excelExport() {
                   v-on:keyup="getMaterialCost"
                   class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
               ></td>
-              <td class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p v-if="vMoneyConfig.disabled">{{ new JNumber(bearing.node.price).thousandSeparate() }}</p>
+              <td>
+                <template v-if="vMoneyConfig.disabled">{{ new JNumber(bearing.node.price).thousandSeparate() }}</template>
                 <money3
                     v-else
                     v-model="bearing.node.price"
@@ -545,22 +546,21 @@ function excelExport() {
                     class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                 ></money3>
               </td>
-              <td class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                {{ new JNumber(bearing.node.qty * bearing.node.price).thousandSeparate() }}
-              </td>
-              <td class="col-span-1 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
+              <td> {{ new JNumber(bearing.node.qty * bearing.node.price).thousandSeparate() }} </td>
+              <td>
               <span
                   @click="Remove(store.cost.bearingcostSet.edges, index, bearing.node.id)"
-                  class="p-3 text-red-600 text-lg hover:cursor-pointer  hover:text-red-800 hover:text-xl"
+                  class="text-red-600 text-lg hover:cursor-pointer  hover:text-red-800 hover:text-xl"
                   v-if="!vMoneyConfig.disabled"
               >x</span>
               </td>
-
             </tr>
             <!--        test set-->
-            <tr v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
-              <td class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p v-if="vMoneyConfig.disabled">{{ test.node.test.name }}</p>
+            <tr
+                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
+              <th class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <template v-if="vMoneyConfig.disabled">{{ test.node.test.name }}</template>
                 <select v-else :disabled="vMoneyConfig.disabled" v-model="test.node.test"
                         class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pr-8">
                   <option
@@ -569,9 +569,9 @@ function excelExport() {
                       :key="tst.node">{{ tst.node.name }}
                   </option>
                 </select>
-              </td>
-              <td class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p v-if="vMoneyConfig.disabled">{{ test.node.qty }}</p>
+              </th>
+              <td>
+                <template v-if="vMoneyConfig.disabled">{{ test.node.qty }}</template>
                 <input
                     v-else
                     type="number"
@@ -579,8 +579,8 @@ function excelExport() {
                     v-model="test.node.qty"
                     class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                 ></td>
-              <td class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p v-if="vMoneyConfig.disabled">{{ new JNumber(test.node.price).thousandSeparate() }}</p>
+              <td>
+                <template v-if="vMoneyConfig.disabled">{{ new JNumber(test.node.price).thousandSeparate() }}</template>
                 <money3
                     v-else
                     v-model="test.node.price"
@@ -588,11 +588,8 @@ function excelExport() {
                     class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                 ></money3>
               </td>
-
-              <td class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                {{ new JNumber(test.node.qty * test.node.price).thousandSeparate() }}
-              </td>
-              <td class="col-span-1 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
+              <td> {{ new JNumber(test.node.qty * test.node.price).thousandSeparate() }} </td>
+              <td>
               <span
                   @click="Remove(store.cost.testcostSet.edges, index, test.node.id)"
                   class="p-3 text-red-600 text-lg hover:cursor-pointer  hover:text-red-800 hover:text-xl"
@@ -601,9 +598,10 @@ function excelExport() {
               </td>
             </tr>
             <!--        certificate set-->
-            <tr v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
-              <td class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p v-if="vMoneyConfig.disabled">{{ certificate.node.certificate.name }}</p>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
+              <th class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <template v-if="vMoneyConfig.disabled">{{ certificate.node.certificate.name }}</template>
                 <select
                     v-else
                     :disabled="vMoneyConfig.disabled"
@@ -614,9 +612,9 @@ function excelExport() {
                     {{ crt.node.name }}
                   </option>
                 </select>
-              </td>
-              <td class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p v-if="vMoneyConfig.disabled">{{ certificate.node.qty }}</p>
+              </th>
+              <td>
+                <template v-if="vMoneyConfig.disabled">{{ certificate.node.qty }}</template>
                 <input
                     v-else
                     type="number"
@@ -625,8 +623,8 @@ function excelExport() {
                     class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                 >
               </td>
-              <td class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p v-if="vMoneyConfig.disabled">{{ new JNumber(certificate.node.price).thousandSeparate() }}</p>
+              <td>
+                <template v-if="vMoneyConfig.disabled">{{ new JNumber(certificate.node.price).thousandSeparate() }}</template>
                 <money3
                     v-else
                     v-model="certificate.node.price"
@@ -634,10 +632,8 @@ function excelExport() {
                     class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                 ></money3>
               </td>
-              <td class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                {{ new JNumber(certificate.node.qty * certificate.node.price).thousandSeparate() }}
-              </td>
-              <td class="col-span-1 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
+              <td> {{ new JNumber(certificate.node.qty * certificate.node.price).thousandSeparate() }} </td>
+              <td>
               <span
                   @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)"
                   class="p-3 text-red-600 text-lg hover:cursor-pointer hover:text-red-800 hover:text-xl"
@@ -646,12 +642,13 @@ function excelExport() {
               </td>
             </tr>
             <!--        Dependent cost-->
-            <tr v-for="item in dependentCosts" :key="item.id">
-              <td class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p class="p-2.5">{{ item.name }}</p>
-              </td>
-              <td class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p v-if="vMoneyConfig.disabled">{{ store.cost[item.title]['percent'] }}</p>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                v-for="item in dependentCosts" :key="item.id">
+              <th class="px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {{ item.name }}
+              </th>
+              <td>
+                <template v-if="vMoneyConfig.disabled">{{ store.cost[item.title]['percent'] }}</template>
                 <input
                     v-else
                   :disabled="vMoneyConfig.disabled"
@@ -659,8 +656,8 @@ function excelExport() {
                   v-on:keyup="item.fn"
                   class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                   type="text"></td>
-              <td class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p v-if="vMoneyConfig.disabled">{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</p>
+              <td>
+                <template v-if="vMoneyConfig.disabled">{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</template>
                 <money3
                     v-else
                     v-model="store.cost[item.title]['amount']"
@@ -668,10 +665,7 @@ function excelExport() {
                     class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                 ></money3>
               </td>
-
-              <td class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-                <p class="p-2.5">{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</p>
-              </td>
+              <td>{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</td>
             </tr>
             <tr>
               <td colspan="3">جمع</td>
