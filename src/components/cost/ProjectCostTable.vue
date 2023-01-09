@@ -17,6 +17,7 @@ import {getTests} from "../../graphql/cost/query/test.graphql";
 import {getCertificates} from "../../graphql/cost/query/certificate.graphql";
 import {exportToSpreadsheet} from "../../utils/excel/xlsx";
 import BearingForm from "../cost/bearing/BearingForm.vue";
+import TestForm from "../cost/test/TestForm.vue";
 
 let narrow = ref(false);
 const store = useStore();
@@ -242,7 +243,7 @@ rowCostOnDone(result => {
 })
 
 const {result: bearingList, loading: bearingLoading, error: bearingError, refetch: refetchBearings} = useQuery(getBearings)
-const {result: testList, loading: testLoading, error: testError} = useQuery(getTests)
+const {result: testList, loading: testLoading, error: testError, refetch: refetchTest} = useQuery(getTests)
 const {result: certificateList, loading: certificateLoading, error: certificateError} = useQuery(getCertificates)
 
 function sendProjectCost() {
@@ -431,6 +432,7 @@ function excelExport() {
   <div class="bg-white grid grid-cols-12 gap-4">
     <div class="col-span-3">
       <BearingForm v-if="forms.bearing" @hide-me="forms.bearing = false;" @re-fetch="refetchBearings" class="fixed top-1/3 right-1 p-3"/>
+      <TestForm v-if="forms.test" @hide-me="forms.test = false;" @re-fetch="refetchTest" class="fixed top-1/3 right-1 p-3"/>
     </div>
     <div class="col-span-6">
       <div class="">
@@ -540,7 +542,7 @@ function excelExport() {
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                        stroke="currentColor"
                        class="my-auto cursor-pointer text-green-500 w-6 h-6"
-                       @click="forms.bearing=true">
+                       @click="forms.test = forms.certificate=false; forms.bearing=true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                   </svg>
                   <select
@@ -610,7 +612,8 @@ function excelExport() {
                 <template v-if="vMoneyConfig.disabled">{{ test.node.test.name }}</template>
                 <div class="flex" v-else>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                       stroke="currentColor" class="my-auto cursor-pointer text-green-500 w-6 h-6">
+                       stroke="currentColor" class="my-auto cursor-pointer text-green-500 w-6 h-6"
+                       @click="forms.bearing = forms.certificate=false; forms.test=true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                   </svg>
                   <select :disabled="vMoneyConfig.disabled" v-model="test.node.test"
