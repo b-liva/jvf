@@ -10,6 +10,7 @@ const route = useRoute();
 const {result, loading, error} = useQuery(getOrderDetails, {id: route.params.id});
 
 console.log(result)
+const order = computed(() => result.value.getOrderDetails)
 const followups = computed(() => result.value.getOrderDetails?.orderfollowupSet.edges ?? [])
 let show = ref(false)
 let condense = ref(false)
@@ -28,29 +29,29 @@ const timeLineData = useBaseTimeLineData();
         <div class="text-center px-4">
           <div class="border-b pb-2">مشتری</div>
           <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
-            <RouterLink :to="{name:'customer', params: {id: 'customerId'}}">CustomerName</RouterLink>
+            <RouterLink :to="{name:'customer', params: {id: order.customer.id}}">{{order.customer.name}}</RouterLink>
           </div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">شماره درخواست</div>
-          <div class="pt-2 text-blue-600">450</div>
+          <div class="pt-2 text-blue-600">{{order.number}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">تاریخ</div>
-          <div class="pt-2 text-blue-600">1401-05-05</div>
+          <div class="pt-2 text-blue-600">{{order.dateFa}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">تعداد دستگاه</div>
-          <div class="pt-2 text-blue-600">6</div>
+          <div class="pt-2 text-blue-600">{{order.totalQty}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">مجموع کیلووات</div>
-          <div class="pt-2 text-blue-600">450</div>
+          <div class="pt-2 text-blue-600">{{order.totalKw}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">کارشناس</div>
           <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
-            <RouterLink :to="{name:'user', params: {id: 'userId'}}">username</RouterLink>
+            <RouterLink :to="{name:'user', params: {id: order.owner.id}}">{{order.owner.lastName}}</RouterLink>
           </div>
         </div>
         <div class="px-4 group relative cursor-pointer">

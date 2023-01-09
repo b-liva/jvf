@@ -71,12 +71,23 @@ query getOrderDetails($id:ID!){
     getOrderDetails: request(id:$id) {
         id
         number
+        customer{
+            id
+            name
+        }
+        dateFa
+        totalKw
+        totalQty
+        owner{
+            id
+            lastName
+        }
         orderfollowupSet {
             edges {
                 node {
                     id
-                    summary
                     dateFa
+                    summary
                 }
             }
         }
