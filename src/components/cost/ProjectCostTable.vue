@@ -16,10 +16,16 @@ import {getBearings} from "../../graphql/cost/query/bearing.graphql";
 import {getTests} from "../../graphql/cost/query/test.graphql";
 import {getCertificates} from "../../graphql/cost/query/certificate.graphql";
 import {exportToSpreadsheet} from "../../utils/excel/xlsx";
+import BearingForm from "../cost/bearing/BearingForm.vue";
 
 let narrow = ref(false);
 const store = useStore();
 const status = '';
+let forms = ref({
+  bearing: false,
+  test: false,
+  certificate: false
+})
 const costItems = ref([
   {title: 'chNumber', name: 'شماره چارگون', inputType: 'number', title2: 'ch_number'},
   {title: 'dateFa', name: 'تاریخ', inputType: 'text', title2: 'date_fa'},
@@ -409,7 +415,7 @@ function excelExport() {
 </script>
 
 <template>
-  <div class="">
+  <div class="relative">
     <p>{{ status }}</p>
     <p v-if="loading">loading</p>
     <div v-if="formError.length > 0">بروز خطا:
@@ -423,7 +429,9 @@ function excelExport() {
     </div>
   </div>
   <div class="bg-white grid grid-cols-12 gap-4">
-    <div class="col-span-3"></div>
+    <div class="col-span-3">
+      <BearingForm v-if="forms.bearing" class="bg-gray-100 fixed top-1/3 right-1 p-3"/>
+    </div>
     <div class="col-span-6">
       <div class="">
         <div class="flex items-start justify-between p-4">
@@ -530,7 +538,9 @@ function excelExport() {
                 <template v-if="vMoneyConfig.disabled">{{ bearing.node.bearing.name }}</template>
                 <div class="flex" v-else>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                       stroke="currentColor" class="my-auto cursor-pointer text-green-500 w-6 h-6">
+                       stroke="currentColor"
+                       class="my-auto cursor-pointer text-green-500 w-6 h-6"
+                       @click="forms.bearing=true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                   </svg>
                   <select
