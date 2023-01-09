@@ -241,7 +241,7 @@ rowCostOnDone(result => {
   formError.value = formError.value.concat(result.data.mutateOtherCost.errors);
 })
 
-const {result: bearingList, loading: bearingLoading, error: bearingError} = useQuery(getBearings)
+const {result: bearingList, loading: bearingLoading, error: bearingError, refetch: refetchBearings} = useQuery(getBearings)
 const {result: testList, loading: testLoading, error: testError} = useQuery(getTests)
 const {result: certificateList, loading: certificateLoading, error: certificateError} = useQuery(getCertificates)
 
@@ -430,7 +430,7 @@ function excelExport() {
   </div>
   <div class="bg-white grid grid-cols-12 gap-4">
     <div class="col-span-3">
-      <BearingForm v-if="forms.bearing" @hide-me="forms.bearing = false;" class="fixed top-1/3 right-1 p-3"/>
+      <BearingForm v-if="forms.bearing" @hide-me="forms.bearing = false;" @re-fetch="refetchBearings" class="fixed top-1/3 right-1 p-3"/>
     </div>
     <div class="col-span-6">
       <div class="">

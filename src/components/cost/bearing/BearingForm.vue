@@ -2,23 +2,31 @@
 import {ref} from "vue";
 import {useMutation} from "@vue/apollo-composable";
 import {mutateBearing} from "../../../graphql/cost/mutation/cost/bearing.graphql";
+
+const emit = defineEmits(['reFetch'])
 let name = ref('')
+let msg = ref('')
 let description = ref('');
 
 const {mutate: createBearing, loading, error, onDone} = useMutation(mutateBearing,
     () => ({
       variables: {
-        'name': name,
+        'name': name.value,
       }
     }));
 
 onDone(result => {
   console.log('bearing created.')
+  emit('reFetch');
+  name.value = '';
+  msg.value = 'برینگ اضافه شد.';
+
 })
 </script>
 
 <template>
-<div class="p-6 rounded bg-gray-100">
+<div class="p-8 rounded bg-gray-100">
+  <div v-if="msg.length > 0" class="absolute top-0 right-0 p-1 text-green-400">{{msg}}</div>
   <div class="absolute top-0 left-0">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
          class="bg-red-500 text-white cursor-pointer rounded-tl w-4 h-4"
