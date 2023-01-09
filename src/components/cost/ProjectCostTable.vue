@@ -528,23 +528,28 @@ function excelExport() {
                 v-for="(bearing, index) in store.cost.bearingcostSet.edges" :key="bearing.node.id">
               <th class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <template v-if="vMoneyConfig.disabled">{{ bearing.node.bearing.name }}</template>
-                <select
-                    v-else
-                    :disabled="vMoneyConfig.disabled"
-                    v-model="bearing.node.bearing"
-                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm
+                <div class="flex" v-else>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                       stroke="currentColor" class="my-auto cursor-pointer text-green-500 w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                  <select
+                      :disabled="vMoneyConfig.disabled"
+                      v-model="bearing.node.bearing"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm
                     rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2 pr-8"
-                    :class="{'py-0.5': narrow}"
-                >
-                  <option
-                      v-for="br in bearingList?.getBearings.edges ?? []"
-                      :value="br.node"
-                      :key="br.node"
-                      class="rounded-lg text-xs bg-gray-100"
+                      :class="{'py-0.5': narrow}"
                   >
-                    {{ br.node.name }}
-                  </option>
-                </select>
+                    <option
+                        v-for="br in bearingList?.getBearings.edges ?? []"
+                        :value="br.node"
+                        :key="br.node"
+                        class="rounded-lg text-xs bg-gray-100"
+                    >
+                      {{ br.node.name }}
+                    </option>
+                  </select>
+                </div>
               </th>
               <td>
                 <template v-if="vMoneyConfig.disabled"><p class="py-2" :class="{'py-0.5': narrow}">
@@ -590,16 +595,23 @@ function excelExport() {
                 v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
               <th class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <template v-if="vMoneyConfig.disabled">{{ test.node.test.name }}</template>
-                <select v-else :disabled="vMoneyConfig.disabled" v-model="test.node.test"
-                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                <div class="flex" v-else>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                       stroke="currentColor" class="my-auto cursor-pointer text-green-500 w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                  <select :disabled="vMoneyConfig.disabled" v-model="test.node.test"
+                          class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                         focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2 pr-8" :class="{'py-0.5': narrow}" >
-                  <option
-                      v-for="tst in testList?.getTests.edges ?? []"
-                      :value="tst.node"
-                      :key="tst.node"
-                      class="rounded-lg text-xs bg-gray-100">{{ tst.node.name }}
-                  </option>
-                </select>
+                    <option
+                        v-for="tst in testList?.getTests.edges ?? []"
+                        :value="tst.node"
+                        :key="tst.node"
+                        class="rounded-lg text-xs bg-gray-100">{{ tst.node.name }}
+                    </option>
+                  </select>
+
+                </div>
               </th>
               <td>
                 <template v-if="vMoneyConfig.disabled"><p class="py-2" :class="{'py-0.5': narrow}">{{ test.node.qty }}</p></template>
@@ -637,21 +649,26 @@ function excelExport() {
                 v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
               <th class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <template v-if="vMoneyConfig.disabled">{{ certificate.node.certificate.name }}</template>
-                <select
-                    v-else
-                    :disabled="vMoneyConfig.disabled"
-                    v-model="certificate.node.certificate"
-                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                <div class="flex" v-else>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                       stroke="currentColor" class="my-auto cursor-pointer text-green-500 w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                  <select
+                      :disabled="vMoneyConfig.disabled"
+                      v-model="certificate.node.certificate"
+                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                     focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2 pr-8" :class="{'py-0.5': narrow}"
-                >
-                  <option
-                      v-for="crt in certificateList?.getCertificates.edges ?? []"
-                      :value="crt.node"
-                      :key="crt.node"
-                      class="rounded-lg text-xs bg-gray-100">
-                    {{ crt.node.name }}
-                  </option>
-                </select>
+                  >
+                    <option
+                        v-for="crt in certificateList?.getCertificates.edges ?? []"
+                        :value="crt.node"
+                        :key="crt.node"
+                        class="rounded-lg text-xs bg-gray-100">
+                      {{ crt.node.name }}
+                    </option>
+                  </select>
+                </div>
               </th>
               <td>
                 <template v-if="vMoneyConfig.disabled"><p class="py-2" :class="{'py-0.5': narrow}">
