@@ -1,6 +1,5 @@
 <script setup>
 import {useStore} from "../../store/store.js";
-import Cost from "../../utils/cost.js";
 import {ref} from 'vue';
 import {useMutation, useQuery} from '@vue/apollo-composable'
 import {Button} from 'flowbite-vue'
@@ -789,11 +788,6 @@ function excelExport() {
         <div class="grid grid-cols-12 gap-x-4 bg-white">
           <div class="fixed left-0 top-1/4">
             <div v-if="!vMoneyConfig.disabled" class="flex flex-col">
-              <button
-                  @click="store.cost = Cost.reset()"
-                  class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r"
-              >جدید
-              </button>
               <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
                       class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r">
                 بیرینگ

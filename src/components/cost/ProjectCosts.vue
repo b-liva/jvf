@@ -1,4 +1,5 @@
 <script setup>
+import Cost from "../../utils/cost.js";
 import {useStore} from "../../store/store.js";
 import {ref, watch} from "vue";
 import {useLazyQuery} from "@vue/apollo-composable";
@@ -33,7 +34,19 @@ watch(
     <div class="overflow-x-auto">
       <div class="align-middle inline-block min-w-full">
         <div class="shadow overflow-hidden">
-          <h3 class="mb-4 text-green-500 font-semibold">بهای تمام شده</h3>
+          <div class="flex justify-between">
+            <h3 class="mb-4 text-green-500 font-semibold my-auto">بهای تمام شده</h3>
+            <button
+                v-if="store.proformaSpecId"
+                @click="store.cost = Cost.reset(); store.showCostForm = true;"
+                class="my-auto bg-green-500 hover:bg-green-800 text-white p-0.5 rounded"
+            ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="text-xs w-5 w-5 font-medium text-white">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+              </svg>
+            </button>
+          </div>
+
           <table class="table-fixed min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-100">
             <tr >

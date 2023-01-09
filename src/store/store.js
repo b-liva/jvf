@@ -10,6 +10,7 @@ export const useStore = defineStore("main", {
       proformaSpecId: 0,
       costId: null,
       cost: null,
+      showCostForm: false
     }
   }
 })
