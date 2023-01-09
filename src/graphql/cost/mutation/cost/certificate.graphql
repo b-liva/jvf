@@ -1,0 +1,15 @@
+mutation mutateCertificate(
+    $id:ID,
+    $name:String!
+){
+    mutateCertificate: certificateMutation(input:{
+        id:$id,
+        name:$name
+    }) {
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}

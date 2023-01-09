@@ -17,7 +17,8 @@ import {getTests} from "../../graphql/cost/query/test.graphql";
 import {getCertificates} from "../../graphql/cost/query/certificate.graphql";
 import {exportToSpreadsheet} from "../../utils/excel/xlsx";
 import BearingForm from "../cost/bearing/BearingForm.vue";
-import TestForm from "../cost/test/TestForm.vue";
+import TestForm from "./test/TestForm.vue";
+import CertificateForm from "./certificate/CertificateForm.vue";
 
 let narrow = ref(false);
 const store = useStore();
@@ -242,9 +243,24 @@ rowCostOnDone(result => {
   formError.value = formError.value.concat(result.data.mutateOtherCost.errors);
 })
 
-const {result: bearingList, loading: bearingLoading, error: bearingError, refetch: refetchBearings} = useQuery(getBearings)
-const {result: testList, loading: testLoading, error: testError, refetch: refetchTest} = useQuery(getTests)
-const {result: certificateList, loading: certificateLoading, error: certificateError} = useQuery(getCertificates)
+const {
+  result: bearingList,
+  loading: bearingLoading,
+  error: bearingError,
+  refetch: refetchBearings
+} = useQuery(getBearings)
+const {
+  result: testList,
+  loading: testLoading,
+  error: testError,
+  refetch: refetchTest
+} = useQuery(getTests)
+const {
+  result: certificateList,
+  loading: certificateLoading,
+  error: certificateError,
+  refetch: refetchCertificate
+} = useQuery(getCertificates)
 
 function sendProjectCost() {
   formError.value = []
@@ -433,6 +449,7 @@ function excelExport() {
     <div class="col-span-3">
       <BearingForm v-if="forms.bearing" @hide-me="forms.bearing = false;" @re-fetch="refetchBearings" class="fixed top-1/3 right-1 p-3"/>
       <TestForm v-if="forms.test" @hide-me="forms.test = false;" @re-fetch="refetchTest" class="fixed top-1/3 right-1 p-3"/>
+      <CertificateForm v-if="forms.certificate" @hide-me="forms.certificate = false;" @re-fetch="refetchCertificate" class="fixed top-1/3 right-1 p-3"/>
     </div>
     <div class="col-span-6">
       <div class="">
@@ -670,7 +687,8 @@ function excelExport() {
                 <template v-if="vMoneyConfig.disabled">{{ certificate.node.certificate.name }}</template>
                 <div class="flex" v-else>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                       stroke="currentColor" class="my-auto cursor-pointer text-green-500 w-6 h-6">
+                       stroke="currentColor" class="my-auto cursor-pointer text-green-500 w-6 h-6"
+                       @click="forms.bearing = forms.test=false; forms.certificate=true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                   </svg>
                   <select
