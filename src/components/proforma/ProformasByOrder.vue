@@ -39,8 +39,8 @@ function selectedProformaClass(id) {
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
             <tr>
-              <th scope="col" class="p-4 text-right text-xs font-medium text-gray-500 tracking-wider">مشتری</th>
-              <th scope="col" class="p-4 text-right text-xs font-medium text-gray-500 tracking-wider">تاریخ</th>
+              <th scope="col" class="p-1 text-right text-xs font-medium text-gray-500 tracking-wider">مشتری</th>
+              <th scope="col" class="p-1 text-right text-xs font-medium text-gray-500 tracking-wider">تاریخ</th>
             </tr>
             </thead>
             <tbody class="bg-white">
@@ -52,12 +52,12 @@ function selectedProformaClass(id) {
               <td
                   :class="{
                 'rounded-lg rounded-right': index % 2 === 1,
-                'text-lg font-semibold text-blue-500': proforma.node.id === store.proformaId
+                'text-base font-semibold text-blue-500': proforma.node.id === store.proformaId
                 }"
-                  class="p-4 whitespace-nowrap text-sm font-normal text-gray-900">{{ proforma.node.number }}
+                  class="p-1 cursor-pointer whitespace-nowrap text-sm font-normal text-gray-900">{{ proforma.node.number }}
               </td>
               <td
-                  class="p-4 whitespace-nowrap text-sm font-normal text-gray-500">{{ proforma.node.dateFa }}
+                  class="p-1 whitespace-nowrap text-sm font-normal text-gray-500">{{ proforma.node.dateFa }}
               </td>
             </tr>
             </tbody>

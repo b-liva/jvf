@@ -1,6 +1,12 @@
+<script setup>
+
+</script>
+
 <template>
 <div class="grid grid-cols-3">
-  <div class="col-start-2 text-center p-6 ">Soon...</div>
+  <div class="col-start-2 text-center p-6 ">
+    <p>Soon...</p>
+  </div>
 </div>
 </template>
 

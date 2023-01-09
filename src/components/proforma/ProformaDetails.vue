@@ -36,12 +36,12 @@ watch(
           <table class="table-fixed min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-100">
             <tr >
-              <th scope="col" class="p-4"></th>
-              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">تعداد</th>
-              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">کیلووات</th>
-              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">دور</th>
-              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">ولتاژ</th>
-              <th scope="col" class="p-4 text-xs font-medium text-gray-500 text-center">قیمت واحد</th>
+              <th scope="col" class="p-1"></th>
+              <th scope="col" class="p-1 text-xs font-medium text-gray-500 text-center">تعداد</th>
+              <th scope="col" class="p-1 text-xs font-medium text-gray-500 text-center">کیلووات</th>
+              <th scope="col" class="p-1 text-xs font-medium text-gray-500 text-center">دور</th>
+              <th scope="col" class="p-1 text-xs font-medium text-gray-500 text-center">ولتاژ</th>
+              <th scope="col" class="p-1 text-xs font-medium text-gray-500 text-center">قیمت واحد</th>
             </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -49,8 +49,8 @@ watch(
                 v-for="spec in specs"
                 :key="spec.node.id"
                 @click="store.proformaSpecId = spec.node.id"
-                class="hover:bg-gray-100">
-              <td class="p-3 w-4">
+                class="hover:bg-gray-100 cursor-pointer">
+              <td class="p-1 w-4">
                 <div class="flex items-center">
                   <input
                       :checked="spec.node.id === store.proformaSpecId"
@@ -58,11 +58,11 @@ watch(
                       class="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-cyan-200 h-4 w-4 rounded">
                 </div>
               </td>
-              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.qty}}</td>
-              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.kw}}</td>
-              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.rpm}}</td>
-              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.voltage}}</td>
-              <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-700 text-center">
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.qty}}</td>
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.kw}}</td>
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.rpm}}</td>
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">{{spec.node.voltage}}</td>
+              <td class="p-1 whitespace-nowrap text-sm font-medium text-gray-700 text-center">
                 {{new JNumber(spec.node.price).thousandSeparate()}}
               </td>
             </tr>

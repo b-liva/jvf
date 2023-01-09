@@ -6,7 +6,6 @@ import {getProjectCostDetails} from "../../graphql/cost/query/cost.graphql";
 import ProjectCostTable from '../cost/ProjectCostTable.vue';
 import {ref, watch} from "vue";
 import {idIsNull} from "../../utils/methods";
-let show = ref(false)
 const store = useStore();
 store.cost = Cost.reset();
 
@@ -24,13 +23,13 @@ onResult(qr => {
 
 watch(
     () => [store.orderNumber, store.orderId, store.proformaId, store.proformaSpecId],
-    () => show.value = false
+    () => store.showCostForm = false
 )
 watch(
     () => store.costId,
     () => {
       if (!idIsNull(store.costId)){
-        show.value = true;
+        store.showCostForm = true;
         load()
       }
     },
@@ -40,7 +39,7 @@ watch(
 </script>
 
 <template>
-  <div v-if="show">
+  <div v-if="store.showCostForm">
     <ProjectCostTable/>
   </div>
 </template>

@@ -1,6 +1,5 @@
 <script setup>
 import {useStore} from "../../store/store.js";
-import Cost from "../../utils/cost.js";
 import {ref} from 'vue';
 import {useMutation, useQuery} from '@vue/apollo-composable'
 import {Button} from 'flowbite-vue'
@@ -15,9 +14,19 @@ import {deleteGqlObject} from "../../graphql/core/mutations/delete.graphql";
 import {getBearings} from "../../graphql/cost/query/bearing.graphql";
 import {getTests} from "../../graphql/cost/query/test.graphql";
 import {getCertificates} from "../../graphql/cost/query/certificate.graphql";
+import {exportToSpreadsheet} from "../../utils/excel/xlsx";
+import BearingForm from "../cost/bearing/BearingForm.vue";
+import TestForm from "./test/TestForm.vue";
+import CertificateForm from "./certificate/CertificateForm.vue";
 
+let narrow = ref(false);
 const store = useStore();
 const status = '';
+let forms = ref({
+  bearing: false,
+  test: false,
+  certificate: false
+})
 const costItems = ref([
   {title: 'chNumber', name: 'شماره چارگون', inputType: 'number', title2: 'ch_number'},
   {title: 'dateFa', name: 'تاریخ', inputType: 'text', title2: 'date_fa'},
@@ -215,7 +224,7 @@ let formError = ref([])
 onDone(result => {
   formError.value = formError.value.concat(result.data.mutateProjectCost.errors);
   store.costId = store.cost.id = result.data.mutateProjectCost.projectCost.id;
-  if (store.cost.id !== ""){
+  if (store.cost.id !== "") {
     createCostRows();
   }
 })
@@ -233,20 +242,37 @@ rowCostOnDone(result => {
   formError.value = formError.value.concat(result.data.mutateOtherCost.errors);
 })
 
-const {result: bearingList, loading: bearingLoading, error: bearingError} = useQuery(getBearings)
-const {result: testList, loading: testLoading, error: testError} = useQuery(getTests)
-const {result: certificateList, loading: certificateLoading, error: certificateError} = useQuery(getCertificates)
+const {
+  result: bearingList,
+  loading: bearingLoading,
+  error: bearingError,
+  refetch: refetchBearings
+} = useQuery(getBearings)
+const {
+  result: testList,
+  loading: testLoading,
+  error: testError,
+  refetch: refetchTest
+} = useQuery(getTests)
+const {
+  result: certificateList,
+  loading: certificateLoading,
+  error: certificateError,
+  refetch: refetchCertificate
+} = useQuery(getCertificates)
 
 function sendProjectCost() {
   formError.value = []
   createProjectCost();
 
 }
-function createCostRows(){
+
+function createCostRows() {
   createDependentCosts()
   createRowCost();
   createRowCostSet();
 }
+
 function logStore() {
   console.log("spec id: ", store)
 }
@@ -345,10 +371,67 @@ function getTotalCost() {
   value += getGeneralCost();
   return value
 }
+
+function excelExport() {
+  let data = [
+    ['عنوان', 'مقدار', 'قیمت واحد', 'قیمت کل']
+  ];
+  rowItems.value.forEach(row => {
+    let item = store.cost[row.title];
+    data.push([
+      row.name,
+      item.qty,
+      item.price,
+      item.qty * item.price,
+    ])
+  })
+  store.cost.bearingcostSet.edges.forEach(row => {
+    data.push([
+      row.node.bearing.name,
+      row.node.qty,
+      row.node.price,
+      row.node.qty * row.node.price,
+    ])
+  })
+  store.cost.testcostSet.edges.forEach(row => {
+    data.push([
+      row.node.test.name,
+      row.node.qty,
+      row.node.price,
+      row.node.qty * row.node.price,
+    ])
+  })
+  store.cost.certificatecostSet.edges.forEach(row => {
+    data.push([
+      row.node.certificate.name,
+      row.node.qty,
+      row.node.price,
+      row.node.qty * row.node.price,
+    ])
+  })
+
+  dependentCosts.value.forEach(row => {
+    data.push([
+      row.name,
+      store.cost[row.title]['percent'],
+      store.cost[row.title]['amount'],
+      store.cost[row.title]['amount'],
+    ])
+  })
+
+  data.push([
+    'جمع',
+    '',
+    '',
+    new JNumber(getTotalCost()).thousandSeparate()
+  ])
+
+  exportToSpreadsheet(data, 'cost')
+}
 </script>
 
 <template>
-  <div class="">
+  <div class="relative">
     <p>{{ status }}</p>
     <p v-if="loading">loading</p>
     <div v-if="formError.length > 0">بروز خطا:
@@ -361,243 +444,368 @@ function getTotalCost() {
       </ul>
     </div>
   </div>
-  <div class="bg-white grid grid-cols-8 gap-4">
-    <div class="col-start-3 col-span-4">
-      <div class="flex items-start justify-between p-4">
-        <h3 class="text-green-500 font-semibold">ثبت بهای تمام شده</h3>
-        <div class="fixed top-0 left-0 p-3 bg-gray-200 text-xs rounded">
-          <label for="editMode">ویرایش</label>
-          <input
-              id="editMode"
-              type="checkbox"
-              class="rounded border-gray-300 mr-1 bg-gray-50 focus:ring-3 focus:ring-cyan-200 h-4 w-4"
-              :value="!vMoneyConfig.disabled"
-              @input="event => vMoneyConfig.disabled = !vMoneyConfig.disabled">
+  <div class="bg-white grid grid-cols-12 gap-4">
+    <div class="col-span-3">
+      <BearingForm v-if="forms.bearing" @hide-me="forms.bearing = false;" @re-fetch="refetchBearings" class="fixed top-1/3 right-1 p-3"/>
+      <TestForm v-if="forms.test" @hide-me="forms.test = false;" @re-fetch="refetchTest" class="fixed top-1/3 right-1 p-3"/>
+      <CertificateForm v-if="forms.certificate" @hide-me="forms.certificate = false;" @re-fetch="refetchCertificate" class="fixed top-1/3 right-1 p-3"/>
+    </div>
+    <div class="col-span-6">
+      <div class="">
+        <div class="flex items-start justify-between p-4">
+          <h3 class="text-green-500 font-semibold">ثبت بهای تمام شده</h3>
+          <div>
+            <label>
+              <input type="checkbox" v-model="narrow">
+            </label>
+          </div>
+          <div class="fixed top-0 left-0 p-3">
+            <div class="bg-gray-200 text-xs rounded p-2 mb-1">
+              <label for="editMode">ویرایش</label>
+              <input
+                  id="editMode"
+                  type="checkbox"
+                  class="rounded border-gray-300 mr-1 bg-gray-50 focus:ring-3 focus:ring-cyan-200 h-4 w-4"
+                  :value="!vMoneyConfig.disabled"
+                  @input="event => vMoneyConfig.disabled = !vMoneyConfig.disabled">
+            </div>
+            <div>
+              <button
+                  @click="excelExport"
+                  class="bg-green-500 hover:bg-green-800 text-white p-1 rounded min-w-full text-xs"
+              >فایل
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-start-3 col-span-4 border-b pb-4">
-      <div class="flex items-start justify-around">
-        <template v-for="item in costItems" :key="item.id">
-          <div class="col-span-1">
-            <label :for="item.title" class="text-sm font-medium text-gray-900 block mb-2">{{ item.name }}</label>
-            <input
-                :id="item.title"
-                :disabled="vMoneyConfig.disabled"
-                v-model="store.cost[item.title]"
-                v-on:keyup=""
-                type="text"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-            >
-          </div>
-        </template>
-      </div>
-    </div>
-    <div class="col-start-2 col-end-8">
-      <div class="grid grid-cols-12 gap-x-4 bg-white">
-        <div class="col-span-3 text-center p-1 text-xs font-medium text-gray-500">عنوان</div>
-        <div class="col-span-3 text-center p-1 text-xs font-medium text-gray-500">مقدار</div>
-        <div class="col-span-3 text-center p-1 text-xs font-medium text-gray-500">قیمت مواد</div>
-        <div class="col-span-2 text-center p-1 text-xs font-medium text-gray-500">قیمت کل</div>
-        <div class="col-span-1 text-center p-1 text-xs font-medium text-gray-500"></div>
-<!--        row items -->
-        <template
-            v-for="(item, index) in rowItems">
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500"><p class="p-2.5">{{ item.name }}</p></div>
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <input
-                type="number"
-                :disabled="vMoneyConfig.disabled"
-                v-model="store.cost[item.title]['qty']"
-                :id="item.title"
-                v-on:keyup="item.fn"
-                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-            >
-          </div>
-          <div class="col-span-3 p-1 whitespace-nowrap text-sm font-normal text-gray-500">
-            <money3
-                v-model="store.cost[item.title]['price']"
-                v-bind="vMoneyConfig"
-                v-on:keyup="item.fn"
-                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-            ></money3>
-          </div>
-          <div class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <p class="p-2.5">{{ new JNumber(store.cost[item.title]['qty'] * store.cost[item.title]['price']).thousandSeparate() }}</p>
-          </div>
-        </template>
-<!--        bearing sset -->
-        <template v-for="(bearing, index) in store.cost.bearingcostSet.edges" :key="bearing.node.id">
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <select
-                :disabled="vMoneyConfig.disabled"
-                v-model="bearing.node.bearing"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pr-8"
-            >
-              <option
-                  v-for="br in bearingList?.getBearings.edges ?? []"
-                  :value="br.node"
-                  :key="br.node"
-              >
-                {{ br.node.name }}
-              </option>
-            </select>
-          </div>
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500"><input
-              type="number"
-              :disabled="vMoneyConfig.disabled"
-              v-model="bearing.node.qty"
-              v-on:keyup="getMaterialCost"
-              class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-          ></div>
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <money3
-                v-model="bearing.node.price"
-                v-bind="vMoneyConfig"
-                v-on:keyup="getMaterialCost"
-                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-            ></money3>
-          </div>
-          <div class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            {{ new JNumber(bearing.node.qty * bearing.node.price).thousandSeparate() }}
-          </div>
-          <div class="col-span-1 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-              <span
+      <div class="border-b">
+        <div class="flex items-start justify-around my-6">
+          <template v-for="item in costItems" :key="item.id">
+            <div class="text-center">
+              <label :for="item.title" class="text-sm font-medium text-gray-900 block mb-2">{{ item.name }}</label>
+              <p v-if="vMoneyConfig.disabled" class="py-2" :class="{'py-0.5': narrow}">{{ store.cost[item.title] }}</p>
+              <template v-else>
+                <input
+                    :id="item.title"
+                    :disabled="vMoneyConfig.disabled"
+                    v-model="store.cost[item.title]"
+                    v-on:keyup=""
+                    type="text"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                  focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2"
+                :class="{'py-0.5': narrow}">
+              </template>
+            </div>
+          </template>
+        </div>
+        <div>
+          <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr class="text-center">
+              <th scope="col" class="px-6 py-2" :class="{'py-0.5': narrow}">عنوان</th>
+              <th scope="col" class="px-6 py-2" :class="{'py-0.5': narrow}">مقدار</th>
+              <th scope="col" class="px-6 py-2" :class="{'py-0.5': narrow}">قیمت واحد</th>
+              <th scope="col" class="px-6 py-2" :class="{'py-0.5': narrow}">قیمت کل</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- row items -->
+            <tr class="text-center bg-white border-b dark:bg-gray-800 dark:border-gray-700" v-for="item in rowItems"
+                :key="item.id">
+              <th scope="row" class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {{ item.name }}
+              </th>
+              <td>
+                <p v-if="vMoneyConfig.disabled" class="py-2" :class="{'py-0.5': narrow}">{{ store.cost[item.title]['qty'] }}</p>
+                <input
+                    v-else
+                    type="number"
+                    v-model="store.cost[item.title]['qty']"
+                    :id="item.title"
+                    v-on:keyup="item.fn"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm
+                    rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2"
+                    :class="{'py-0.5': narrow}"
+                >
+              </td>
+              <td>
+                <p v-if="vMoneyConfig.disabled">{{
+                    new JNumber(store.cost[item.title]['price']).thousandSeparate()
+                  }}</p>
+                <money3
+                    v-else
+                    v-model="store.cost[item.title]['price']"
+                    v-bind="vMoneyConfig"
+                    v-on:keyup="item.fn"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm
+                    rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2"
+                    :class="{'py-0.5': narrow}"
+                ></money3>
+              </td>
+              <td>
+                <p>{{
+                    new JNumber(store.cost[item.title]['qty'] * store.cost[item.title]['price']).thousandSeparate()
+                  }}</p>
+              </td>
+            </tr>
+            <!--        bearing set -->
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                v-for="(bearing, index) in store.cost.bearingcostSet.edges" :key="bearing.node.id">
+              <th class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <template v-if="vMoneyConfig.disabled">{{ bearing.node.bearing.name }}</template>
+                <div class="flex" v-else>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                       stroke="currentColor"
+                       class="my-auto cursor-pointer text-green-500 w-6 h-6"
+                       @click="forms.test = forms.certificate=false; forms.bearing=true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                  <select
+                      :disabled="vMoneyConfig.disabled"
+                      v-model="bearing.node.bearing"
+                      class="mr-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm
+                    rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2 pr-8"
+                      :class="{'py-0.5': narrow}"
+                  >
+                    <option
+                        v-for="br in bearingList?.getBearings.edges ?? []"
+                        :value="br.node"
+                        :key="br.node"
+                        class="rounded-lg text-xs bg-gray-100"
+                    >
+                      {{ br.node.name }}
+                    </option>
+                  </select>
+                </div>
+              </th>
+              <td>
+                <template v-if="vMoneyConfig.disabled"><p class="py-2" :class="{'py-0.5': narrow}">
+                  {{ bearing.node.qty }}</p>
+                </template>
+                <input
+                    v-else
+                    type="number"
+                    :disabled="vMoneyConfig.disabled"
+                    v-model="bearing.node.qty"
+                    v-on:keyup="getMaterialCost"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm
+                  rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2"
+                    :class="{'py-0.5': narrow}"
+                ></td>
+              <td>
+                <template v-if="vMoneyConfig.disabled">{{
+                    new JNumber(bearing.node.price).thousandSeparate()
+                  }}
+                </template>
+                <money3
+                    v-else
+                    v-model="bearing.node.price"
+                    v-bind="vMoneyConfig"
+                    v-on:keyup="getMaterialCost"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm
+                    rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2"
+                    :class="{'py-0.5': narrow}"
+                ></money3>
+              </td>
+              <td> {{ new JNumber(bearing.node.qty * bearing.node.price).thousandSeparate() }}</td>
+              <td>
+              <p
                   @click="Remove(store.cost.bearingcostSet.edges, index, bearing.node.id)"
                   class="p-3 text-red-600 text-lg hover:cursor-pointer  hover:text-red-800 hover:text-xl"
-                  v-if="!vMoneyConfig.disabled"
-              >x</span>
-          </div>
+                  v-if="!vMoneyConfig.disabled">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+              </p>
+              </td>
+            </tr>
+            <!--        test set-->
+            <tr
+                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
+              <th class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <template v-if="vMoneyConfig.disabled">{{ test.node.test.name }}</template>
+                <div class="flex" v-else>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                       stroke="currentColor" class="my-auto cursor-pointer text-green-500 w-6 h-6"
+                       @click="forms.bearing = forms.certificate=false; forms.test=true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                  <select :disabled="vMoneyConfig.disabled" v-model="test.node.test"
+                          class="mr-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                        focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2 pr-8" :class="{'py-0.5': narrow}" >
+                    <option
+                        v-for="tst in testList?.getTests.edges ?? []"
+                        :value="tst.node"
+                        :key="tst.node"
+                        class="rounded-lg text-xs bg-gray-100">{{ tst.node.name }}
+                    </option>
+                  </select>
 
-        </template>
-<!--        test set-->
-        <template v-for="(test, index) in store.cost.testcostSet.edges" :key="test.node.id">
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <select :disabled="vMoneyConfig.disabled" v-model="test.node.test"
-                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pr-8">
-              <option
-                  v-for="tst in testList?.getTests.edges ?? []"
-                  :value="tst.node"
-                  :key="tst.node">{{ tst.node.name }}
-              </option>
-            </select>
-          </div>
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <input
-                type="number"
-                :disabled="vMoneyConfig.disabled"
-                v-model="test.node.qty"
-                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-            ></div>
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <money3
-                v-model="test.node.price"
-                v-bind="vMoneyConfig"
-                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-            ></money3>
-          </div>
-
-          <div class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            {{ new JNumber(test.node.qty * test.node.price).thousandSeparate() }}
-          </div>
-          <div class="col-span-1 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-              <span
-                  @click="Remove(store.cost.testcostSet.edges, index, test.node.id)"
+                </div>
+              </th>
+              <td>
+                <template v-if="vMoneyConfig.disabled"><p class="py-2" :class="{'py-0.5': narrow}">{{ test.node.qty }}</p></template>
+                <input
+                    v-else
+                    type="number"
+                    :disabled="vMoneyConfig.disabled"
+                    v-model="test.node.qty"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg
+                    focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2"
+                    :class="{'py-0.5': narrow}"
+                ></td>
+              <td>
+                <template v-if="vMoneyConfig.disabled">{{ new JNumber(test.node.price).thousandSeparate() }}</template>
+                <money3
+                    v-else
+                    v-model="test.node.price"
+                    v-bind="vMoneyConfig"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg
+                    focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2"
+                    :class="{'py-0.5': narrow}"
+                ></money3>
+              </td>
+              <td> {{ new JNumber(test.node.qty * test.node.price).thousandSeparate() }}</td>
+              <td>
+              <p  @click="Remove(store.cost.testcostSet.edges, index, test.node.id)"
                   class="p-3 text-red-600 text-lg hover:cursor-pointer  hover:text-red-800 hover:text-xl"
-                  v-if="!vMoneyConfig.disabled"
-              >x</span>
-          </div>
-        </template>
-<!--        certificate set-->
-        <template v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <select
-                :disabled="vMoneyConfig.disabled"
-                v-model="certificate.node.certificate"
-                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pr-8"
-            >
-              <option v-for="crt in certificateList?.getCertificates.edges ?? []" :value="crt.node" :key="crt.node">
-                {{ crt.node.name }}
-              </option>
-            </select>
-          </div>
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <input
-                type="number"
-                :disabled="vMoneyConfig.disabled"
-                v-model="certificate.node.qty"
-                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-            >
-          </div>
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <money3
-                v-model="certificate.node.price"
-                v-bind="vMoneyConfig"
-                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-            ></money3>
-          </div>
-          <div class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            {{ new JNumber(certificate.node.qty * certificate.node.price).thousandSeparate() }}
-          </div>
-          <div class="col-span-1 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-              <span
+                  v-if="!vMoneyConfig.disabled">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+
+              </p>
+              </td>
+            </tr>
+            <!--        certificate set-->
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                v-for="(certificate, index) in store.cost.certificatecostSet.edges" :key="certificate.node.id">
+              <th class="font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <template v-if="vMoneyConfig.disabled">{{ certificate.node.certificate.name }}</template>
+                <div class="flex" v-else>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                       stroke="currentColor" class="my-auto cursor-pointer text-green-500 w-6 h-6"
+                       @click="forms.bearing = forms.test=false; forms.certificate=true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                  <select
+                      :disabled="vMoneyConfig.disabled"
+                      v-model="certificate.node.certificate"
+                      class="mr-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                    focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2 pr-8" :class="{'py-0.5': narrow}"
+                  >
+                    <option
+                        v-for="crt in certificateList?.getCertificates.edges ?? []"
+                        :value="crt.node"
+                        :key="crt.node"
+                        class="rounded-lg text-xs bg-gray-100">
+                      {{ crt.node.name }}
+                    </option>
+                  </select>
+                </div>
+              </th>
+              <td>
+                <template v-if="vMoneyConfig.disabled"><p class="py-2" :class="{'py-0.5': narrow}">
+                  {{ certificate.node.qty }}</p>
+                </template>
+                <input
+                    v-else
+                    type="number"
+                    :disabled="vMoneyConfig.disabled"
+                    v-model="certificate.node.qty"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg
+                    focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2"
+                    :class="{'py-0.5': narrow}"
+                >
+              </td>
+              <td>
+                <template v-if="vMoneyConfig.disabled">{{
+                    new JNumber(certificate.node.price).thousandSeparate()
+                  }}
+                </template>
+                <money3
+                    v-else
+                    v-model="certificate.node.price"
+                    v-bind="vMoneyConfig"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg
+                    focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2"
+                    :class="{'py-0.5': narrow}"
+                ></money3>
+              </td>
+              <td> {{ new JNumber(certificate.node.qty * certificate.node.price).thousandSeparate() }}</td>
+              <td>
+              <p
                   @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)"
                   class="p-3 text-red-600 text-lg hover:cursor-pointer hover:text-red-800 hover:text-xl"
-                  v-if="!vMoneyConfig.disabled"
-              >x</span>
-          </div>
-        </template>
-<!--        Dependent cost-->
-        <template v-for="item in dependentCosts" :key="item.id">
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <p class="p-2.5">{{ item.name }}</p>
-          </div>
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500"><input
-              :disabled="vMoneyConfig.disabled"
-              v-model="store.cost[item.title]['percent']"
-              v-on:keyup="item.fn"
-              class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-              type="text"></div>
-          <div class="col-span-3 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <money3
-                v-model="store.cost[item.title]['amount']"
-                v-bind="vMoneyConfig"
-                class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-            ></money3>
-          </div>
-
-          <div class="col-span-2 p-1 whitespace-nowrap text-center text-sm font-normal text-gray-500">
-            <p class="p-2.5">{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</p>
-          </div>
-        </template>
-        <div class="col-span-3 p-1 text-center text-lg"><p class="p-2.5">جمع</p></div>
-        <div class="col-start-10 text-lg text-center p-1"><p class="p-2.5">{{ new JNumber(getTotalCost()).thousandSeparate() }}</p></div>
-        <div class="fixed left-0 top-1/4">
-          <div v-if="!vMoneyConfig.disabled" class="flex flex-col">
-            <button
-                @click="store.cost = Cost.reset()"
-                class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r"
-            >جدید</button>
-            <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
-                    class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r">
-              بیرینگ
-            </button>
-            <button @click="AddNew(store.cost.testcostSet.edges, 'test')"
-                    class="my-1 bg-green-500 hover:bg-green-800 text-white p-1">تست
-            </button>
-            <button @click="AddNew(store.cost.certificatecostSet.edges, 'certificate')"
-                    class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-l">گواهی نامه
-            </button>
-            <button class="my-1 bg-blue-800 text-white p-2 rounded" @click="sendProjectCost">ثبت</button>
+                  v-if="!vMoneyConfig.disabled">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+              </p>
+              </td>
+            </tr>
+            <!--        Dependent cost-->
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                v-for="item in dependentCosts" :key="item.id">
+              <th class="px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {{ item.name }}
+              </th>
+              <td>
+                <template v-if="vMoneyConfig.disabled"><p class="py-2" :class="{'py-0.5': narrow}">{{ store.cost[item.title]['percent'] }}</p></template>
+                <input
+                    v-else
+                    :disabled="vMoneyConfig.disabled"
+                    v-model="store.cost[item.title]['percent']"
+                    v-on:keyup="item.fn"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg
+                  focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2" :class="{'py-0.5': narrow}"
+                    type="text"></td>
+              <td>
+                <template v-if="vMoneyConfig.disabled">
+                  {{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}
+                </template>
+                <money3
+                    v-else
+                    v-model="store.cost[item.title]['amount']"
+                    v-bind="vMoneyConfig"
+                    class="text-center shadow-sm bg-gray-50 border border-gray-300 text-gray-500 sm:text-sm rounded-lg
+                    focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2" :class="{'py-0.5': narrow}"
+                ></money3>
+              </td>
+              <td>{{ new JNumber(store.cost[item.title]['amount']).thousandSeparate() }}</td>
+            </tr>
+            <tr>
+              <td colspan="3">جمع</td>
+              <td>{{ new JNumber(getTotalCost()).thousandSeparate() }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="">
+        <div class="grid grid-cols-12 gap-x-4 bg-white">
+          <div class="fixed left-0 top-1/4">
+            <div v-if="!vMoneyConfig.disabled" class="flex flex-col">
+              <button @click="AddNew(store.cost.bearingcostSet.edges, 'bearing')"
+                      class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-r">
+                بیرینگ
+              </button>
+              <button @click="AddNew(store.cost.testcostSet.edges, 'test')"
+                      class="my-1 bg-green-500 hover:bg-green-800 text-white p-1">تست
+              </button>
+              <button @click="AddNew(store.cost.certificatecostSet.edges, 'certificate')"
+                      class="my-1 bg-green-500 hover:bg-green-800 text-white p-1 rounded-l">گواهی نامه
+              </button>
+              <button class="my-1 bg-blue-800 text-white p-2 rounded" @click="sendProjectCost">ثبت</button>
+            </div>
           </div>
         </div>
       </div>
-
     </div>
+    <div class="col-span-3"></div>
   </div>
-
-
-
 </template>
 
 <style scoped>

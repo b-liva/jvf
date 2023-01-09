@@ -1,0 +1,15 @@
+mutation mutateTest(
+    $id:ID,
+    $name:String!
+){
+    mutateTest: testMutation(input:{
+        id:$id,
+        name:$name
+    }) {
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
