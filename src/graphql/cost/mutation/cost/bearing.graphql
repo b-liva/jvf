@@ -1,0 +1,15 @@
+mutation mutateBearing(
+    $id:ID,
+    $name:String!
+){
+    mutateBearing: bearingMutation(input:{
+        id:$id,
+        name:$name
+    }) {
+        clientMutationId
+        errors{
+            field
+            messages
+        }
+    }
+}
