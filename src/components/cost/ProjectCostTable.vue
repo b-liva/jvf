@@ -430,7 +430,7 @@ function excelExport() {
   </div>
   <div class="bg-white grid grid-cols-12 gap-4">
     <div class="col-span-3">
-      <BearingForm v-if="forms.bearing" class="bg-gray-100 fixed top-1/3 right-1 p-3"/>
+      <BearingForm v-if="forms.bearing" @hide-me="forms.bearing = false;" class="fixed top-1/3 right-1 p-3"/>
     </div>
     <div class="col-span-6">
       <div class="">
