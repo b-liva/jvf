@@ -66,3 +66,19 @@ query filterOrders(
     }
   }
 }
+
+query getOrderDetails($id:ID!){
+    getOrderDetails: request(id:$id) {
+        id
+        number
+        orderfollowupSet {
+            edges {
+                node {
+                    id
+                    summary
+                    dateFa
+                }
+            }
+        }
+    }
+}

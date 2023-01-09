@@ -1,7 +1,16 @@
 <script setup>
 import TimeLineList from "../list/TimeLineList.vue";
-import {ref} from "vue";
+import {getOrderDetails} from "../../graphql/order/query/order.graphql";
+import {useRoute} from "vue-router";
+import {useQuery} from "@vue/apollo-composable";
+import {computed, ref} from "vue";
 import {useBaseTimeLineData} from "../../data/base";
+
+const route = useRoute();
+const {result, loading, error} = useQuery(getOrderDetails, {id: route.params.id});
+
+console.log(result)
+const followups = computed(() => result.value.getOrderDetails?.orderfollowupSet.edges ?? [])
 let show = ref(false)
 let condense = ref(false)
 const timeLineData = useBaseTimeLineData();
@@ -122,19 +131,9 @@ const timeLineData = useBaseTimeLineData();
           <div v-if="show" class="absolute bottom-0 left-0 ml-6 mb-8 rounded-md bg-gray-300 min-w-[360px]">
             <div class="relative p-5">
               <p @click="show = !show" class="absolute top-0 right-0 p-1 bg-red-400 hover:cursor-pointer">X</p>
-              <div class="py-1">
-                <span class="text-green-500 pl-2">1401-05-06</span>
-                <span class="text-xs">ارجاع به واحد مهندسی </span>
-                <span class="text-xs text-red-800 cursor-pointer mr-2 py-1">حذف</span>
-              </div>
-              <div class="py-1">
-                <span class="text-green-500 pl-2">1401-05-06</span>
-                <span class="text-xs">ارجاع به واحد مهندسی </span>
-                <span class="text-xs text-red-800 cursor-pointer mr-2 py-1">حذف</span>
-              </div>
-              <div class="py-1">
-                <span class="text-green-500 pl-2">1401-05-06</span>
-                <span class="text-xs">ارجاع به واحد مهندسی </span>
+              <div class="py-1" v-for="fl in followups">
+                <span class="text-green-500 pl-2">{{fl.node.dateFa}}</span>
+                <span class="text-xs">{{fl.node.summary}} </span>
                 <span class="text-xs text-red-800 cursor-pointer mr-2 py-1">حذف</span>
               </div>
             </div>
