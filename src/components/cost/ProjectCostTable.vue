@@ -536,7 +536,7 @@ function excelExport() {
                   <select
                       :disabled="vMoneyConfig.disabled"
                       v-model="bearing.node.bearing"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm
+                      class="mr-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm
                     rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2 pr-8"
                       :class="{'py-0.5': narrow}"
                   >
@@ -582,11 +582,14 @@ function excelExport() {
               </td>
               <td> {{ new JNumber(bearing.node.qty * bearing.node.price).thousandSeparate() }}</td>
               <td>
-              <span
+              <p
                   @click="Remove(store.cost.bearingcostSet.edges, index, bearing.node.id)"
-                  class="text-red-600 text-lg hover:cursor-pointer  hover:text-red-800 hover:text-xl"
-                  v-if="!vMoneyConfig.disabled"
-              >x</span>
+                  class="p-3 text-red-600 text-lg hover:cursor-pointer  hover:text-red-800 hover:text-xl"
+                  v-if="!vMoneyConfig.disabled">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+              </p>
               </td>
             </tr>
             <!--        test set-->
@@ -601,7 +604,7 @@ function excelExport() {
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                   </svg>
                   <select :disabled="vMoneyConfig.disabled" v-model="test.node.test"
-                          class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                          class="mr-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                         focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2 pr-8" :class="{'py-0.5': narrow}" >
                     <option
                         v-for="tst in testList?.getTests.edges ?? []"
@@ -637,11 +640,14 @@ function excelExport() {
               </td>
               <td> {{ new JNumber(test.node.qty * test.node.price).thousandSeparate() }}</td>
               <td>
-              <span
-                  @click="Remove(store.cost.testcostSet.edges, index, test.node.id)"
+              <p  @click="Remove(store.cost.testcostSet.edges, index, test.node.id)"
                   class="p-3 text-red-600 text-lg hover:cursor-pointer  hover:text-red-800 hover:text-xl"
-                  v-if="!vMoneyConfig.disabled"
-              >x</span>
+                  v-if="!vMoneyConfig.disabled">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+
+              </p>
               </td>
             </tr>
             <!--        certificate set-->
@@ -657,7 +663,7 @@ function excelExport() {
                   <select
                       :disabled="vMoneyConfig.disabled"
                       v-model="certificate.node.certificate"
-                      class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                      class="mr-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                     focus:ring-cyan-600 focus:border-cyan-600 block w-full py-2 pr-8" :class="{'py-0.5': narrow}"
                   >
                     <option
@@ -700,11 +706,14 @@ function excelExport() {
               </td>
               <td> {{ new JNumber(certificate.node.qty * certificate.node.price).thousandSeparate() }}</td>
               <td>
-              <span
+              <p
                   @click="Remove(store.cost.certificatecostSet.edges, index, certificate.node.id)"
                   class="p-3 text-red-600 text-lg hover:cursor-pointer hover:text-red-800 hover:text-xl"
-                  v-if="!vMoneyConfig.disabled"
-              >x</span>
+                  v-if="!vMoneyConfig.disabled">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+              </p>
               </td>
             </tr>
             <!--        Dependent cost-->
