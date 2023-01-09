@@ -16,12 +16,16 @@ const {mutate: createBearing, loading, error, onDone} = useMutation(mutateBearin
     }));
 
 onDone(result => {
-  console.log('bearing created.')
   emit('reFetch');
   name.value = '';
   msg.value = 'برینگ اضافه شد.';
-
+  clearMsgWithDelay(3000);
 })
+function clearMsgWithDelay(delay){
+  setTimeout(() => {
+    msg.value = '';
+  }, delay)
+}
 </script>
 
 <template>
