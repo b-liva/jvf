@@ -46,7 +46,7 @@ function totalPrice(){
   <div class="grid grid-cols-12" v-if="!loading || Object.keys(proforma).length > 0">
     <div class="col-span-2">
       <div class="col-span-2 m-3">
-        <TimeLineList v-for="tld in timeLineData" v-bind="tld" page-name="proforma" class="my-2"/>
+        <Timeline/>
       </div>
     </div>
     <div class="col-span-10">

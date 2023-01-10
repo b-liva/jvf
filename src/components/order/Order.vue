@@ -1,29 +1,25 @@
 <script setup>
-import TimeLineList from "../list/TimeLineList.vue";
+import Timeline from "../list/TimeLine.vue";
 import {getOrderDetails} from "../../graphql/order/query/order.graphql";
 import {useRoute} from "vue-router";
 import {useQuery} from "@vue/apollo-composable";
 import {computed, ref} from "vue";
-import {useBaseTimeLineData} from "../../data/base";
 
 const route = useRoute();
 const {result, loading, error, onResult, refetch} = useQuery(getOrderDetails, {id: route.params.id});
-
-console.log(result)
 
 const order = computed(() => result.value?.getOrderDetails ?? {})
 const followups = computed(() => result.value.getOrderDetails?.orderfollowupSet.edges ?? [])
 const specs = computed(() => result.value.getOrderDetails?.reqspecSet.edges ?? [])
 let show = ref(false)
 let condense = ref(false)
-const timeLineData = useBaseTimeLineData();
 </script>
 
 <template>
   <div class="grid grid-cols-12 gap-6" v-if="!loading || Object.keys(order).length > 0">
     <div class="col-span-2">
       <div class="col-span-2 m-3">
-        <TimeLineList v-for="tld in timeLineData" v-bind="tld" page-name="order" class="my-2"/>
+        <Timeline/>
       </div>
     </div>
     <div class="col-span-10">
