@@ -78,6 +78,7 @@ query getOrderDetails($id:ID!){
         dateFa
         totalKw
         totalQty
+        summary
         owner{
             id
             lastName
@@ -89,6 +90,7 @@ query getOrderDetails($id:ID!){
                     code
                     qty
                     kw
+                    summary
                     type {
                         id
                         title

@@ -131,7 +131,7 @@ const timeLineData = useBaseTimeLineData();
         <div class="col-span-2">
           <div class="p-3">
             <div>شرح</div>
-            <div>توضیحات مربوط به این درخواست</div>
+            <div class="text-gray-500">{{order.summary}}</div>
           </div>
           <div v-if="show" class="absolute bottom-0 left-0 ml-6 mb-8 rounded-md bg-gray-300 min-w-[360px]">
             <div class="relative p-5">
