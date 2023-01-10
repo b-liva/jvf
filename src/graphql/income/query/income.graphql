@@ -1,0 +1,20 @@
+query filterIncomes($customerName:String, $number:Int){
+    filterIncomes: allIncomes(
+        number:$number,
+        customer_Name_Icontains:$customerName) {
+        edges {
+            node {
+                id
+                amount
+                number
+                owner{
+                    lastName
+                }
+                customer{
+                    id
+                    name
+                }
+            }
+        }
+    }
+}
