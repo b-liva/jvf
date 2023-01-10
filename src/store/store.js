@@ -30,3 +30,11 @@ export const useProformaStore = defineStore('proformaStore', {
     }
   }
 })
+
+export const useIncomeStore = defineStore('incomeStore', {
+  state: () => {
+    return{
+      incomes: []
+    }
+  }
+})

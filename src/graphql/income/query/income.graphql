@@ -1,0 +1,61 @@
+query filterIncomes($customerName:String, $number:Int){
+    filterIncomes: allIncomes(
+        number:$number,
+        customer_Name_Icontains:$customerName) {
+        edges {
+            node {
+                id
+                amount
+                number
+                owner{
+                    lastName
+                }
+                customer{
+                    id
+                    name
+                }
+                assignedCount
+                amountNotAssigned
+                amountAssigned
+            }
+        }
+    }
+}
+
+query getIncomeDetails($id:ID!){
+    getIncomeDetails: income(id:$id){
+        number
+        chNum
+        type {
+            id
+            title
+        }
+        customer{
+            name
+            id
+        }
+        owner{
+            id
+            lastName
+        }
+        amount
+        amountAssigned
+        amountNotAssigned
+        incomerowSet {
+            edges {
+                node {
+                    id
+                    amount
+                    proforma{
+                        id
+                        number
+                    }
+                    owner{
+                        id
+                        lastName
+                    }
+                }
+            }
+        }
+    }
+}
