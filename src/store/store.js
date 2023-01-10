@@ -22,3 +22,11 @@ export const useOrderStore = defineStore('orderStore', {
     }
   }
 })
+
+export const useProformaStore = defineStore('proformaStore', {
+  state: () => {
+    return{
+      proformas: []
+    }
+  }
+})

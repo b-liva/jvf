@@ -40,3 +40,34 @@ query getProforma($proformaId:ID!){
         }
     }
 }
+
+query filterProformas($number: Int, $customerName: String) {
+    filterProformas: allProformas(number: $number, reqId_Customer_Name_Icontains: $customerName) {
+        edges {
+            node {
+                id
+                number
+                dateFa
+                owner {
+                    lastName
+                }
+                reqId {
+                    customer {
+                        id
+                        name
+                    }
+                    orderfollowupSet(last: 1) {
+                        edges {
+                            node {
+                                id
+                                summary
+                                description
+                                dateFa
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
