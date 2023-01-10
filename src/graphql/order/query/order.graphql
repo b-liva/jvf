@@ -82,6 +82,34 @@ query getOrderDetails($id:ID!){
             id
             lastName
         }
+        reqspecSet{
+            edges{
+                node{
+                    id
+                    code
+                    qty
+                    kw
+                    type {
+                        id
+                        title
+                    }
+                    rpmNew{
+                        id
+                        rpm
+                    }
+                    voltage
+                    im{
+                        title
+                    }
+                    ip{
+                        title
+                    }
+                    ic{
+                        title
+                    }
+                }
+            }
+        }
         orderfollowupSet {
             edges {
                 node {

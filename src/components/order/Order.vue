@@ -12,6 +12,7 @@ const {result, loading, error} = useQuery(getOrderDetails, {id: route.params.id}
 console.log(result)
 const order = computed(() => result.value.getOrderDetails)
 const followups = computed(() => result.value.getOrderDetails?.orderfollowupSet.edges ?? [])
+const specs = computed(() => result.value.getOrderDetails?.reqspecSet.edges ?? [])
 let show = ref(false)
 let condense = ref(false)
 const timeLineData = useBaseTimeLineData();
@@ -96,20 +97,20 @@ const timeLineData = useBaseTimeLineData();
               </thead>
               <tbody>
 
-              <tr v-for="(row, index) in [1,2,3,4,5]" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <tr v-for="(spec, index) in specs" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row"
                     :class="{'py-4': !condense}"
                     class="px-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ index + 1 }}
                 </th>
-                <td class="text-sm text-center px-3">1010025</td>
-                <td class="text-sm text-center px-3">روتین</td>
-                <td class="text-sm text-center px-3">2</td>
-                <td class="text-sm text-center px-3">110</td>
-                <td class="text-sm text-center px-3">1500</td>
-                <td class="text-sm text-center px-3">380</td>
-                <td class="text-sm text-center px-3">IMB3</td>
-                <td class="text-sm text-center px-3">IC411</td>
-                <td class="text-sm text-center px-3">IP55</td>
+                <td class="text-sm text-center px-3">{{spec.node.code}}</td>
+                <td class="text-sm text-center px-3">{{spec.node.type.title}}</td>
+                <td class="text-sm text-center px-3">{{spec.node.qty}}</td>
+                <td class="text-sm text-center px-3">{{spec.node.kw}}</td>
+                <td class="text-sm text-center px-3">{{ spec.node.rpmNew.rpm }}</td>
+                <td class="text-sm text-center px-3">{{spec.node.voltage}}</td>
+                <td class="text-sm text-center px-3">{{spec.node.im.title}}</td>
+                <td class="text-sm text-center px-3">{{spec.node.ic.title}}</td>
+                <td class="text-sm text-center px-3">{{spec.node.ip.title}}</td>
                 <td class="text-sm text-center px-3">IE2</td>
                 <td class="text-sm text-center px-3 cursor-pointer relative group">
                   <span class="group-hover:invisible">...</span>
