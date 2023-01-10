@@ -7,10 +7,11 @@ import {computed, ref} from "vue";
 import {useBaseTimeLineData} from "../../data/base";
 
 const route = useRoute();
-const {result, loading, error} = useQuery(getOrderDetails, {id: route.params.id});
+const {result, loading, error, onResult, refetch} = useQuery(getOrderDetails, {id: route.params.id});
 
 console.log(result)
-const order = computed(() => result.value.getOrderDetails)
+
+const order = computed(() => result.value?.getOrderDetails ?? {})
 const followups = computed(() => result.value.getOrderDetails?.orderfollowupSet.edges ?? [])
 const specs = computed(() => result.value.getOrderDetails?.reqspecSet.edges ?? [])
 let show = ref(false)
@@ -19,7 +20,7 @@ const timeLineData = useBaseTimeLineData();
 </script>
 
 <template>
-  <div class="grid grid-cols-12 gap-6">
+  <div class="grid grid-cols-12 gap-6" v-if="!loading || Object.keys(order).length > 0">
     <div class="col-span-2">
       <div class="col-span-2 m-3">
         <TimeLineList v-for="tld in timeLineData" v-bind="tld" page-name="order" class="my-2"/>
@@ -59,6 +60,8 @@ const timeLineData = useBaseTimeLineData();
           <div class="border-b pb-2 px-4">...</div>
           <div class="text-gray-500 hidden group-hover:block min-w-max
       absolute right-0 top-10 bg-gray-100 rounded rounded-l py-2 px-4 text-xs z-20">
+            <div v-if="!loading" @click="refetch">ریفرش </div>
+            <div v-else >در حال دریافت </div>
             <div class="pb-1 min-h-fit">ویرایش</div>
             <div class="pb-1 min-h-fit">حذف</div>
             <div class="pb-1 min-h-fit">ردیف جدید</div>
