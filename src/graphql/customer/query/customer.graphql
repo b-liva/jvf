@@ -19,3 +19,21 @@ query filterCustomer($customerName: String) {
         }
     }
 }
+
+query getCustomerDetails($id: ID!) {
+    getCustomerDetails: customer(id: $id) {
+        name
+        type {
+            id
+            name
+        }
+        phone
+        whatsapp
+        fax
+        email
+        website
+        postalCode
+        addr
+        agent
+    }
+}
