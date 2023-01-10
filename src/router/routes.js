@@ -4,6 +4,8 @@ import Order from "../components/order/Order.vue";
 import ProjectCost from '../components/cost/ProjectCost.vue';
 import Filters from "../components/order/Filters.vue";
 import List from "../components/order/List.vue";
+import ProformaFilter from "../components/proforma/ProformaFilters.vue"
+import ProformaList from "../components/proforma/ProformaList.vue";
 import SearchPage from "../layout/SearchPage.vue";
 import Customer from "../components/customer/Customer.vue";
 import User from "../components/user/User.vue";
@@ -28,8 +30,21 @@ export const menuRoutes = [
                 SearchResults: List,
             }
         }],
-        props: {title: 'سفارش فروش'}},
-    {path: '/proforma', name: 'proformas', component: HomePage, props: {title: 'پیش فاکتور'}},
+        props: {title: 'سفارش فروش'}
+    },
+    {
+        path: '/proforma',
+        name: 'proformas',
+        component: SearchPage,
+        children: [{
+            path: '',
+            components: {
+                SearchFilters: ProformaFilter,
+                SearchResults: ProformaList,
+            }
+        }],
+        props: {title: 'پیش فاکتور'}
+    },
     {path: '/income', name: 'incomes', component: HomePage, props: {title: 'دریافت وجه'}},
     {path: '/inventory', name: 'inventory', component: HomePage, props: {title: 'انبار'}},
     {path: '/invoice', name: 'invoices', component: HomePage, props: {title: 'فاکتور'}},
