@@ -1,11 +1,8 @@
 <script setup>
 import {computed} from "vue";
-import {useRoute} from "vue-router";
 
 const props = defineProps(['title', 'subtitle', 'checked', 'name', 'pageName'])
 const computedTextColor = computed(() => props.checked ? "" : "text-gray-300")
-const route = useRoute();
-console.log(route.name)
 </script>
 
 <template>
