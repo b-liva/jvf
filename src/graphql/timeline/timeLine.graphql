@@ -1,0 +1,20 @@
+query getOrder($id:ID!){
+    getOrder: request(id:$id){
+        number
+        xprefSet {
+            edges {
+                node {
+                    id
+                    perm
+                    incomerowSet {
+                        edges {
+                            node {
+                                id
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
