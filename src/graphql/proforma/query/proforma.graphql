@@ -79,7 +79,6 @@ query getProformaDetails($id: ID!) {
         dateFa
         qty
         kw
-        summary
         reqId {
             id
             number
@@ -104,6 +103,18 @@ query getProformaDetails($id: ID!) {
                     kw
                     rpm
                     voltage
+                    im {
+                        id
+                        title
+                    }
+                    ip {
+                        title
+                        id
+                    }
+                    ic {
+                        title
+                        id
+                    }
                     price
                 }
             }

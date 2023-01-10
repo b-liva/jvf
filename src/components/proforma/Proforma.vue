@@ -6,17 +6,29 @@ import {useQuery} from "@vue/apollo-composable";
 import {computed, ref} from "vue";
 import {useBaseTimeLineData, useBaseProformaData} from "../../data/base";
 
+let showSpecDetailsFlag = ref([]);
 const route = useRoute();
 const {result, loading, error, onResult, refetch} = useQuery(getProformaDetails, {id: route.params.id});
 const proforma = computed(() => result.value?.getProformaDetails ?? {})
-console.log('proforma: ', proforma)
-const proformaSpecs = computed(() => result.value.getProformaDetails?.prefspecSet.edges ?? [])
-console.log(proformaSpecs)
+const proformaSpecs = computed(() => result.value?.getProformaDetails?.prefspecSet.edges ?? [])
+onResult(() => proformaSpecs.value.forEach(spec => showSpecDetailsFlag.value.push({id: spec.node.id, show: false})))
 
 const timeLineData = useBaseTimeLineData();
 const proformas = useBaseProformaData();
 
 let condense = ref(false)
+function handleShowHideFlag(id){
+  console.log('this is id: ', id)
+  let flag = showSpecDetailsFlag.value.filter(item => id === item.id)
+  showSpecDetailsFlag.value.map(item => {
+    if (item.id === id){
+      item.show = !item.show;
+    }
+  })
+  console.log('flag: ', flag)
+  flag.show = !flag.show;
+  console.log('new flag: ', flag)
+}
 </script>
 
 <template>
@@ -105,7 +117,7 @@ let condense = ref(false)
               </tr>
               </thead>
               <tbody>
-              <template v-for="(row, index) in proformaSpecs" >
+              <template v-for="(row, index) in proformaSpecs" :key="row.id">
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <th scope="row"
                       class="relative font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -114,7 +126,7 @@ let condense = ref(false)
                   }"
                   >{{ index + 1 }}
                     <div class="absolute bottom-0 right-0 text-xs pr-2 cursor-pointer text-blue-500"
-                         @click="row.show = !row.show"  >جزئیات</div>
+                         @click="handleShowHideFlag(row.node.id)"  >جزئیات</div>
                   </th>
                   <td class="text-sm text-center">{{row.node.code}}</td>
                   <td class="text-sm text-center">{{row.node.reqspecEq.type.title}}</td>
@@ -133,21 +145,18 @@ let condense = ref(false)
                   </td>
                 </tr>
                 <tr class="border-b border-b-2" :class="{
-              'hidden': !row.show
+              'hidden': !showSpecDetailsFlag.filter(item => item.id === row.node.id)[0].show
             }">
                   <td colspan="5">
                     <div class="grid grid-cols-4 min-w-20 py-2">
                       <div>
-                        <p>{{row.im}}</p>
+                        <p>{{row.node.im?.title ?? ''}}</p>
                       </div>
                       <div>
-                        <p>{{row.ic}}</p>
+                        <p>{{row.node.ic?.title ?? ''}}</p>
                       </div>
                       <div>
-                        <p>{{row.ip}}</p>
-                      </div>
-                      <div>
-                        <p>{{row.ie}}</p>
+                        <p>{{row.node.ip?.title ?? ''}}</p>
                       </div>
                     </div>
                   </td>
