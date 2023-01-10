@@ -71,3 +71,37 @@ query filterProformas($number: Int, $customerName: String) {
         }
     }
 }
+
+query getProformaDetails($id: ID!) {
+    getProformaDetails: proforma(id: $id) {
+        id
+        number
+        dateFa
+        qty
+        kw
+        reqId {
+            id
+            number
+            customer{
+                id
+                name
+            }
+        }
+        prefspecSet {
+            edges {
+                node {
+                    id
+                    qty
+                    kw
+                    rpm
+                    voltage
+                    price
+                }
+            }
+        }
+        owner {
+            id
+            lastName
+        }
+    }
+}

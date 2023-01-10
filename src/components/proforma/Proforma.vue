@@ -1,9 +1,18 @@
 <script setup>
 import TimeLineList from "../list/TimeLineList.vue";
-import {ref} from "vue";
+import {getProformaDetails} from "../../graphql/proforma/query/proforma.graphql";
+import {useRoute} from "vue-router";
+import {useQuery} from "@vue/apollo-composable";
+import {computed, ref} from "vue";
 import {useBaseTimeLineData, useBaseProformaData} from "../../data/base";
 
-let show = ref(false)
+const route = useRoute();
+const {result, loading, error, onResult, refetch} = useQuery(getProformaDetails, {id: route.params.id});
+const proforma = computed(() => result.value?.getProformaDetails ?? {})
+console.log(proforma)
+const proformaSpecs = computed(() => result.value.getProformaDetails?.prefspecSet.edges ?? [])
+
+
 const timeLineData = useBaseTimeLineData();
 const proformas = useBaseProformaData();
 
@@ -11,7 +20,7 @@ let condense = ref(false)
 </script>
 
 <template>
-  <div class="grid grid-cols-12">
+  <div class="grid grid-cols-12" v-if="!loading || Object.keys(proforma).length > 0">
     <div class="col-span-2">
       <div class="col-span-2 m-3">
         <TimeLineList v-for="tld in timeLineData" v-bind="tld" page-name="proforma" class="my-2"/>
@@ -22,37 +31,37 @@ let condense = ref(false)
         <div class="text-center px-4">
           <div class="border-b pb-2">مشتری</div>
           <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
-            <RouterLink :to="{name:'customer', params: {id: 'customerId'}}">CustomerName</RouterLink>
+            <RouterLink :to="{name:'customer', params: {id: proforma.reqId.customer.id}}">{{proforma.reqId.customer.name}}</RouterLink>
           </div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">پیش فاکتور</div>
-          <div class="pt-2 text-blue-600">450</div>
+          <div class="pt-2 text-blue-600">{{proforma.number}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">تاریخ</div>
-          <div class="pt-2 text-blue-600">1401-05-05</div>
+          <div class="pt-2 text-blue-600">{{proforma.dateFa}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">اعتبار</div>
-          <div class="pt-2 text-blue-600">1401-05-12</div>
+          <div class="pt-2 text-blue-600">***</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">مبلغ</div>
-          <div class="pt-2 text-blue-600">2,500,000,000</div>
+          <div class="pt-2 text-blue-600">***</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">تعداد دستگاه</div>
-          <div class="pt-2 text-blue-600">6</div>
+          <div class="pt-2 text-blue-600">{{proforma.qty}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">مجموع کیلووات</div>
-          <div class="pt-2 text-blue-600">450</div>
+          <div class="pt-2 text-blue-600">{{proforma.kw}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">کارشناس</div>
           <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
-            <RouterLink :to="{name:'user', params: {id: 'userId'}}">username</RouterLink>
+            <RouterLink :to="{name:'user', params: {id: proforma.owner.id}}">{{proforma.owner.lastName}}</RouterLink>
           </div>
         </div>
         <div class="px-4 group relative cursor-pointer">
