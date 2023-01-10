@@ -11,23 +11,22 @@ const route = useRoute();
 const {result, loading, error, onResult, refetch} = useQuery(getProformaDetails, {id: route.params.id});
 const proforma = computed(() => result.value?.getProformaDetails ?? {})
 const proformaSpecs = computed(() => result.value?.getProformaDetails?.prefspecSet.edges ?? [])
-onResult(() => proformaSpecs.value.forEach(spec => showSpecDetailsFlag.value.push({id: spec.node.id, show: false})))
+onResult(() => addToggleFlagToSpecs());
 
 const timeLineData = useBaseTimeLineData();
 const proformas = useBaseProformaData();
 
 let condense = ref(false)
+
 function handleShowHideFlag(id){
-  console.log('this is id: ', id)
-  let flag = showSpecDetailsFlag.value.filter(item => id === item.id)
   showSpecDetailsFlag.value.map(item => {
     if (item.id === id){
       item.show = !item.show;
     }
   })
-  console.log('flag: ', flag)
-  flag.show = !flag.show;
-  console.log('new flag: ', flag)
+}
+function addToggleFlagToSpecs(){
+  proformaSpecs.value.forEach(spec => showSpecDetailsFlag.value.push({id: spec.node.id, show: false}))
 }
 </script>
 
@@ -162,11 +161,9 @@ function handleShowHideFlag(id){
                   </td>
                 </tr>
               </template>
-
               </tbody>
             </table>
           </div>
-
         </div>
         <div class="col-span-2 relative">
           <div class="p-3">
