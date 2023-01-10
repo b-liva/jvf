@@ -66,3 +66,60 @@ query filterOrders(
     }
   }
 }
+
+query getOrderDetails($id:ID!){
+    getOrderDetails: request(id:$id) {
+        id
+        number
+        customer{
+            id
+            name
+        }
+        dateFa
+        totalKw
+        totalQty
+        summary
+        owner{
+            id
+            lastName
+        }
+        reqspecSet{
+            edges{
+                node{
+                    id
+                    code
+                    qty
+                    kw
+                    summary
+                    type {
+                        id
+                        title
+                    }
+                    rpmNew{
+                        id
+                        rpm
+                    }
+                    voltage
+                    im{
+                        title
+                    }
+                    ip{
+                        title
+                    }
+                    ic{
+                        title
+                    }
+                }
+            }
+        }
+        orderfollowupSet {
+            edges {
+                node {
+                    id
+                    dateFa
+                    summary
+                }
+            }
+        }
+    }
+}
