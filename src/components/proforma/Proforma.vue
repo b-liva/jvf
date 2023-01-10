@@ -156,7 +156,7 @@ function totalPrice(){
                   </td>
                 </tr>
                 <tr class="border-b border-b-2" :class="{
-              'hidden': !showSpecDetailsFlag.filter(item => item.id === row.node.id)[0].show
+              'hidden': !showSpecDetailsFlag.filter(item => item.id === row.node.id)[0]?.show ?? false
             }">
                   <td colspan="5">
                     <div class="grid grid-cols-4 min-w-20 py-2">
