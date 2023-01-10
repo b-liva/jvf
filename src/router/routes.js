@@ -1,5 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router";
 import HomePage from "../components/test/HomePage.vue";
+import CustomerFilter from "../components/customer/CustomerFilters.vue"
+import CustomerList from "../components/customer/CustomerList.vue";
 import Order from "../components/order/Order.vue";
 import ProjectCost from '../components/cost/ProjectCost.vue';
 import Filters from "../components/order/Filters.vue";
@@ -20,7 +22,14 @@ import Invoice from "../components/invoice/Invoice.vue";
 
 export const menuRoutes = [
     {path: '/', name: 'home', component: HomePage, props: {title: 'نخست'}},
-    {path: '/customer', name: 'customers', component: HomePage, props: {title: 'مشتری'}},
+    {path: '/customer', name: 'customers', component: SearchPage,
+        children: [{
+            path: '',
+            components: {
+                SearchFilters: CustomerFilter,
+                SearchResults: CustomerList,
+            }
+        }], props: {title: 'مشتری'}},
     {
         path: '/orders',
         name: 'orders',

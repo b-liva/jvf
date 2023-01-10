@@ -15,6 +15,14 @@ export const useStore = defineStore("main", {
   }
 })
 
+export const useCustomerStore = defineStore('customerStore', {
+  state: () => {
+    return{
+      customers: []
+    }
+  }
+})
+
 export const useOrderStore = defineStore('orderStore', {
   state: () => {
     return{
