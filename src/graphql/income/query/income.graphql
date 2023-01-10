@@ -14,6 +14,9 @@ query filterIncomes($customerName:String, $number:Int){
                     id
                     name
                 }
+                assignedCount
+                amountNotAssigned
+                amountAssigned
             }
         }
     }
