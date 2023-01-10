@@ -79,6 +79,7 @@ query getProformaDetails($id: ID!) {
         dateFa
         qty
         kw
+        summary
         reqId {
             id
             number
@@ -91,6 +92,14 @@ query getProformaDetails($id: ID!) {
             edges {
                 node {
                     id
+                    reqspecEq {
+                        id
+                        type {
+                            id
+                            title
+                        }
+                    }
+                    code
                     qty
                     kw
                     rpm

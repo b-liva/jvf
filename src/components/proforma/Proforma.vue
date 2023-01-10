@@ -9,9 +9,9 @@ import {useBaseTimeLineData, useBaseProformaData} from "../../data/base";
 const route = useRoute();
 const {result, loading, error, onResult, refetch} = useQuery(getProformaDetails, {id: route.params.id});
 const proforma = computed(() => result.value?.getProformaDetails ?? {})
-console.log(proforma)
+console.log('proforma: ', proforma)
 const proformaSpecs = computed(() => result.value.getProformaDetails?.prefspecSet.edges ?? [])
-
+console.log(proformaSpecs)
 
 const timeLineData = useBaseTimeLineData();
 const proformas = useBaseProformaData();
@@ -105,7 +105,7 @@ let condense = ref(false)
               </tr>
               </thead>
               <tbody>
-              <template v-for="(row, index) in proformas" >
+              <template v-for="(row, index) in proformaSpecs" >
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                   <th scope="row"
                       class="relative font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -116,14 +116,14 @@ let condense = ref(false)
                     <div class="absolute bottom-0 right-0 text-xs pr-2 cursor-pointer text-blue-500"
                          @click="row.show = !row.show"  >جزئیات</div>
                   </th>
-                  <td class="text-sm text-center">{{row.code}}</td>
-                  <td class="text-sm text-center">{{row.type}}</td>
-                  <td class="text-sm text-center">{{row.qty}}</td>
-                  <td class="text-sm text-center">{{row.kw}}</td>
-                  <td class="text-sm text-center">{{row.rpm}}</td>
-                  <td class="text-sm text-center">{{row.voltage}}</td>
-                  <td class="text-sm text-center">{{row.price}}</td>
-                  <td class="text-sm text-center">{{row.qty * row.price}}</td>
+                  <td class="text-sm text-center">{{row.node.code}}</td>
+                  <td class="text-sm text-center">{{row.node.reqspecEq.type.title}}</td>
+                  <td class="text-sm text-center">{{row.node.qty}}</td>
+                  <td class="text-sm text-center">{{row.node.kw}}</td>
+                  <td class="text-sm text-center">{{row.node.rpm}}</td>
+                  <td class="text-sm text-center">{{row.node.voltage}}</td>
+                  <td class="text-sm text-center">{{row.node.price}}</td>
+                  <td class="text-sm text-center">{{row.node.qty * row.node.price}}</td>
                   <td class="text-sm text-center cursor-pointer relative group">
                     <span class="group-hover:invisible">...</span>
                     <div class="absolute hidden left-0 top-0 group-hover:block p-2">
@@ -162,7 +162,7 @@ let condense = ref(false)
         <div class="col-span-2 relative">
           <div class="p-3">
             <div>شرح</div>
-            <div>توضیحات مربوط به این پیش فاکتور</div>
+            <div>{{proforma.summary}}</div>
           </div>
         </div>
       </div>
