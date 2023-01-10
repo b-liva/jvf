@@ -5,6 +5,7 @@ import {useRoute} from "vue-router";
 import {useQuery} from "@vue/apollo-composable";
 import {computed, ref} from "vue";
 import {useBaseTimeLineData, useBaseProformaData} from "../../data/base";
+import JNumber from "../../utils/number.js";
 
 let showSpecDetailsFlag = ref([]);
 const route = useRoute();
@@ -27,6 +28,17 @@ function handleShowHideFlag(id){
 }
 function addToggleFlagToSpecs(){
   proformaSpecs.value.forEach(spec => showSpecDetailsFlag.value.push({id: spec.node.id, show: false}))
+}
+function totalNonVat(){
+  let total = 0;
+  proformaSpecs.value.forEach(spec => total += spec.node.qty * spec.node.price);
+  return total
+}
+function vat(){
+  return 0.09 * totalNonVat();
+}
+function totalPrice(){
+  return totalNonVat() + vat();
 }
 </script>
 
@@ -133,8 +145,8 @@ function addToggleFlagToSpecs(){
                   <td class="text-sm text-center">{{row.node.kw}}</td>
                   <td class="text-sm text-center">{{row.node.rpm}}</td>
                   <td class="text-sm text-center">{{row.node.voltage}}</td>
-                  <td class="text-sm text-center">{{row.node.price}}</td>
-                  <td class="text-sm text-center">{{row.node.qty * row.node.price}}</td>
+                  <td class="text-sm text-center">{{new JNumber(row.node.price).thousandSeparate()}}</td>
+                  <td class="text-sm text-center">{{new JNumber(row.node.qty * row.node.price).thousandSeparate()}}</td>
                   <td class="text-sm text-center cursor-pointer relative group">
                     <span class="group-hover:invisible">...</span>
                     <div class="absolute hidden left-0 top-0 group-hover:block p-2">
@@ -161,6 +173,18 @@ function addToggleFlagToSpecs(){
                   </td>
                 </tr>
               </template>
+              <tr class="text-center">
+                <td colspan="8">جمع بدون مالیات ارزش افزوده</td>
+                <td>{{new JNumber(totalNonVat()).thousandSeparate()}}</td>
+              </tr>
+              <tr class="text-center">
+                <td colspan="8">مالیات ارزش افزوده</td>
+                <td>{{new JNumber(vat()).thousandSeparate()}}</td>
+              </tr>
+              <tr class="text-center">
+                <td colspan="8">جمع با مالیات ارزش افزوده</td>
+                <td>{{new JNumber(totalPrice()).thousandSeparate()}}</td>
+              </tr>
               </tbody>
             </table>
           </div>
