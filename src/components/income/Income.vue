@@ -1,29 +1,38 @@
 <script setup>
 import TimeLineList from "../list/TimeLineList.vue";
-import {ref} from "vue";
+
+import {getIncomeDetails} from "../../graphql/income/query/income.graphql";
+import {useRoute} from "vue-router";
+import {useQuery} from "@vue/apollo-composable";
+import JNumber from "../../utils/number.js";
+import {computed} from "vue";
 import {useBaseTimeLineData} from "../../data/base";
 
+const route = useRoute();
+const {result, loading, error, onResult, refetch} = useQuery(getIncomeDetails, {id: route.params.id});
+const income = computed(() => result.value?.getIncomeDetails ?? {})
+const incomeRows = computed(() => result.value?.getIncomeDetails?.incomerowSet.edges ?? [])
+
 const timeLineData = useBaseTimeLineData();
-const incomes = [
-  {date: '1401-05-05', proforma: 860, price: 2500000000, owner: 'userName'},
-  {date: '1401-05-06', proforma: 861, price: 3500000000, owner: 'userName'},
-  {date: '1401-05-06', proforma: 862, price: 1100000000, owner: 'userName'},
-]
+
 function getPercentage(index){
   let sum = 0;
   let total = 0;
-  incomes.forEach((value, key) => {
+  console.log(sum, total)
+  incomeRows.value.forEach((incomeRow, key) => {
     if (key <= index){
-      sum = sum + value.price
+      console.log(incomeRow)
+      sum = sum + incomeRow.node.amount
     }
-    total = total + value.price;
+    total = total + incomeRow.node.amount;
   })
+  console.log(sum, total)
   return Math.trunc(100 * sum / total);
 }
 </script>
 
 <template>
-  <div class="grid grid-cols-12 gap-6">
+  <div class="grid grid-cols-12 gap-6" v-if="!loading || Object.keys(income).length > 0">
     <div class="col-span-2">
       <div class="col-span-2 m-3">
         <TimeLineList v-for="tld in timeLineData" v-bind="tld" page-name="income" class="my-2"/>
@@ -34,33 +43,33 @@ function getPercentage(index){
         <div class="text-center px-4">
           <div class="border-b pb-2">مشتری</div>
           <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
-            <RouterLink :to="{name:'customer', params: {id: 'customerId'}}">CustomerName</RouterLink>
+            <RouterLink :to="{name:'customer', params: {id: income.customer.id}}">{{income.customer.name}}</RouterLink>
           </div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">شماره دریافتی</div>
-          <div class="pt-2 text-blue-600">45051</div>
+          <div class="pt-2 text-blue-600">{{income.number}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">شماره اتوماسیون</div>
-          <div class="pt-2 text-blue-600">220</div>
+          <div class="pt-2 text-blue-600">{{income.chNum}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">تاریخ</div>
-          <div class="pt-2 text-blue-600">1401-05-12</div>
+          <div class="pt-2 text-blue-600">***</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">نوع</div>
-          <div class="pt-2 text-blue-600">حواله</div>
+          <div class="pt-2 text-blue-600">{{income.type.title}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">مبلغ</div>
-          <div class="pt-2 text-blue-600">2,500,000,000</div>
+          <div class="pt-2 text-blue-600">{{new JNumber(income.amount).thousandSeparate()}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">کارشناس</div>
           <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
-            <RouterLink :to="{name:'user', params: {id: 'userId'}}">username</RouterLink>
+            <RouterLink :to="{name:'user', params: {id: income.owner.id}}">{{income.owner.lastName}}</RouterLink>
           </div>
         </div>
         <div class="px-4 group relative cursor-pointer">
@@ -88,16 +97,16 @@ function getPercentage(index){
             </thead>
             <tbody>
 
-            <tr v-for="(income, index) in incomes" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <tr v-for="(incomeRow, index) in incomeRows" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <th scope="row"
-                  class="py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">{{income.date}}
+                  class="py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">***
               </th>
               <td class="text-sm text-center">
-                <RouterLink class="font-bold" :to="{name:'proforma', params:{id:income.proforma}}">{{income.proforma}}</RouterLink>
+                <RouterLink class="font-bold" :to="{name:'proforma', params:{id:incomeRow.node.proforma.id}}">{{incomeRow.node.proforma.number}}</RouterLink>
               </td>
-              <td class="text-sm text-center">{{income.price}}</td>
+              <td class="text-sm text-center">{{new JNumber(incomeRow.node.amount).thousandSeparate()}}</td>
               <td class="text-sm text-center">
-                <RouterLink class="font-bold" :to="{name:'user', params: {id: income.owner}}">{{income.owner}}</RouterLink>
+                <RouterLink class="font-bold" :to="{name:'user', params: {id: incomeRow.node.owner.id}}">{{incomeRow.node.owner.lastName}}</RouterLink>
               </td>
               <td class="text-sm text-center">
                 <div class="relative bg-gray-200 rounded rounded-md">

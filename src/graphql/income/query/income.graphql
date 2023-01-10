@@ -18,3 +18,41 @@ query filterIncomes($customerName:String, $number:Int){
         }
     }
 }
+
+query getIncomeDetails($id:ID!){
+    getIncomeDetails: income(id:$id){
+        number
+        chNum
+        type {
+            id
+            title
+        }
+        customer{
+            name
+            id
+        }
+        owner{
+            id
+            lastName
+        }
+        amount
+        amountAssigned
+        amountNotAssigned
+        incomerowSet {
+            edges {
+                node {
+                    id
+                    amount
+                    proforma{
+                        id
+                        number
+                    }
+                    owner{
+                        id
+                        lastName
+                    }
+                }
+            }
+        }
+    }
+}
