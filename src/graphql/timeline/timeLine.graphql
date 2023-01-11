@@ -7,6 +7,8 @@ query getOrder($id:ID!){
             edges {
                 node {
                     id
+                    number
+                    dateFa
                     perm
                     incomerowSet {
                         edges {

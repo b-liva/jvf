@@ -29,11 +29,20 @@ orderOnResult((res) => {
   if(!res.loading){
     console.log(res)
     let order = res.data?.getOrder ?? {};
+    let proformas = order?.xprefSet.edges ?? [];
     timeLineData.value.map(item => {
       if(item.name === 'order'){
         item.subtitle = order.dateFa;
         item.checked = true;
-        item.subItems.push({id: order.id, date: order.dateFa, number: order.number})
+        item.subItems.push({id: order.id, date: order.dateFa, number: order.number});
+      }
+      if(item.name === 'proforma' && proformas.length > 0){
+        let lastProforma = proformas[proformas.length - 1]
+        item.subtitle = lastProforma.node.dateFa;
+        item.checked = true;
+        proformas.forEach(proforma => {
+          item.subItems.push({id: proforma.node.id, date: proforma.node.dateFa, number: proforma.node.number});
+        })
       }
     })
   }
@@ -42,6 +51,7 @@ orderOnResult((res) => {
 onMounted(() => {
   orderLoad(getOrder, {id: getOrderId(getPageName())})
 });
+
 function getPageName(){
   return route.name;
 }
