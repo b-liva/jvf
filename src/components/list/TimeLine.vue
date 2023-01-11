@@ -31,6 +31,12 @@ const timeLineData = ref([
 function getPageName(){
   return route.params.name;
 }
+function getOrderId(pageName){
+  if (pageName === "order"){
+    return route.params.id;
+  }
+  return '';
+}
 
 </script>
 
