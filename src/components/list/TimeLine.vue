@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import {useLazyQuery} from "@vue/apollo-composable";
 import TimeLineList from "../list/TimeLineList.vue";
 import {useRoute} from "vue-router";
@@ -16,7 +16,7 @@ const {
 
 const route = useRoute();
 onMounted(() => {
-  getPageName();
+  orderLoad(getOrder, {id: getOrderId(getPageName())})
 });
 const timeLineData = ref([
   {name: 'order', title: 'دریافت سفارش', subtitle: '', checked: false},
