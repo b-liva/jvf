@@ -4,7 +4,7 @@ import {useLazyQuery} from "@vue/apollo-composable";
 import TimeLineList from "../list/TimeLineList.vue";
 import {useRoute} from "vue-router";
 import {getOrder} from "../../graphql/timeline/timeLine.graphql"
-
+const props = defineProps(['orderId']);
 const timeLineData = ref([
   {name: 'order', title: 'دریافت سفارش', subtitle: '', checked: false, subItems: []},
   {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '', checked: false, subItems: []},
@@ -66,18 +66,8 @@ orderOnResult((res) => {
 })
 
 onMounted(() => {
-  orderLoad(getOrder, {id: getOrderId(getPageName())})
+  orderLoad(getOrder, {id: props.orderId})
 });
-
-function getPageName(){
-  return route.name;
-}
-function getOrderId(pageName){
-  if (pageName === "order"){
-    return route.params.id;
-  }
-  return '';
-}
 
 </script>
 

@@ -19,7 +19,7 @@ let condense = ref(false)
   <div class="grid grid-cols-12 gap-6" v-if="!loading || Object.keys(order).length > 0">
     <div class="col-span-2">
       <div class="col-span-2 m-3">
-        <Timeline/>
+        <Timeline :order-id="order.id"/>
       </div>
     </div>
     <div class="col-span-10">
