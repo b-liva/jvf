@@ -27,9 +27,14 @@ const route = useRoute();
 
 orderOnResult((res) => {
   if(!res.loading){
-    console.log(res)
     let order = res.data?.getOrder ?? {};
     let proformas = order?.xprefSet.edges ?? [];
+    let incomeRows = []
+    proformas.forEach(proforma => {
+      let irs = proforma.node?.incomerowSet.edges ?? [];
+      incomeRows = incomeRows.concat(irs)
+    })
+
     timeLineData.value.map(item => {
       if(item.name === 'order'){
         item.subtitle = order.dateFa;
@@ -42,6 +47,18 @@ orderOnResult((res) => {
         item.checked = true;
         proformas.forEach(proforma => {
           item.subItems.push({id: proforma.node.id, date: proforma.node.dateFa, number: proforma.node.number});
+        })
+      }
+      if(item.name === 'income' && incomeRows.length > 0){
+        let lastIncome = proformas[proformas.length - 1]
+        item.subtitle = lastIncome.node.dateFa;
+        item.checked = true;
+        incomeRows.forEach(income => {
+          item.subItems.push({
+            id: income.node.income.id,
+            date: income.node.income.dateFa,
+            number: income.node.income.number
+          });
         })
       }
     })

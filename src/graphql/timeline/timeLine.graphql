@@ -1,5 +1,5 @@
-query getOrder($id:ID!){
-    getOrder: request(id:$id){
+query getOrder($id: ID!) {
+    getOrder: request(id: $id) {
         id
         number
         dateFa
@@ -14,6 +14,14 @@ query getOrder($id:ID!){
                         edges {
                             node {
                                 id
+                                income{
+                                    id
+                                    number
+                                }
+                                proforma {
+                                    id
+                                    number
+                                }
                             }
                         }
                     }
