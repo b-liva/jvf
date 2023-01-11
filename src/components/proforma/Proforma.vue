@@ -4,7 +4,6 @@ import {getProformaDetails} from "../../graphql/proforma/query/proforma.graphql"
 import {useRoute} from "vue-router";
 import {useQuery} from "@vue/apollo-composable";
 import {computed, ref} from "vue";
-import {useBaseTimeLineData, useBaseProformaData} from "../../data/base";
 import JNumber from "../../utils/number.js";
 
 let showSpecDetailsFlag = ref([]);
@@ -13,9 +12,6 @@ const {result, loading, error, onResult, refetch} = useQuery(getProformaDetails,
 const proforma = computed(() => result.value?.getProformaDetails ?? {})
 const proformaSpecs = computed(() => result.value?.getProformaDetails?.prefspecSet.edges ?? [])
 onResult(() => addToggleFlagToSpecs());
-
-const timeLineData = useBaseTimeLineData();
-const proformas = useBaseProformaData();
 
 let condense = ref(false)
 
