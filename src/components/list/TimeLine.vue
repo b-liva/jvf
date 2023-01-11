@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useLazyQuery} from "@vue/apollo-composable";
 import TimeLineList from "../list/TimeLineList.vue";
 import {useRoute} from "vue-router";
@@ -23,16 +23,17 @@ const {
   onResult: orderOnResult
 } = useLazyQuery(getOrder)
 
-const order = computed(() => orderResult.value?.getOrder ?? {})
 const route = useRoute();
 
 orderOnResult((res) => {
   if(!res.loading){
+    console.log(res)
+    let order = res.data?.getOrder ?? {};
     timeLineData.value.map(item => {
       if(item.name === 'order'){
-        item.subtitle = order.value.dateFa;
+        item.subtitle = order.dateFa;
         item.checked = true;
-        item.subItems.push({id: order.value.id, date: order.value.dateFa, number: order.value.number})
+        item.subItems.push({id: order.id, date: order.dateFa, number: order.number})
       }
     })
   }
