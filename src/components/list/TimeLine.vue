@@ -27,10 +27,8 @@ const route = useRoute();
 onMounted(() => {
   orderLoad(getOrder, {id: getOrderId(getPageName())})
 });
-
-
 function getPageName(){
-  return route.params.name;
+  return route.name;
 }
 function getOrderId(pageName){
   if (pageName === "order"){
