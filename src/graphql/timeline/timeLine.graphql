@@ -1,5 +1,6 @@
 query getOrder($id:ID!){
     getOrder: request(id:$id){
+        id
         number
         dateFa
         xprefSet {
