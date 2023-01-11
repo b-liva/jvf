@@ -5,6 +5,15 @@ import TimeLineList from "../list/TimeLineList.vue";
 import {useRoute} from "vue-router";
 import {getOrder} from "../../graphql/timeline/timeLine.graphql"
 
+const timeLineData = ref([
+  {name: 'order', title: 'دریافت سفارش', subtitle: '', checked: false},
+  {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '', checked: false},
+  {name: 'income', title: 'دریافت وجه', subtitle: '', checked: false},
+  {name: 'permit', title: 'صدور مجوز', subtitle: '', checked: false},
+  {name: 'invIn', title: 'ورود به انبار', subtitle: '', checked: false},
+  {name: 'invOut', title: 'خروج از انبار', subtitle: '', checked: false},
+  {name: 'invoice', title: 'صدور فاکتور', subtitle: '', checked: false},
+])
 const {
   result: orderResult,
   loading: orderLoading,
@@ -18,15 +27,7 @@ const route = useRoute();
 onMounted(() => {
   orderLoad(getOrder, {id: getOrderId(getPageName())})
 });
-const timeLineData = ref([
-  {name: 'order', title: 'دریافت سفارش', subtitle: '', checked: false},
-  {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '', checked: false},
-  {name: 'income', title: 'دریافت وجه', subtitle: '', checked: false},
-  {name: 'permit', title: 'صدور مجوز', subtitle: '', checked: false},
-  {name: 'invIn', title: 'ورود به انبار', subtitle: '', checked: false},
-  {name: 'invOut', title: 'خروج از انبار', subtitle: '', checked: false},
-  {name: 'invoice', title: 'صدور فاکتور', subtitle: '', checked: false},
-])
+
 
 function getPageName(){
   return route.params.name;
