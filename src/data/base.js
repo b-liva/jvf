@@ -1,15 +1,15 @@
 import {ref} from "vue";
 
 export function useBaseTimeLineData(){
-    return [
-        {name: 'order', title: 'دریافت سفارش', subtitle: '1401-05-06', checked: true},
-        {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '1401-05-05', checked: true},
-        {name: 'income', title: 'دریافت وجه', subtitle: '1401-05-05', checked: true},
-        {name: 'permit', title: 'صدور مجوز', subtitle: '1401-05-05', checked: true},
-        {name: 'invIn', title: 'ورود به انبار', subtitle: '1401-05-05', checked: true},
-        {name: 'invOut', title: 'خروج از انبار', subtitle: '1401-05-05', checked: true},
-        {name: 'invoice', title: 'صدور فاکتور', subtitle: '1402-06-05', checked: true},
-    ]
+    return ref([
+        {name: 'order', title: 'دریافت سفارش', subtitle: '', checked: false},
+        {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '', checked: false},
+        {name: 'income', title: 'دریافت وجه', subtitle: '', checked: false},
+        {name: 'permit', title: 'صدور مجوز', subtitle: '', checked: false},
+        {name: 'invIn', title: 'ورود به انبار', subtitle: '', checked: false},
+        {name: 'invOut', title: 'خروج از انبار', subtitle: '', checked: false},
+        {name: 'invoice', title: 'صدور فاکتور', subtitle: '', checked: false},
+    ])
 }
 
 export function useBaseOrderData(){
