@@ -6,13 +6,13 @@ import {useRoute} from "vue-router";
 import {getOrder} from "../../graphql/timeline/timeLine.graphql"
 
 const timeLineData = ref([
-  {name: 'order', title: 'دریافت سفارش', subtitle: '', checked: false},
-  {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '', checked: false},
-  {name: 'income', title: 'دریافت وجه', subtitle: '', checked: false},
-  {name: 'permit', title: 'صدور مجوز', subtitle: '', checked: false},
-  {name: 'invIn', title: 'ورود به انبار', subtitle: '', checked: false},
-  {name: 'invOut', title: 'خروج از انبار', subtitle: '', checked: false},
-  {name: 'invoice', title: 'صدور فاکتور', subtitle: '', checked: false},
+  {name: 'order', title: 'دریافت سفارش', subtitle: '', checked: false, subItems: []},
+  {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '', checked: false, subItems: []},
+  {name: 'income', title: 'دریافت وجه', subtitle: '', checked: false, subItems: []},
+  {name: 'permit', title: 'صدور مجوز', subtitle: '', checked: false, subItems: []},
+  {name: 'invIn', title: 'ورود به انبار', subtitle: '', checked: false, subItems: []},
+  {name: 'invOut', title: 'خروج از انبار', subtitle: '', checked: false, subItems: []},
+  {name: 'invoice', title: 'صدور فاکتور', subtitle: '', checked: false, subItems: []},
 ])
 const {
   result: orderResult,
@@ -27,12 +27,15 @@ const order = computed(() => orderResult.value?.getOrder ?? {})
 const route = useRoute();
 
 orderOnResult((res) => {
-  timeLineData.value.map(item => {
-    if(item.name === 'order'){
-      item.subtitle = order.value.dateFa;
-      item.checked = true;
-    }
-  })
+  if(!res.loading){
+    timeLineData.value.map(item => {
+      if(item.name === 'order'){
+        item.subtitle = order.value.dateFa;
+        item.checked = true;
+        item.subItems.push({id: order.value.id, date: order.value.dateFa, number: order.value.number})
+      }
+    })
+  }
 })
 
 onMounted(() => {
@@ -51,7 +54,7 @@ function getOrderId(pageName){
 </script>
 
 <template>
-  <div v-for="tld in timeLineData">{{tld.name}}, {{tld.subtitle}}, {{tld.checked}}</div>
+  <div v-for="tld in timeLineData">{{tld.name}}, {{tld.subtitle}}, {{tld.checked}}, {{tld.subItems}}</div>
   <TimeLineList v-for="tld in timeLineData" v-bind="tld" :page-name="route.name" class="my-2"/>
 </template>
 
