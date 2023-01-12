@@ -1,0 +1,51 @@
+query getIncomeRowDetails($id: ID!) {
+    getIncomeRowDetails: incomeRow(id: $id) {
+        id
+        amount
+        dateFa
+        income {
+            id
+            amount
+            dateFa
+            number
+            chNum
+            type{
+                id
+                title
+            }
+            customer{
+                id
+                name
+            }
+            owner{
+                id
+                lastName
+            }
+            incomerowSet {
+                edges {
+                    node {
+                        id
+                        dateFa
+                        amount
+                        proforma{
+                            id
+                            number
+                        }
+                        owner{
+                            id
+                            lastName
+                        }
+                    }
+                }
+            }
+        }
+        proforma {
+            id
+            number
+            reqId {
+                id
+                number
+            }
+        }
+    }
+}
