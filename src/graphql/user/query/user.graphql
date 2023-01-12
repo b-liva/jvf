@@ -1,0 +1,6 @@
+query getUserDetails($id:ID!){
+    getUserDetails: user(id:$id){
+        lastName
+        id
+    }
+}

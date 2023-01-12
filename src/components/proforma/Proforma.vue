@@ -1,10 +1,9 @@
 <script setup>
-import TimeLineList from "../list/TimeLineList.vue";
+import Timeline from "../list/TimeLine.vue";
 import {getProformaDetails} from "../../graphql/proforma/query/proforma.graphql";
 import {useRoute} from "vue-router";
 import {useQuery} from "@vue/apollo-composable";
 import {computed, ref} from "vue";
-import {useBaseTimeLineData, useBaseProformaData} from "../../data/base";
 import JNumber from "../../utils/number.js";
 
 let showSpecDetailsFlag = ref([]);
@@ -13,9 +12,6 @@ const {result, loading, error, onResult, refetch} = useQuery(getProformaDetails,
 const proforma = computed(() => result.value?.getProformaDetails ?? {})
 const proformaSpecs = computed(() => result.value?.getProformaDetails?.prefspecSet.edges ?? [])
 onResult(() => addToggleFlagToSpecs());
-
-const timeLineData = useBaseTimeLineData();
-const proformas = useBaseProformaData();
 
 let condense = ref(false)
 
@@ -46,7 +42,7 @@ function totalPrice(){
   <div class="grid grid-cols-12" v-if="!loading || Object.keys(proforma).length > 0">
     <div class="col-span-2">
       <div class="col-span-2 m-3">
-        <TimeLineList v-for="tld in timeLineData" v-bind="tld" page-name="proforma" class="my-2"/>
+        <Timeline :order-id="proforma.reqId.id"/>
       </div>
     </div>
     <div class="col-span-10">
@@ -55,6 +51,12 @@ function totalPrice(){
           <div class="border-b pb-2">مشتری</div>
           <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
             <RouterLink :to="{name:'customer', params: {id: proforma.reqId.customer.id}}">{{proforma.reqId.customer.name}}</RouterLink>
+          </div>
+        </div>
+        <div class="text-center px-4">
+          <div class="border-b pb-2">درخواست</div>
+          <div class="pt-2 text-blue-600">
+            <RouterLink :to="{name: 'order', params: {id: proforma.reqId.id}}">{{proforma.reqId.number}}</RouterLink>
           </div>
         </div>
         <div class="text-center px-4">

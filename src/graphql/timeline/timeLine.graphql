@@ -1,0 +1,34 @@
+query getOrder($id: ID!) {
+    getOrder: request(id: $id) {
+        id
+        number
+        dateFa
+        xprefSet {
+            edges {
+                node {
+                    id
+                    number
+                    dateFa
+                    perm
+                    incomerowSet {
+                        edges {
+                            node {
+                                id
+                                dateFa
+                                amount
+                                income{
+                                    id
+                                    number
+                                }
+                                proforma {
+                                    id
+                                    number
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

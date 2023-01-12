@@ -1,19 +1,18 @@
 <script setup>
-import TimeLineList from "../list/TimeLineList.vue";
 import {ref} from "vue";
 import {useBaseTimeLineData, useBaseInvInData} from "../../data/base";
+import Watermark from "../element/Watermark.vue";
 
-let show = ref(false)
-const timeLineData = useBaseTimeLineData();
 const inventoryInData = useBaseInvInData();
 let condense = ref(false)
 </script>
 
 <template>
   <div class="grid grid-cols-12 gap-6">
+    <Watermark class="absolute top-1/2 right-1/2 text-red-300 text-xl z-20"/>
     <div class="col-span-2">
       <div class="col-span-2 m-3">
-        <TimeLineList v-for="tld in timeLineData" v-bind="tld" page-name="invIn" class="my-2"/>
+        <Timeline/>
       </div>
     </div>
     <div class="col-span-10">

@@ -1,32 +1,25 @@
 <script setup>
-import TimeLineList from "../list/TimeLineList.vue";
-
-import {getIncomeDetails} from "../../graphql/income/query/income.graphql";
+import Timeline from "../list/TimeLine.vue";
+import {getIncomeRowDetails} from "../../graphql/income/query/incomeRow.graphql";
 import {useRoute} from "vue-router";
 import {useQuery} from "@vue/apollo-composable";
 import JNumber from "../../utils/number.js";
 import {computed} from "vue";
-import {useBaseTimeLineData} from "../../data/base";
 
 const route = useRoute();
-const {result, loading, error, onResult, refetch} = useQuery(getIncomeDetails, {id: route.params.id});
-const income = computed(() => result.value?.getIncomeDetails ?? {})
-const incomeRows = computed(() => result.value?.getIncomeDetails?.incomerowSet.edges ?? [])
-
-const timeLineData = useBaseTimeLineData();
-
+const {result, loading, error, onResult, refetch} = useQuery(getIncomeRowDetails, {id: route.params.id});
+const incomeRow = computed(() => result.value?.getIncomeRowDetails ?? {})
+const income = computed(() => result.value?.getIncomeRowDetails.income ?? {})
+const incomeRows = computed(() => result.value?.getIncomeRowDetails.income?.incomerowSet.edges ?? [])
 function getPercentage(index){
   let sum = 0;
   let total = 0;
-  console.log(sum, total)
   incomeRows.value.forEach((incomeRow, key) => {
     if (key <= index){
-      console.log(incomeRow)
       sum = sum + incomeRow.node.amount
     }
     total = total + incomeRow.node.amount;
   })
-  console.log(sum, total)
   return Math.trunc(100 * sum / total);
 }
 </script>
@@ -35,7 +28,7 @@ function getPercentage(index){
   <div class="grid grid-cols-12 gap-6" v-if="!loading || Object.keys(income).length > 0">
     <div class="col-span-2">
       <div class="col-span-2 m-3">
-        <Timeline/>
+        <Timeline :order-id="incomeRow.proforma.reqId.id"/>
       </div>
     </div>
     <div class="col-span-10">
@@ -43,7 +36,9 @@ function getPercentage(index){
         <div class="text-center px-4">
           <div class="border-b pb-2">مشتری</div>
           <div class="pt-2 text-blue-600 hover:font-bold hover:cursor-pointer">
-            <RouterLink :to="{name:'customer', params: {id: income.customer.id}}">{{income.customer.name}}</RouterLink>
+            <RouterLink :to="{name:'customer', params: {id: income.customer.id}}">
+              {{income.customer.name}}
+            </RouterLink>
           </div>
         </div>
         <div class="text-center px-4">
@@ -97,16 +92,16 @@ function getPercentage(index){
             </thead>
             <tbody>
 
-            <tr v-for="(incomeRow, index) in incomeRows" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <tr v-for="(incomeRowItem, index) in incomeRows" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <th scope="row"
                   class="py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">***
               </th>
               <td class="text-sm text-center">
-                <RouterLink class="font-bold" :to="{name:'proforma', params:{id:incomeRow.node.proforma.id}}">{{incomeRow.node.proforma.number}}</RouterLink>
+                <RouterLink class="font-bold" :to="{name:'proforma', params:{id:incomeRowItem.node.proforma.id}}">{{incomeRowItem.node.proforma.number}}</RouterLink>
               </td>
-              <td class="text-sm text-center">{{new JNumber(incomeRow.node.amount).thousandSeparate()}}</td>
+              <td class="text-sm text-center">{{new JNumber(incomeRowItem.node.amount).thousandSeparate()}}</td>
               <td class="text-sm text-center">
-                <RouterLink class="font-bold" :to="{name:'user', params: {id: incomeRow.node.owner.id}}">{{incomeRow.node.owner.lastName}}</RouterLink>
+                <RouterLink class="font-bold" :to="{name:'user', params: {id: incomeRowItem.node.owner.id}}">{{incomeRowItem.node.owner.lastName}}</RouterLink>
               </td>
               <td class="text-sm text-center">
                 <div class="relative bg-gray-200 rounded rounded-md">

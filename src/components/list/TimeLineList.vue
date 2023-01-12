@@ -1,7 +1,7 @@
 <script setup>
 import {computed} from "vue";
 
-const props = defineProps(['title', 'subtitle', 'checked', 'name', 'pageName'])
+const props = defineProps(['title', 'subtitle', 'checked', 'name', 'pageName', 'subItems'])
 const computedTextColor = computed(() => props.checked ? "" : "text-gray-300")
 </script>
 
@@ -28,18 +28,11 @@ const computedTextColor = computed(() => props.checked ? "" : "text-gray-300")
     :class="{
       'group-hover:block': checked
     }">
-      <div class="py-1">
-        <span class="pl-2 text-green-600">1401-05-05</span>
+      <div v-if="subItems.length > 0" v-for="item in subItems" class="py-1">
+        <span class="pl-2 text-green-600">{{item.date}}</span>
         <span class="pl-2">شماره</span>
         <span class="hover:font-bold hover:text-blue-500 hover:cursor-pointer">
-          <RouterLink :to="{name: name, params: {id: `${name}Id`}}">9815252</RouterLink>
-        </span>
-      </div>
-      <div class="py-1">
-        <span class="pl-2 text-green-600">1401-05-05</span>
-        <span class="pl-2">شماره</span>
-        <span class="hover:font-bold hover:text-blue-500 hover:cursor-pointer">
-          <RouterLink :to="{name: name, params: {id: `${name}Id`}}">9815300</RouterLink>
+          <RouterLink :to="{name: name, params: {id: item.id}}">{{item.number}}</RouterLink>
         </span>
       </div>
     </div>
