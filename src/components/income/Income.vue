@@ -90,18 +90,23 @@ function getPercentage(index){
 
             <tr v-for="(incomeRow, index) in incomeRows" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <th scope="row"
-                  class="py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">***
+                  class="py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {{incomeRow.node.dateFa}}
               </th>
               <td class="text-sm text-center">
-                <RouterLink class="font-bold" :to="{name:'proforma', params:{id:incomeRow.node.proforma.id}}">{{incomeRow.node.proforma.number}}</RouterLink>
+                <RouterLink class="hover:font-bold" :to="{name:'proforma', params:{id:incomeRow.node.proforma.id}}">
+                  {{incomeRow.node.proforma.number}}
+                </RouterLink>
               </td>
               <td class="text-sm text-center">
-                <RouterLink :to="{name: 'incomeRow', params:{id: incomeRow.node.id}}">
+                <RouterLink class="hover:font-bold hover:text-blue-500" :to="{name: 'incomeRow', params:{id: incomeRow.node.id}}">
                   {{new JNumber(incomeRow.node.amount).thousandSeparate()}}
                 </RouterLink>
               </td>
               <td class="text-sm text-center">
-                <RouterLink class="font-bold" :to="{name:'user', params: {id: incomeRow.node.owner.id}}">{{incomeRow.node.owner.lastName}}</RouterLink>
+                <RouterLink class="hover:font-bold" :to="{name:'user', params: {id: incomeRow.node.owner.id}}">
+                  {{incomeRow.node.owner.lastName}}
+                </RouterLink>
               </td>
               <td class="text-sm text-center">
                 <div class="relative bg-gray-200 rounded rounded-md">

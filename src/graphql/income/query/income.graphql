@@ -46,6 +46,7 @@ query getIncomeDetails($id:ID!){
                 node {
                     id
                     amount
+                    dateFa
                     proforma{
                         id
                         number
