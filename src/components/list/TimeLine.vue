@@ -74,7 +74,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-for="tld in timeLineData">{{tld.name}}, {{tld.subtitle}}, {{tld.checked}}, {{tld.subItems}}</div>
   <TimeLineList v-for="tld in timeLineData" v-bind="tld" :page-name="route.name" class="my-2"/>
 </template>
 

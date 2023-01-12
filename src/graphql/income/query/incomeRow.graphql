@@ -9,15 +9,15 @@ query getIncomeRowDetails($id: ID!) {
             dateFa
             number
             chNum
-            type{
+            type {
                 id
                 title
             }
-            customer{
+            customer {
                 id
                 name
             }
-            owner{
+            owner {
                 id
                 lastName
             }
@@ -27,13 +27,9 @@ query getIncomeRowDetails($id: ID!) {
                         id
                         dateFa
                         amount
-                        proforma{
+                        proforma {
                             id
                             number
-                        }
-                        owner{
-                            id
-                            lastName
                         }
                     }
                 }
@@ -45,6 +41,27 @@ query getIncomeRowDetails($id: ID!) {
             reqId {
                 id
                 number
+            }
+            incomerowSet {
+                edges {
+                    node {
+                        id
+                        dateFa
+                        amount
+                        income{
+                            id
+                            number
+                        }
+                        proforma {
+                            id
+                            number
+                        }
+                        owner{
+                            id
+                            lastName
+                        }
+                    }
+                }
             }
         }
     }

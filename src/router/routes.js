@@ -77,6 +77,7 @@ const nonMenuRoutes = [
     {path: '/order/:id', name: 'order', component: Order, props: {title: 'جزئیات سفارش'}},
     {path: '/proforma/:id', name: 'proforma', component: Proforma, props: {title: 'پیش فاکتور'}},
     {path: '/proforma/:id/permit', name: 'permit', component: Permit, props: {title: 'مجوز'}},
+    {path: '/income/:id', name: 'income', component: Income, props: {title: 'دریافت وجه'}},
     {path: '/incomeRow/:id', name: 'incomeRow', component: IncomeRow, props: {title: 'تخصیص وجه'}},
     {path: '/inventory/in/:id', name: 'invIn', component: InventoryIn, props: {title: 'ورود به انبار'}},
     {path: '/inventory/out/:id', name: 'invOut', component: InventoryOut, props: {title: 'خروج از انبار'}},

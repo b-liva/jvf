@@ -1,32 +1,24 @@
 <script setup>
-import TimeLineList from "../list/TimeLineList.vue";
-
 import {getIncomeDetails} from "../../graphql/income/query/income.graphql";
 import {useRoute} from "vue-router";
 import {useQuery} from "@vue/apollo-composable";
 import JNumber from "../../utils/number.js";
 import {computed} from "vue";
-import {useBaseTimeLineData} from "../../data/base";
 
 const route = useRoute();
 const {result, loading, error, onResult, refetch} = useQuery(getIncomeDetails, {id: route.params.id});
 const income = computed(() => result.value?.getIncomeDetails ?? {})
 const incomeRows = computed(() => result.value?.getIncomeDetails?.incomerowSet.edges ?? [])
 
-const timeLineData = useBaseTimeLineData();
-
 function getPercentage(index){
   let sum = 0;
   let total = 0;
-  console.log(sum, total)
   incomeRows.value.forEach((incomeRow, key) => {
     if (key <= index){
-      console.log(incomeRow)
       sum = sum + incomeRow.node.amount
     }
     total = total + incomeRow.node.amount;
   })
-  console.log(sum, total)
   return Math.trunc(100 * sum / total);
 }
 </script>
@@ -35,7 +27,6 @@ function getPercentage(index){
   <div class="grid grid-cols-12 gap-6" v-if="!loading || Object.keys(income).length > 0">
     <div class="col-span-2">
       <div class="col-span-2 m-3">
-        <Timeline/>
       </div>
     </div>
     <div class="col-span-10">
@@ -104,7 +95,11 @@ function getPercentage(index){
               <td class="text-sm text-center">
                 <RouterLink class="font-bold" :to="{name:'proforma', params:{id:incomeRow.node.proforma.id}}">{{incomeRow.node.proforma.number}}</RouterLink>
               </td>
-              <td class="text-sm text-center">{{new JNumber(incomeRow.node.amount).thousandSeparate()}}</td>
+              <td class="text-sm text-center">
+                <RouterLink :to="{name: 'incomeRow', params:{id: incomeRow.node.id}}">
+                  {{new JNumber(incomeRow.node.amount).thousandSeparate()}}
+                </RouterLink>
+              </td>
               <td class="text-sm text-center">
                 <RouterLink class="font-bold" :to="{name:'user', params: {id: incomeRow.node.owner.id}}">{{incomeRow.node.owner.lastName}}</RouterLink>
               </td>
