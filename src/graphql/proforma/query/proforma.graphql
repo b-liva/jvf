@@ -77,6 +77,7 @@ query getProformaDetails($id: ID!) {
         id
         number
         dateFa
+        expDateFa
         qty
         kw
         reqId {

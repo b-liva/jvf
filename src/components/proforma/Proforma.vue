@@ -69,7 +69,7 @@ function totalPrice(){
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">اعتبار</div>
-          <div class="pt-2 text-blue-600">***</div>
+          <div class="pt-2 text-blue-600">{{proforma.expDateFa}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">مبلغ</div>
