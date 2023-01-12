@@ -26,6 +26,7 @@ query getIncomeDetails($id:ID!){
     getIncomeDetails: income(id:$id){
         number
         chNum
+        dateFa
         type {
             id
             title

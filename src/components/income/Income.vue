@@ -47,7 +47,7 @@ function getPercentage(index){
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">تاریخ</div>
-          <div class="pt-2 text-blue-600">***</div>
+          <div class="pt-2 text-blue-600">{{income.dateFa}}</div>
         </div>
         <div class="text-center px-4">
           <div class="border-b pb-2">نوع</div>

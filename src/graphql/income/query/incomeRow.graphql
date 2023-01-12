@@ -51,6 +51,7 @@ query getIncomeRowDetails($id: ID!) {
                         income{
                             id
                             number
+                            dateFa
                         }
                         proforma {
                             id

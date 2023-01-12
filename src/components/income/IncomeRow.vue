@@ -39,7 +39,8 @@ function getPercentage(index){
             <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="text-center py-3"></th>
-              <th scope="col" class="text-center py-3">تاریخ</th>
+              <th scope="col" class="text-center py-3">تاریخ دریافت</th>
+              <th scope="col" class="text-center py-3">تاریخ تخصیص</th>
               <th scope="col" class="text-center py-3">شماره دریافتی</th>
               <th scope="col" class="text-center py-3">پیش فاکتور</th>
               <th scope="col" class="text-center py-3">مبلغ</th>
@@ -56,9 +57,12 @@ function getPercentage(index){
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
                 </svg>
               </span></th>
-              <th scope="row"
-                  class="py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">{{incomeRowItem.node.dateFa}}
-              </th>
+              <td class="py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {{incomeRowItem.node.income.dateFa}}
+              </td>
+              <td class="py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {{incomeRowItem.node.dateFa}}
+              </td>
               <td class="text-sm text-center">
                 <RouterLink class="font-bold" :to="{name:'income', params:{id:incomeRowItem.node.income.id}}">{{incomeRowItem.node.income.number}}</RouterLink>
               </td>
