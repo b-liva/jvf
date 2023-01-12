@@ -16,6 +16,7 @@ import User from "../components/user/User.vue";
 import Proforma from "../components/proforma/Proforma.vue";
 import Permit from "../components/proforma/Permit.vue";
 import Income from "../components/income/Income.vue";
+import IncomeRow from "../components/income/IncomeRow.vue";
 import InventoryIn from "../components/inventory/InventoryIn.vue";
 import InventoryOut from "../components/inventory/InventoryOut.vue";
 import Invoice from "../components/invoice/Invoice.vue";
@@ -76,7 +77,7 @@ const nonMenuRoutes = [
     {path: '/order/:id', name: 'order', component: Order, props: {title: 'جزئیات سفارش'}},
     {path: '/proforma/:id', name: 'proforma', component: Proforma, props: {title: 'پیش فاکتور'}},
     {path: '/proforma/:id/permit', name: 'permit', component: Permit, props: {title: 'مجوز'}},
-    {path: '/income/:id', name: 'income', component: Income, props: {title: 'دریافت وجه'}},
+    {path: '/incomeRow/:id', name: 'incomeRow', component: IncomeRow, props: {title: 'تخصیص وجه'}},
     {path: '/inventory/in/:id', name: 'invIn', component: InventoryIn, props: {title: 'ورود به انبار'}},
     {path: '/inventory/out/:id', name: 'invOut', component: InventoryOut, props: {title: 'خروج از انبار'}},
     {path: '/invoice/:id', name: 'invoice', component: Invoice, props: {title: 'فاکتور'}},

@@ -14,6 +14,8 @@ query getOrder($id: ID!) {
                         edges {
                             node {
                                 id
+                                dateFa
+                                amount
                                 income{
                                     id
                                     number

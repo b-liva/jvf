@@ -8,7 +8,7 @@ const props = defineProps(['orderId']);
 const timeLineData = ref([
   {name: 'order', title: 'دریافت سفارش', subtitle: '', checked: false, subItems: []},
   {name: 'proforma', title: 'صدور پیش فاکتور', subtitle: '', checked: false, subItems: []},
-  {name: 'income', title: 'دریافت وجه', subtitle: '', checked: false, subItems: []},
+  {name: 'incomeRow', title: 'دریافت وجه', subtitle: '', checked: false, subItems: []},
   {name: 'permit', title: 'صدور مجوز', subtitle: '', checked: false, subItems: []},
   {name: 'invIn', title: 'ورود به انبار', subtitle: '', checked: false, subItems: []},
   {name: 'invOut', title: 'خروج از انبار', subtitle: '', checked: false, subItems: []},
@@ -49,17 +49,19 @@ orderOnResult((res) => {
           item.subItems.push({id: proforma.node.id, date: proforma.node.dateFa, number: proforma.node.number});
         })
       }
-      if(item.name === 'income' && incomeRows.length > 0){
-        let lastIncome = proformas[proformas.length - 1]
-        item.subtitle = lastIncome.node.dateFa;
+      if(item.name === 'incomeRow' && incomeRows.length > 0){
+        console.log('item income row:', item)
+        let lastIncomeRow = incomeRows[incomeRows.length - 1]
+        item.subtitle = lastIncomeRow.node.dateFa;
         item.checked = true;
-        incomeRows.forEach(income => {
+        incomeRows.forEach(incomeRow => {
           item.subItems.push({
-            id: income.node.income.id,
-            date: income.node.income.dateFa,
-            number: income.node.income.number
+            id: incomeRow.node.id,
+            date: incomeRow.node.dateFa,
+            number: incomeRow.node.amount
           });
         })
+        console.log('item income row2:', item)
       }
     })
   }
