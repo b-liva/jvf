@@ -39,6 +39,7 @@ function getPercentage(index){
             <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="text-center py-3">تاریخ</th>
+              <th scope="col" class="text-center py-3">تاریخ</th>
               <th scope="col" class="text-center py-3">شماره دریافتی</th>
               <th scope="col" class="text-center py-3">پیش فاکتور</th>
               <th scope="col" class="text-center py-3">مبلغ</th>
@@ -49,6 +50,12 @@ function getPercentage(index){
             </thead>
             <tbody>
             <tr v-for="(incomeRowItem, index) in incomeRows" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <th>
+                <span class="text-blue-500" v-if="incomeRowItem.node.id === route.params.id">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                </svg>
+              </span></th>
               <th scope="row"
                   class="py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">{{incomeRowItem.node.dateFa}}
               </th>
