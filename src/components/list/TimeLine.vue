@@ -4,6 +4,7 @@ import {useLazyQuery} from "@vue/apollo-composable";
 import TimeLineList from "../list/TimeLineList.vue";
 import {useRoute} from "vue-router";
 import {getOrder} from "../../graphql/timeline/timeLine.graphql"
+import JNumber from "../../utils/number";
 const props = defineProps(['orderId']);
 const timeLineData = ref([
   {name: 'order', title: 'دریافت سفارش', subtitle: '', checked: false, subItems: []},
@@ -58,7 +59,7 @@ orderOnResult((res) => {
           item.subItems.push({
             id: incomeRow.node.id,
             date: incomeRow.node.dateFa,
-            number: incomeRow.node.amount
+            number: new JNumber(incomeRow.node.amount).thousandSeparate()
           });
         })
         console.log('item income row2:', item)
